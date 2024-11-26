@@ -47,9 +47,8 @@ Presentment
 -----------
 
 Presentment is the process of presenting a document to a verifying party: Think of it as presenting your eID at a police
-checkup, a bar tender verifying your age, or to show your university diploma to a potential new employer. The wwwwalet
-already provides online presentment. The following chapters are dedicated to explaining how the in person presentment works: How two phones can share
-parts of documents securely while being close to each other.
+checkup, a bar tender verifying your age, or to show your university diploma to a potential new employer. The web-based Funke wwwallet
+already provided online presentment. The new additions and the purpose of this app was to add offline and local in-person presentment of our identity between a Wallet and a Wallet Reader (verifier). That communication is achieved using Bluetooth.
 
 ### ISO-18013-5 - BLE Proximity
 
