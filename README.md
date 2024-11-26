@@ -40,7 +40,7 @@ https://install.appcenter.ms/orgs/eu-digital-identity-wallet/apps/mdoc-verifier-
 Wrapping
 --------
 
-This iOS application "wraps" the https://funke.wwwallet.org/ website, providing direct interaction with Apple passkeys and Bluetooth communication with a external Wallet Reader (verifier). The wrapping happens by loading the website inside an Android
+This iOS application "wraps" the https://funke.wwwallet.org/ website, providing direct interaction with Apple passkeys and Bluetooth communication with a external Wallet Reader (verifier). The wrapping happens by loading the website inside an iOS
 native `WKWebView` and utilizes native Bluetooth libraries to perform local proximity presentment via Bluetooth Low Energy (BLE) following ISO/IEC 18013-5:2021 specifications.
 
 Presentment
