@@ -43,10 +43,6 @@ Wrapping
 This iOS application "wraps" the https://funke.wwwallet.org/ website, providing direct interaction with Apple passkeys and Bluetooth communication with a external Wallet Reader (verifier). The wrapping happens by loading the website inside an Android
 native `WKWebView` and utilizes native Bluetooth libraries to perform local proximity presentment via Bluetooth Low Energy (BLE) following ISO/IEC 18013-5:2021 specifications.
 
-#### ISO/IEC 18013-5:2021 Libraries
-
-Kotlin, the language promoted by Google and Jetbrains to write Android Apps, can also be used to write applications
-
 Presentment
 -----------
 
@@ -62,5 +58,6 @@ server of the communication is called `MDoc Reader` and as contrast the `MDoc` m
 of the Bluetooth LE server. Independently of the mode the communication is established in the server and the client
 communicates through `Charactersitics` and `Services` in Bluetooth LE.
 
-This app utilizes the [EUDI iOS Data Transfer, Model, and Security libraries](https://github.com/eu-digital-identity-wallet/eudi-lib-ios-iso18013-data-transfer) that also follow the ISO/IEC 18013-5 standard.
+#### ISO/IEC 18013-5:2021 Libraries
 
+This app utilizes the [EUDI iOS Data Transfer, Model, and Security libraries](https://github.com/eu-digital-identity-wallet/eudi-lib-ios-iso18013-data-transfer) that also follow the ISO/IEC 18013-5 standard.
