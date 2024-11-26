@@ -1,5 +1,5 @@
-FUNKE EXPLORER ANDROID
-======================
+Funke Wallet iOS Wrapper App
+============================
 
 An iOS native application wrapping `https://funke.wwwallet.org`. It is intended as a research project for the
 SPRIND Funke competition for EUDI wallet prototypes.
