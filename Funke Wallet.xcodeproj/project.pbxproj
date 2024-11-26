@@ -1,0 +1,502 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 70;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		261CA8642CEC886F00A9FA78 /* EudiWalletKit in Frameworks */ = {isa = PBXBuildFile; productRef = 261CA8632CEC886F00A9FA78 /* EudiWalletKit */; };
+		261CA8662CEC889D00A9FA78 /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 261CA8652CEC889D00A9FA78 /* Swinject */; };
+		268857242CEC18FD000D4EC1 /* ProximitySessionCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268857232CEC18F9000D4EC1 /* ProximitySessionCoordinator.swift */; };
+		2688572A2CEC7E3B000D4EC1 /* DocumentTypeIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268857292CEC7E37000D4EC1 /* DocumentTypeIdentifier.swift */; };
+		268857392CEC8370000D4EC1 /* Strings+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268857382CEC836C000D4EC1 /* Strings+Extensions.swift */; };
+		2688573B2CEC8416000D4EC1 /* MdocDecodable+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2688573A2CEC8413000D4EC1 /* MdocDecodable+Extensions.swift */; };
+		268BC1E02CEBDF1F003C49A6 /* EudiWalletKit in Frameworks */ = {isa = PBXBuildFile; productRef = 268BC1DF2CEBDF1F003C49A6 /* EudiWalletKit */; };
+		268BC1E22CEBE6C1003C49A6 /* ProximityPresentationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268BC1E12CEBE6B6003C49A6 /* ProximityPresentationView.swift */; };
+		26C3ECBF2CF3310A0055AB92 /* DocumentsToShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C3ECBE2CF331070055AB92 /* DocumentsToShareView.swift */; };
+		26C3ECC12CF3357B0055AB92 /* RequestedAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C3ECC02CF335550055AB92 /* RequestedAttributes.swift */; };
+		26D3916B2CF30AB000D1CA2B /* LocalizableString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D3916A2CF30AAB00D1CA2B /* LocalizableString.swift */; };
+		595F23A525CEFBFE0053416C /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 595F239A25CEFBFD0053416C /* Settings.swift */; };
+		595F23A625CEFBFE0053416C /* Entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 595F239B25CEFBFD0053416C /* Entitlements */; };
+		595F23A725CEFBFE0053416C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 595F239C25CEFBFD0053416C /* Assets.xcassets */; };
+		595F23A825CEFBFE0053416C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 595F239D25CEFBFD0053416C /* SceneDelegate.swift */; };
+		595F23AC25CEFBFE0053416C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 595F23A125CEFBFE0053416C /* ViewController.swift */; };
+		595F23AD25CEFBFE0053416C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 595F23A225CEFBFE0053416C /* AppDelegate.swift */; };
+		595F23AE25CEFBFE0053416C /* Printer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 595F23A325CEFBFE0053416C /* Printer.swift */; };
+		595F23AF25CEFBFE0053416C /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 595F23A425CEFBFE0053416C /* WebView.swift */; };
+		B4BA10B52CF4BF61000FED67 /* YubiKit in Frameworks */ = {isa = PBXBuildFile; productRef = B4BA10B42CF4BF61000FED67 /* YubiKit */; };
+		B4BA10CF2CF4C136000FED67 /* BridgeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4BA10CE2CF4C108000FED67 /* BridgeModel.swift */; };
+		B4BA10D12CF4C162000FED67 /* YubiKeyConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4BA10D02CF4C15C000FED67 /* YubiKeyConnection.swift */; };
+		B4BA10D32CF4C1A1000FED67 /* Data+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4BA10D22CF4C19D000FED67 /* Data+Extensions.swift */; };
+		B4BA10D52CF4C1DF000FED67 /* Encode.js in Resources */ = {isa = PBXBuildFile; fileRef = B4BA10D42CF4C1DA000FED67 /* Encode.js */; };
+		CDC0FE292388222C002C8D56 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CDC0FE252388222B002C8D56 /* Main.storyboard */; };
+		CDC0FE2A2388222C002C8D56 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CDC0FE272388222B002C8D56 /* LaunchScreen.storyboard */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		268857232CEC18F9000D4EC1 /* ProximitySessionCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProximitySessionCoordinator.swift; sourceTree = "<group>"; };
+		268857292CEC7E37000D4EC1 /* DocumentTypeIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentTypeIdentifier.swift; sourceTree = "<group>"; };
+		268857382CEC836C000D4EC1 /* Strings+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Strings+Extensions.swift"; sourceTree = "<group>"; };
+		2688573A2CEC8413000D4EC1 /* MdocDecodable+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MdocDecodable+Extensions.swift"; sourceTree = "<group>"; };
+		268BC1E12CEBE6B6003C49A6 /* ProximityPresentationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProximityPresentationView.swift; sourceTree = "<group>"; };
+		26C3ECBE2CF331070055AB92 /* DocumentsToShareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentsToShareView.swift; sourceTree = "<group>"; };
+		26C3ECC02CF335550055AB92 /* RequestedAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestedAttributes.swift; sourceTree = "<group>"; };
+		26D26AEC2CEBDB480023A7FD /* FunkeWallet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FunkeWallet.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		26D3916A2CF30AAB00D1CA2B /* LocalizableString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizableString.swift; sourceTree = "<group>"; };
+		595F239A25CEFBFD0053416C /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Settings.swift; path = "Funke Wallet/Settings.swift"; sourceTree = "<group>"; };
+		595F239B25CEFBFD0053416C /* Entitlements */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Entitlements; path = "Funke Wallet/Entitlements"; sourceTree = "<group>"; };
+		595F239C25CEFBFD0053416C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = "Funke Wallet/Assets.xcassets"; sourceTree = "<group>"; };
+		595F239D25CEFBFD0053416C /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SceneDelegate.swift; path = "Funke Wallet/SceneDelegate.swift"; sourceTree = "<group>"; };
+		595F23A025CEFBFE0053416C /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "Funke Wallet/Info.plist"; sourceTree = "<group>"; };
+		595F23A125CEFBFE0053416C /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = "Funke Wallet/ViewController.swift"; sourceTree = "<group>"; };
+		595F23A225CEFBFE0053416C /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = "Funke Wallet/AppDelegate.swift"; sourceTree = "<group>"; };
+		595F23A325CEFBFE0053416C /* Printer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Printer.swift; path = "Funke Wallet/Printer.swift"; sourceTree = "<group>"; };
+		595F23A425CEFBFE0053416C /* WebView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebView.swift; path = "Funke Wallet/WebView.swift"; sourceTree = "<group>"; };
+		B4BA10CE2CF4C108000FED67 /* BridgeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BridgeModel.swift; sourceTree = "<group>"; };
+		B4BA10D02CF4C15C000FED67 /* YubiKeyConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YubiKeyConnection.swift; sourceTree = "<group>"; };
+		B4BA10D22CF4C19D000FED67 /* Data+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Extensions.swift"; sourceTree = "<group>"; };
+		B4BA10D42CF4C1DA000FED67 /* Encode.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = Encode.js; sourceTree = "<group>"; };
+		CDC0FE262388222B002C8D56 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "Funke Wallet/Base.lproj/Main.storyboard"; sourceTree = "<group>"; };
+		CDC0FE282388222B002C8D56 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "Funke Wallet/Base.lproj/LaunchScreen.storyboard"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		2674B4112CEE6EC5009080A2 /* Sample */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Sample; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		CD89F886237E9D9200C436A1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B4BA10B52CF4BF61000FED67 /* YubiKit in Frameworks */,
+				261CA8642CEC886F00A9FA78 /* EudiWalletKit in Frameworks */,
+				268BC1E02CEBDF1F003C49A6 /* EudiWalletKit in Frameworks */,
+				261CA8662CEC889D00A9FA78 /* Swinject in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		90E46E861CB86F5FAF46BED9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CD89F880237E9D9200C436A1 = {
+			isa = PBXGroup;
+			children = (
+				B4BA10D42CF4C1DA000FED67 /* Encode.js */,
+				B4BA10D22CF4C19D000FED67 /* Data+Extensions.swift */,
+				B4BA10D02CF4C15C000FED67 /* YubiKeyConnection.swift */,
+				B4BA10CE2CF4C108000FED67 /* BridgeModel.swift */,
+				26C3ECC02CF335550055AB92 /* RequestedAttributes.swift */,
+				26C3ECBE2CF331070055AB92 /* DocumentsToShareView.swift */,
+				2674B4112CEE6EC5009080A2 /* Sample */,
+				595F23A225CEFBFE0053416C /* AppDelegate.swift */,
+				595F239D25CEFBFD0053416C /* SceneDelegate.swift */,
+				595F23A325CEFBFE0053416C /* Printer.swift */,
+				26D3916A2CF30AAB00D1CA2B /* LocalizableString.swift */,
+				2688573A2CEC8413000D4EC1 /* MdocDecodable+Extensions.swift */,
+				268857382CEC836C000D4EC1 /* Strings+Extensions.swift */,
+				268857292CEC7E37000D4EC1 /* DocumentTypeIdentifier.swift */,
+				268857232CEC18F9000D4EC1 /* ProximitySessionCoordinator.swift */,
+				268BC1E12CEBE6B6003C49A6 /* ProximityPresentationView.swift */,
+				595F239C25CEFBFD0053416C /* Assets.xcassets */,
+				595F239B25CEFBFD0053416C /* Entitlements */,
+				595F23A025CEFBFE0053416C /* Info.plist */,
+				595F239A25CEFBFD0053416C /* Settings.swift */,
+				595F23A125CEFBFE0053416C /* ViewController.swift */,
+				CDC0FE272388222B002C8D56 /* LaunchScreen.storyboard */,
+				CDC0FE252388222B002C8D56 /* Main.storyboard */,
+				595F23A425CEFBFE0053416C /* WebView.swift */,
+				90E46E861CB86F5FAF46BED9 /* Frameworks */,
+				26D26AEC2CEBDB480023A7FD /* FunkeWallet.app */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		CD89F888237E9D9200C436A1 /* Funke Wallet */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CD89F89D237E9D9300C436A1 /* Build configuration list for PBXNativeTarget "Funke Wallet" */;
+			buildPhases = (
+				CD89F885237E9D9200C436A1 /* Sources */,
+				CD89F886237E9D9200C436A1 /* Frameworks */,
+				CD89F887237E9D9200C436A1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				2674B4112CEE6EC5009080A2 /* Sample */,
+			);
+			name = "Funke Wallet";
+			productName = "Funke Wallet";
+			productReference = 26D26AEC2CEBDB480023A7FD /* FunkeWallet.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		CD89F881237E9D9200C436A1 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastSwiftUpdateCheck = 1120;
+				LastUpgradeCheck = 1610;
+				ORGANIZATIONNAME = "";
+				TargetAttributes = {
+					CD89F888237E9D9200C436A1 = {
+						CreatedOnToolsVersion = 11.2.1;
+						LastSwiftMigration = 1120;
+					};
+				};
+			};
+			buildConfigurationList = CD89F884237E9D9200C436A1 /* Build configuration list for PBXProject "Funke Wallet" */;
+			compatibilityVersion = "Xcode 11.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = CD89F880237E9D9200C436A1;
+			packageReferences = (
+				268BC1DE2CEBDF1F003C49A6 /* XCRemoteSwiftPackageReference "eudi-lib-ios-wallet-kit" */,
+				268857332CEC8179000D4EC1 /* XCRemoteSwiftPackageReference "Swinject" */,
+				B4BA10B32CF4BF61000FED67 /* XCRemoteSwiftPackageReference "yubikit-ios" */,
+			);
+			productRefGroup = CD89F880237E9D9200C436A1;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				CD89F888237E9D9200C436A1 /* Funke Wallet */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		CD89F887237E9D9200C436A1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				595F23A625CEFBFE0053416C /* Entitlements in Resources */,
+				B4BA10D52CF4C1DF000FED67 /* Encode.js in Resources */,
+				CDC0FE292388222C002C8D56 /* Main.storyboard in Resources */,
+				CDC0FE2A2388222C002C8D56 /* LaunchScreen.storyboard in Resources */,
+				595F23A725CEFBFE0053416C /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		CD89F885237E9D9200C436A1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				595F23AD25CEFBFE0053416C /* AppDelegate.swift in Sources */,
+				268BC1E22CEBE6C1003C49A6 /* ProximityPresentationView.swift in Sources */,
+				268857392CEC8370000D4EC1 /* Strings+Extensions.swift in Sources */,
+				B4BA10CF2CF4C136000FED67 /* BridgeModel.swift in Sources */,
+				B4BA10D12CF4C162000FED67 /* YubiKeyConnection.swift in Sources */,
+				268857242CEC18FD000D4EC1 /* ProximitySessionCoordinator.swift in Sources */,
+				2688573B2CEC8416000D4EC1 /* MdocDecodable+Extensions.swift in Sources */,
+				26D3916B2CF30AB000D1CA2B /* LocalizableString.swift in Sources */,
+				B4BA10D32CF4C1A1000FED67 /* Data+Extensions.swift in Sources */,
+				595F23A825CEFBFE0053416C /* SceneDelegate.swift in Sources */,
+				595F23A525CEFBFE0053416C /* Settings.swift in Sources */,
+				2688572A2CEC7E3B000D4EC1 /* DocumentTypeIdentifier.swift in Sources */,
+				26C3ECC12CF3357B0055AB92 /* RequestedAttributes.swift in Sources */,
+				595F23AE25CEFBFE0053416C /* Printer.swift in Sources */,
+				26C3ECBF2CF3310A0055AB92 /* DocumentsToShareView.swift in Sources */,
+				595F23AC25CEFBFE0053416C /* ViewController.swift in Sources */,
+				595F23AF25CEFBFE0053416C /* WebView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		CDC0FE252388222B002C8D56 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CDC0FE262388222B002C8D56 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		CDC0FE272388222B002C8D56 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CDC0FE282388222B002C8D56 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		CD89F89B237E9D9300C436A1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2,6";
+				VALID_ARCHS = "$(ARCHS_STANDARD)";
+			};
+			name = Debug;
+		};
+		CD89F89C237E9D9300C436A1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				TARGETED_DEVICE_FAMILY = "1,2,6";
+				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = "$(ARCHS_STANDARD)";
+			};
+			name = Release;
+		};
+		CD89F89E237E9D9300C436A1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CLANG_ENABLE_MODULES = NO;
+				CODE_SIGN_ENTITLEMENTS = "Funke Wallet/Entitlements/Entitlements.plist";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = LQA3CS5MM7;
+				INFOPLIST_FILE = "Funke Wallet/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Funke Wallet";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yubico.funkewallet;
+				PRODUCT_NAME = FunkeWallet;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTS_MACCATALYST = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,6";
+			};
+			name = Debug;
+		};
+		CD89F89F237E9D9300C436A1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CLANG_ENABLE_MODULES = NO;
+				CODE_SIGN_ENTITLEMENTS = "Funke Wallet/Entitlements/Entitlements.plist";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = LQA3CS5MM7;
+				INFOPLIST_FILE = "Funke Wallet/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Funke Wallet";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yubico.funkewallet;
+				PRODUCT_NAME = FunkeWallet;
+				SUPPORTS_MACCATALYST = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Osize";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,6";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CD89F884237E9D9200C436A1 /* Build configuration list for PBXProject "Funke Wallet" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CD89F89B237E9D9300C436A1 /* Debug */,
+				CD89F89C237E9D9300C436A1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CD89F89D237E9D9300C436A1 /* Build configuration list for PBXNativeTarget "Funke Wallet" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CD89F89E237E9D9300C436A1 /* Debug */,
+				CD89F89F237E9D9300C436A1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		268857332CEC8179000D4EC1 /* XCRemoteSwiftPackageReference "Swinject" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Swinject/Swinject.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.9.1;
+			};
+		};
+		268BC1DE2CEBDF1F003C49A6 /* XCRemoteSwiftPackageReference "eudi-lib-ios-wallet-kit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/eu-digital-identity-wallet/eudi-lib-ios-wallet-kit.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+		B4BA10B32CF4BF61000FED67 /* XCRemoteSwiftPackageReference "yubikit-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Yubico/yubikit-ios";
+			requirement = {
+				branch = jens/extensions;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		261CA8632CEC886F00A9FA78 /* EudiWalletKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 268BC1DE2CEBDF1F003C49A6 /* XCRemoteSwiftPackageReference "eudi-lib-ios-wallet-kit" */;
+			productName = EudiWalletKit;
+		};
+		261CA8652CEC889D00A9FA78 /* Swinject */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 268857332CEC8179000D4EC1 /* XCRemoteSwiftPackageReference "Swinject" */;
+			productName = Swinject;
+		};
+		268BC1DF2CEBDF1F003C49A6 /* EudiWalletKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 268BC1DE2CEBDF1F003C49A6 /* XCRemoteSwiftPackageReference "eudi-lib-ios-wallet-kit" */;
+			productName = EudiWalletKit;
+		};
+		B4BA10B42CF4BF61000FED67 /* YubiKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B4BA10B32CF4BF61000FED67 /* XCRemoteSwiftPackageReference "yubikit-ios" */;
+			productName = YubiKit;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = CD89F881237E9D9200C436A1 /* Project object */;
+}
