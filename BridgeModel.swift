@@ -82,17 +82,18 @@ import YubiKit
                             let cosePublicKeyCborMap = YKFCBORDecoder.decodeDataObject(from: coseEncodedCredentialPublicKey) as! YKFCBORMap
                             let cosePublicKeyMap = YKFCBORDecoder.convertCBORObject(toFoundationType: cosePublicKeyCborMap) as! [Int: Any]
                             responseDict["publicKeyAlgorithm"] = cosePublicKeyMap[3] as! Int
-                            
-                            switch cosePublicKeyMap[1] as! Int {
-                            case 1:
-                                guard cosePublicKeyMap[-1] as! Int == 6 else { fatalError() }
-                                responseDict["publicKey"] = (cosePublicKeyMap[-2] as! Data).webSafeBase64EncodedString()
-                            case 2:
-                                fatalError("Not implemented") // TODO: To be implemented
-                            case 3:
-                                fatalError("Not implemented") // TODO: To be implemented
-                            default: fatalError()
-                            }
+// Commented out for now since wwwallet doesn't use getPublicKey
+//                            switch cosePublicKeyMap[1] as! Int {
+//                            case 1:
+//                                guard cosePublicKeyMap[-1] as! Int == 6 else { fatalError() }
+//                                responseDict["publicKey"] = (cosePublicKeyMap[-2] as! Data).webSafeBase64EncodedString()
+//                            case 2:
+//                                break;
+////                                fatalError("Not implemented") // TODO: To be implemented
+//                            case 3:
+//                                fatalError("Not implemented") // TODO: To be implemented
+//                            default: fatalError()
+//                            }
                             var credentialDict = [String: Any]()
                             credentialDict["response"] = responseDict
                             credentialDict["id"] = response.authenticatorData!.credentialId!.webSafeBase64EncodedString()

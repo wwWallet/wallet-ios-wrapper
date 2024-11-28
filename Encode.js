@@ -138,6 +138,9 @@ var __webauthn_hooks__;
             console.log("Returning result: " + JSON.stringify(dict, stringifyBinary));
             return dict;
         }
+        decoded_reply.response.getTransports = function getTransports() {
+            return decoded_reply.response.transports;
+        }
         return decoded_reply;
     }
 
