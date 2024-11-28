@@ -66,7 +66,17 @@ import YubiKit
                         extensions = extensionsDict
                     }
                     
-                    session.makeCredential(withClientDataHash: clientData.clientDataHash!, rp: rp, user: user, pubKeyCredParams: params, excludeList: exludeList, extensions: extensions) { response, extensionResult, error in
+                    var options: [String: Bool]? = nil
+                    if let authenticatorSelection = request["authenticatorSelection"] as? [String: Any] {
+                        if authenticatorSelection["residentKey"] as! String == "preferred"
+                            || authenticatorSelection["residentKey"] as! String == "required"
+                            || authenticatorSelection["requireResidentKey"] as! Bool == true
+                        {
+                            options = ["rk": true]
+                        }
+                    }
+                    
+                    session.makeCredential(withClientDataHash: clientData.clientDataHash!, rp: rp, user: user, pubKeyCredParams: params, excludeList: exludeList, options: options, extensions: extensions) { response, extensionResult, error in
                         
                         if let extensionResult, let response {
                             var replyDict: [String: Any] = ["0": "success", "2": "create"]
@@ -159,7 +169,10 @@ import YubiKit
                             responseDict["clientDataJSON"] = clientData.jsonData!.webSafeBase64EncodedString()
                             responseDict["authenticatorData"] = response.authData.webSafeBase64EncodedString()
                             responseDict["signature"] = response.signature.webSafeBase64EncodedString()
-
+                            if let user = response.user {
+                                responseDict["userHandle"] = user.userId.webSafeBase64EncodedString()
+                            }
+                            
                             var credentialDict = [String: Any]()
                             credentialDict["response"] = responseDict
                             credentialDict["id"] = response.credential!.credentialId.webSafeBase64EncodedString()
