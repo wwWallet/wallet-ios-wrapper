@@ -129,6 +129,12 @@ extension ViewController: WKUIDelegate, WKDownloadDelegate {
         }
 
         if let requestUrl = navigationAction.request.url{
+            if requestUrl.scheme == "eid" {
+                UIApplication.shared.open(requestUrl)
+                decisionHandler(.cancel)
+                return
+            }
+            
             if let requestHost = requestUrl.host {
                 // NOTE: Match auth origin first, because host origin may be a subset of auth origin and may therefore always match
                 let matchingAuthOrigin = authOrigins.first(where: { requestHost.range(of: $0) != nil })

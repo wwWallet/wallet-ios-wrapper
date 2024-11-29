@@ -48,7 +48,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
             if let url = comps?.url {
                 // Handle it inside our web view in a SPA-friendly way.
-                FunkeWallet.webView.evaluateJavaScript("location.href = '\(url)'")
+//                FunkeWallet.webView.evaluateJavaScript("location.href = '\(url)'")
             }
         }
     }
@@ -65,8 +65,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             return
         }
 
+        FunkeWallet.webView.load(URLRequest(url: universalLink))
         // Handle it inside our web view in a SPA-friendly way.
-        FunkeWallet.webView.evaluateJavaScript("location.href = '\(universalLink)'")
+//        FunkeWallet.webView.evaluateJavaScript("location.href = '\(universalLink)'")
     }
 
     // This function is called if our app is already loaded and the user activates the app via shortcut
