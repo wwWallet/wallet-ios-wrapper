@@ -26,6 +26,7 @@
 		595F23AD25CEFBFE0053416C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 595F23A225CEFBFE0053416C /* AppDelegate.swift */; };
 		595F23AE25CEFBFE0053416C /* Printer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 595F23A325CEFBFE0053416C /* Printer.swift */; };
 		595F23AF25CEFBFE0053416C /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 595F23A425CEFBFE0053416C /* WebView.swift */; };
+		B40A35D22CF9BA760044D2C6 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B40A35D12CF9BA760044D2C6 /* Settings.bundle */; };
 		B4BA10B52CF4BF61000FED67 /* YubiKit in Frameworks */ = {isa = PBXBuildFile; productRef = B4BA10B42CF4BF61000FED67 /* YubiKit */; };
 		B4BA10CF2CF4C136000FED67 /* BridgeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4BA10CE2CF4C108000FED67 /* BridgeModel.swift */; };
 		B4BA10D12CF4C162000FED67 /* YubiKeyConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4BA10D02CF4C15C000FED67 /* YubiKeyConnection.swift */; };
@@ -54,6 +55,7 @@
 		595F23A225CEFBFE0053416C /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = "Funke Wallet/AppDelegate.swift"; sourceTree = "<group>"; };
 		595F23A325CEFBFE0053416C /* Printer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Printer.swift; path = "Funke Wallet/Printer.swift"; sourceTree = "<group>"; };
 		595F23A425CEFBFE0053416C /* WebView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebView.swift; path = "Funke Wallet/WebView.swift"; sourceTree = "<group>"; };
+		B40A35D12CF9BA760044D2C6 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		B4BA10CE2CF4C108000FED67 /* BridgeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BridgeModel.swift; sourceTree = "<group>"; };
 		B4BA10D02CF4C15C000FED67 /* YubiKeyConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YubiKeyConnection.swift; sourceTree = "<group>"; };
 		B4BA10D22CF4C19D000FED67 /* Data+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Extensions.swift"; sourceTree = "<group>"; };
@@ -91,6 +93,7 @@
 		CD89F880237E9D9200C436A1 = {
 			isa = PBXGroup;
 			children = (
+				B40A35D12CF9BA760044D2C6 /* Settings.bundle */,
 				B4BA10D42CF4C1DA000FED67 /* Encode.js */,
 				B4BA10D22CF4C19D000FED67 /* Data+Extensions.swift */,
 				B4BA10D02CF4C15C000FED67 /* YubiKeyConnection.swift */,
@@ -188,6 +191,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B40A35D22CF9BA760044D2C6 /* Settings.bundle in Resources */,
 				595F23A625CEFBFE0053416C /* Entitlements in Resources */,
 				B4BA10D52CF4C1DF000FED67 /* Encode.js in Resources */,
 				CDC0FE292388222C002C8D56 /* Main.storyboard in Resources */,

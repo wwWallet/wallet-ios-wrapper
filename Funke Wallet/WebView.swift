@@ -16,7 +16,9 @@ func createWebView(container: UIView, WKSMH: WKScriptMessageHandler, WKND: WKNav
     let userScript = WKUserScript(source: String.javascript,
                                   injectionTime: .atDocumentEnd,
                                   forMainFrameOnly: false)
-    // userContentController.addUserScript(userScript) // Comment out to enable platform passkey
+    if UserDefaults.standard.bool(forKey: "use_yubikey") {
+        userContentController.addUserScript(userScript)
+    }
     
     let model = BridgeModel()
     let createMessageHandler = CreateMessageHandler(model: model)
