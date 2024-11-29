@@ -8,14 +8,15 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State var model = BridgeModel()
+    
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+            WebView(url: URL(string: "https://funke.wwwallet.org")!, model: model)
         }
-        .padding()
+        .onOpenURL { url in
+            model.openUrl(url)
+        }
     }
 }
 

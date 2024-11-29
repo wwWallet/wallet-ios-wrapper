@@ -6,23 +6,41 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		B40A360A2CF9DDCF0044D2C6 /* YubiKit in Frameworks */ = {isa = PBXBuildFile; productRef = B40A36092CF9DDCF0044D2C6 /* YubiKit */; };
+		B40A36262CFA01CA0044D2C6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B40A361A2CFA01CA0044D2C6 /* Preview Assets.xcassets */; };
+		B40A36272CFA01CA0044D2C6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B40A361C2CFA01CA0044D2C6 /* Assets.xcassets */; };
+		B40A36282CFA01CA0044D2C6 /* BridgeJavaScript.js in Resources */ = {isa = PBXBuildFile; fileRef = B40A36222CFA01CA0044D2C6 /* BridgeJavaScript.js */; };
+		B40A36292CFA01CA0044D2C6 /* BridgeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40A361D2CFA01CA0044D2C6 /* BridgeModel.swift */; };
+		B40A362A2CFA01CA0044D2C6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40A361E2CFA01CA0044D2C6 /* ContentView.swift */; };
+		B40A362B2CFA01CA0044D2C6 /* Data+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40A361F2CFA01CA0044D2C6 /* Data+Extensions.swift */; };
+		B40A362C2CFA01CA0044D2C6 /* Funke_WalletApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40A36212CFA01CA0044D2C6 /* Funke_WalletApp.swift */; };
+		B40A362D2CFA01CA0044D2C6 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40A36232CFA01CA0044D2C6 /* WebView.swift */; };
+		B40A362E2CFA01CA0044D2C6 /* YubiKeyConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40A36242CFA01CA0044D2C6 /* YubiKeyConnection.swift */; };
+		B40A36342CFA16D30044D2C6 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B40A36332CFA16D30044D2C6 /* Settings.bundle */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		B40A35F42CF9DB6A0044D2C6 /* Funke Wallet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Funke Wallet.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B40A361A2CFA01CA0044D2C6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		B40A361C2CFA01CA0044D2C6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B40A361D2CFA01CA0044D2C6 /* BridgeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BridgeModel.swift; sourceTree = "<group>"; };
+		B40A361E2CFA01CA0044D2C6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		B40A361F2CFA01CA0044D2C6 /* Data+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Extensions.swift"; sourceTree = "<group>"; };
+		B40A36202CFA01CA0044D2C6 /* Funke Wallet.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Funke Wallet.entitlements"; sourceTree = "<group>"; };
+		B40A36212CFA01CA0044D2C6 /* Funke_WalletApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Funke_WalletApp.swift; sourceTree = "<group>"; };
+		B40A36222CFA01CA0044D2C6 /* BridgeJavaScript.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = BridgeJavaScript.js; sourceTree = "<group>"; };
+		B40A36232CFA01CA0044D2C6 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
+		B40A36242CFA01CA0044D2C6 /* YubiKeyConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YubiKeyConnection.swift; sourceTree = "<group>"; };
+		B40A36332CFA16D30044D2C6 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 /* End PBXFileReference section */
-
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		B40A35F62CF9DB6A0044D2C6 /* Funke Wallet */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "Funke Wallet";
-			sourceTree = "<group>";
-		};
-/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		B40A35F12CF9DB6A0044D2C6 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B40A360A2CF9DDCF0044D2C6 /* YubiKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -32,7 +50,7 @@
 		B40A35EB2CF9DB6A0044D2C6 = {
 			isa = PBXGroup;
 			children = (
-				B40A35F62CF9DB6A0044D2C6 /* Funke Wallet */,
+				B40A36252CFA01CA0044D2C6 /* Funke Wallet */,
 				B40A35F52CF9DB6A0044D2C6 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -43,6 +61,32 @@
 				B40A35F42CF9DB6A0044D2C6 /* Funke Wallet.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		B40A361B2CFA01CA0044D2C6 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				B40A361A2CFA01CA0044D2C6 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		B40A36252CFA01CA0044D2C6 /* Funke Wallet */ = {
+			isa = PBXGroup;
+			children = (
+				B40A361B2CFA01CA0044D2C6 /* Preview Content */,
+				B40A36212CFA01CA0044D2C6 /* Funke_WalletApp.swift */,
+				B40A361E2CFA01CA0044D2C6 /* ContentView.swift */,
+				B40A36232CFA01CA0044D2C6 /* WebView.swift */,
+				B40A361D2CFA01CA0044D2C6 /* BridgeModel.swift */,
+				B40A36242CFA01CA0044D2C6 /* YubiKeyConnection.swift */,
+				B40A361F2CFA01CA0044D2C6 /* Data+Extensions.swift */,
+				B40A36222CFA01CA0044D2C6 /* BridgeJavaScript.js */,
+				B40A36202CFA01CA0044D2C6 /* Funke Wallet.entitlements */,
+				B40A361C2CFA01CA0044D2C6 /* Assets.xcassets */,
+				B40A36332CFA16D30044D2C6 /* Settings.bundle */,
+			);
+			path = "Funke Wallet";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -60,11 +104,9 @@
 			);
 			dependencies = (
 			);
-			fileSystemSynchronizedGroups = (
-				B40A35F62CF9DB6A0044D2C6 /* Funke Wallet */,
-			);
 			name = "Funke Wallet";
 			packageProductDependencies = (
+				B40A36092CF9DDCF0044D2C6 /* YubiKit */,
 			);
 			productName = "Funke Wallet";
 			productReference = B40A35F42CF9DB6A0044D2C6 /* Funke Wallet.app */;
@@ -94,6 +136,9 @@
 			);
 			mainGroup = B40A35EB2CF9DB6A0044D2C6;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				B40A36082CF9DDCF0044D2C6 /* XCRemoteSwiftPackageReference "yubikit-ios" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = B40A35F52CF9DB6A0044D2C6 /* Products */;
 			projectDirPath = "";
@@ -109,6 +154,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B40A36342CFA16D30044D2C6 /* Settings.bundle in Resources */,
+				B40A36262CFA01CA0044D2C6 /* Preview Assets.xcassets in Resources */,
+				B40A36272CFA01CA0044D2C6 /* Assets.xcassets in Resources */,
+				B40A36282CFA01CA0044D2C6 /* BridgeJavaScript.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -119,6 +168,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B40A36292CFA01CA0044D2C6 /* BridgeModel.swift in Sources */,
+				B40A362A2CFA01CA0044D2C6 /* ContentView.swift in Sources */,
+				B40A362B2CFA01CA0044D2C6 /* Data+Extensions.swift in Sources */,
+				B40A362C2CFA01CA0044D2C6 /* Funke_WalletApp.swift in Sources */,
+				B40A362D2CFA01CA0044D2C6 /* WebView.swift in Sources */,
+				B40A362E2CFA01CA0044D2C6 /* YubiKeyConnection.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -249,12 +304,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Funke Wallet/Funke Wallet.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Funke Wallet/Preview Content\"";
 				DEVELOPMENT_TEAM = LQA3CS5MM7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Funke-Wallet-Info.plist";
+				INFOPLIST_KEY_NFCReaderUsageDescription = "The application needs access to NFC reading to communicate with your YubiKey.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -278,12 +336,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Funke Wallet/Funke Wallet.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Funke Wallet/Preview Content\"";
 				DEVELOPMENT_TEAM = LQA3CS5MM7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Funke-Wallet-Info.plist";
+				INFOPLIST_KEY_NFCReaderUsageDescription = "The application needs access to NFC reading to communicate with your YubiKey.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -324,6 +385,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		B40A36082CF9DDCF0044D2C6 /* XCRemoteSwiftPackageReference "yubikit-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Yubico/yubikit-ios";
+			requirement = {
+				branch = jens/extensions;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B40A36092CF9DDCF0044D2C6 /* YubiKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B40A36082CF9DDCF0044D2C6 /* XCRemoteSwiftPackageReference "yubikit-ios" */;
+			productName = YubiKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = B40A35EC2CF9DB6A0044D2C6 /* Project object */;
 }

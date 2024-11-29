@@ -1,0 +1,15 @@
+{
+  "originHash" : "bbb50b0c21b9941c9e66ea947e0b6e9cecb412ff3ab973c6c15e86a87f8bee81",
+  "pins" : [
+    {
+      "identity" : "yubikit-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Yubico/yubikit-ios",
+      "state" : {
+        "branch" : "jens/extensions",
+        "revision" : "c7fe63989deb9258c4a41fb0ebf4900c716fb5ad"
+      }
+    }
+  ],
+  "version" : 3
+}
