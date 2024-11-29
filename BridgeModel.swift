@@ -49,7 +49,7 @@ import YubiKit
                     }
                     
                     var exludeList: [YKFFIDO2PublicKeyCredentialDescriptor]? = nil
-                    if let excludeListDict = request["excludeList"] as? [[String: Any]] {
+                    if let excludeListDict = request["excludeCredentials"] as? [[String: Any]] {
                         exludeList = [YKFFIDO2PublicKeyCredentialDescriptor]()
                         excludeListDict.forEach { exclude in
                             let descriptor = YKFFIDO2PublicKeyCredentialDescriptor()
@@ -117,7 +117,12 @@ import YubiKit
                             print(jsonReplyString)
                             replyHandler(["data": jsonReplyString], nil)
                         } else {
-                            replyHandler(nil, "-1")
+                            if let error, (error as NSError).code == 0x19 {
+                                print("0x19 error!")
+                                replyHandler(nil, "0x19")
+                            } else {
+                                replyHandler(nil, "-1")
+                            }
                         }
                         YubiKitManager.shared.stopNFCConnection()
                     }

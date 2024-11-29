@@ -179,6 +179,14 @@ var __webauthn_hooks__;
                   console.log(result);
                   onReply(result)
               }
+        )
+        .catch(
+               function(err) {
+                   console.log("error: ", err);
+                   if (err == "0x19") {
+                       throw new DOMException("This authenticator is already registered.", "InvalidStateError");
+                   }
+               }
         );
         return ret;
     }
@@ -205,8 +213,16 @@ var __webauthn_hooks__;
         .then(
               function(result) {
                   console.log(result);
-                  onReply(result)
+                  onReply(result);
               }
+        )
+        .catch(
+               function(err) {
+                   console.log("error: ", err);
+                   if (err == "0x19") {
+                       throw new DOMException("This authenticator is already registered.", "InvalidStateError");
+                   }
+               }
         );
         return ret;
     }

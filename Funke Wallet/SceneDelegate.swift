@@ -47,6 +47,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             comps?.scheme = "https"
 
             if let url = comps?.url {
+                FunkeWallet.webView.load(URLRequest(url: url))
                 // Handle it inside our web view in a SPA-friendly way.
 //                FunkeWallet.webView.evaluateJavaScript("location.href = '\(url)'")
             }
