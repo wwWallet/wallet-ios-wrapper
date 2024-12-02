@@ -14,7 +14,7 @@
 			<key>Key</key>
 			<string>use_yubikey</string>
 			<key>DefaultValue</key>
-			<true/>
+			<false/>
 		</dict>
 	</array>
 </dict>
