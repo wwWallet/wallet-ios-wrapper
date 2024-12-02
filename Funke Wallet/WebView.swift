@@ -70,7 +70,7 @@ struct WebView: UIViewRepresentable {
         private let webauthnCreateInterface = "__webauthn_create_interface__"
 
         init(url: URL, model: BridgeModel) {
-            UserDefaults.standard.register(defaults: ["use_yubikey" : true])
+            UserDefaults.standard.register(defaults: ["use_yubikey" : false])
             self.url = url
             self.model = model
             self.createMessageHandler = CreateMessageHandler(model: model)
