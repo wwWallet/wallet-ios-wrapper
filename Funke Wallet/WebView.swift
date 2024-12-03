@@ -92,7 +92,9 @@ struct WebView: UIViewRepresentable {
             configuration.userContentController = userContentController
             let wkWebView = WKWebView(frame: CGRect.zero, configuration: configuration)
             model.loadURLCallback = { url in
-                wkWebView.load(URLRequest(url: url))
+                DispatchQueue.main.async {
+                    wkWebView.load(URLRequest(url: url))
+                }
             }
             let request = URLRequest(url: url)
             wkWebView.isInspectable = true
