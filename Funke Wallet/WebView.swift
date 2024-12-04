@@ -92,7 +92,7 @@ struct WebView: UIViewRepresentable {
             configuration.userContentController = userContentController
             let wkWebView = WKWebView(frame: CGRect.zero, configuration: configuration)
             model.loadURLCallback = { url in
-                DispatchQueue.main.async {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     wkWebView.load(URLRequest(url: url))
                 }
             }
