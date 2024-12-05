@@ -9,6 +9,13 @@
 var __webauthn_hooks__;
 (function (__webauthn_hooks__) {
 
+    if (!__webauthn_hooks__.originalCreateFunction) {
+        __webauthn_hooks__.originalCreateFunction = navigator.credentials.create.bind(navigator.credentials);
+    }
+    if (!__webauthn_hooks__.originalGetFunction) {
+        __webauthn_hooks__.originalGetFunction = navigator.credentials.get.bind(navigator.credentials);
+    }
+
     // helper methods
     const stringifyBinary = (key, value) => {
         if (value instanceof Uint8Array) {
@@ -219,10 +226,7 @@ var __webauthn_hooks__;
 
 })(__webauthn_hooks__ || (__webauthn_hooks__ = {}));
 
-__webauthn_hooks__.originalCreateFunction = navigator.credentials.create.bind(navigator.credentials);
 navigator.credentials.create = __webauthn_hooks__.create;
-
-__webauthn_hooks__.originalGetFunction = navigator.credentials.get.bind(navigator.credentials);
 navigator.credentials.get = __webauthn_hooks__.get;
 
 // Some sites test that `typeof window.PublicKeyCredential` is `function`.
