@@ -206,9 +206,7 @@ var __webauthn_hooks__;
         .catch(
                function(err) {
                    console.log("error: ", err);
-                   if (err == "0x19") {
-                       throw new DOMException("This authenticator is already registered.", "InvalidStateError");
-                   }
+                   throw err;
                }
         );
     }
