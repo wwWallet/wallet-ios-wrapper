@@ -166,12 +166,7 @@ var __webauthn_hooks__;
         var json = stringify(jsonObj);
         console.log("Post message: " + json);
         return window.webkit.messageHandlers.__webauthn_create_interface__.postMessage(json)
-        .then(
-              function(result) {
-                  console.log(result);
-                  return onReply(result);
-              }
-        )
+        .then(onReply)
         .catch(
                function(err) {
                    console.log("error: ", err);
@@ -198,12 +193,7 @@ var __webauthn_hooks__;
 
         var json = stringify(jsonObj);
         return window.webkit.messageHandlers.__webauthn_get_interface__.postMessage(json)
-        .then(
-              function(result) {
-                  console.log(result);
-                  return onReply(result);
-              }
-        )
+        .then(onReply)
         .catch(
                function(err) {
                    console.log("error: ", err);
