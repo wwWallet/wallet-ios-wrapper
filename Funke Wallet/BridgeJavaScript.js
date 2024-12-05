@@ -229,12 +229,7 @@ window.nativeWrapper = (function (nativeWrapper) {
                   console.log(funcName, "raw result:", msg);
                   var reply = JSON.parse(msg);
                   console.log(funcName, "result:", reply);
-
-                  if (reply[0] != 'success') {
-                      throw new Error("Bluetooth failed", { cause : reply[1] });
-                  }
-
-                  return reply[1];
+                  return reply;
               })
               .catch(
                   function (err) {
