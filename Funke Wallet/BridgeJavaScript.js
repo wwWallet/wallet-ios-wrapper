@@ -226,7 +226,8 @@ window.nativeWrapper = (function (nativeWrapper) {
             console.log(funcName, arg);
             return window.webkit.messageHandlers['__' + funcName + '__'].postMessage(stringify(arg))
               .then(function (msg) {
-                  var reply = JSON.parse(msg.data);
+                  console.log(funcName, "raw result:", msg);
+                  var reply = JSON.parse(msg);
                   console.log(funcName, "result:", reply);
 
                   if (reply[0] != 'success') {
