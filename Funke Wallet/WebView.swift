@@ -69,6 +69,47 @@ struct WebView: UIViewRepresentable {
             }
             userContentController.addScriptMessageHandler(getMessageHandler, contentWorld: .page, name: "__webauthn_get_interface__")
             
+            // BLE hooks
+            let bleStatusMessageHandler = MessageHandler { [weak self] message, replyHandler in
+                print("Status message: \(message)")
+            }
+            userContentController.addScriptMessageHandler(bleStatusMessageHandler, contentWorld: .page, name: "__bluetoothStatus__")
+            
+            let bleTerminateMessageHandler = MessageHandler { [weak self] message, replyHandler in
+                print("Terminate message: \(message)")
+            }
+            userContentController.addScriptMessageHandler(bleTerminateMessageHandler, contentWorld: .page, name: "__bluetoothTerminate__")
+            
+            let bleCreateServerMessageHandler = MessageHandler { [weak self] message, replyHandler in
+                print("Create server message: \(message)")
+            }
+            userContentController.addScriptMessageHandler(bleCreateServerMessageHandler, contentWorld: .page, name: "__bluetoothCreateServer__")
+            
+            let bleCreateClientMessageHandler = MessageHandler { [weak self] message, replyHandler in
+                print("Create client message: \(message)")
+            }
+            userContentController.addScriptMessageHandler(bleCreateClientMessageHandler, contentWorld: .page, name: "__bluetoothCreateClient__")
+            
+            let bleSendToServerMessageHandler = MessageHandler { [weak self] message, replyHandler in
+                print("Send to server message: \(message)")
+            }
+            userContentController.addScriptMessageHandler(bleSendToServerMessageHandler, contentWorld: .page, name: "__bluetoothSendToServer__")
+            
+            let bleSendToClientMessageHandler = MessageHandler { [weak self] message, replyHandler in
+                print("Send to client message: \(message)")
+            }
+            userContentController.addScriptMessageHandler(bleSendToClientMessageHandler, contentWorld: .page, name: "__bluetoothSendToClient__")
+            
+            let bleReceiveFromClientMessageHandler = MessageHandler { [weak self] message, replyHandler in
+                print("Receive from client message: \(message)")
+            }
+            userContentController.addScriptMessageHandler(bleReceiveFromClientMessageHandler, contentWorld: .page, name: "__bluetoothReceiveFromClient__")
+            
+            let bleReceiveFromServerMessageHandler = MessageHandler { [weak self] message, replyHandler in
+                print("Receive from server message: \(message)")
+            }
+            userContentController.addScriptMessageHandler(bleReceiveFromServerMessageHandler, contentWorld: .page, name: "__bluetoothReceiveFromServer__")
+            
             let configuration = WKWebViewConfiguration()
             configuration.limitsNavigationsToAppBoundDomains = true;
             configuration.userContentController = userContentController
