@@ -8,11 +8,12 @@
 import SwiftUI
 @preconcurrency import WebKit
 
-class CreateMessageHandler: NSObject, WKScriptMessageHandlerWithReply {
-    let model: BridgeModel
+class MessageHandler: NSObject, WKScriptMessageHandlerWithReply {
     
-    public init(model: BridgeModel) {
-        self.model = model
+    let handler: ([String : Any], (@escaping @MainActor @Sendable (Any?, String?) -> Void)) -> Void
+    
+    init(handler: @escaping @MainActor @Sendable ([String : Any], @escaping (Any?, String?) -> Void) -> Void) {
+        self.handler = handler
     }
     
     func userContentController(_ userContentController: WKUserContentController,
@@ -25,32 +26,10 @@ class CreateMessageHandler: NSObject, WKScriptMessageHandlerWithReply {
         guard let jsonDictionary = try! JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any] else {
             fatalError()
         }
-        model.didReceiveCreate(message: jsonDictionary, replyHandler: replyHandler)
+        
+        self.handler(jsonDictionary, replyHandler)
     }
 }
-
-
-class GetMessageHandler: NSObject, WKScriptMessageHandlerWithReply {
-    let model: BridgeModel
-    
-    public init(model: BridgeModel) {
-        self.model = model
-    }
-    
-    func userContentController(_ userContentController: WKUserContentController,
-                               didReceive message: WKScriptMessage,
-                               replyHandler: @escaping @MainActor @Sendable (Any?, String?) -> Void) {
-        
-        let jsonString = message.body as! String
-        let jsonData = jsonString.data(using: .utf8)!
-        
-        guard let jsonDictionary = try! JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any] else {
-            fatalError()
-        }
-        model.didReceiveGet(message: jsonDictionary, replyHandler: replyHandler)
-    }
-}
-
 
 struct WebView: UIViewRepresentable {
     let url: URL
@@ -64,17 +43,11 @@ struct WebView: UIViewRepresentable {
         
         let url: URL
         let model: BridgeModel
-        let createMessageHandler: CreateMessageHandler
-        let getMessageHandler: GetMessageHandler
-        private let webauthnGetInterface = "__webauthn_get_interface__"
-        private let webauthnCreateInterface = "__webauthn_create_interface__"
 
         init(url: URL, model: BridgeModel) {
             UserDefaults.standard.register(defaults: ["use_yubikey" : false])
             self.url = url
             self.model = model
-            self.createMessageHandler = CreateMessageHandler(model: model)
-            self.getMessageHandler = GetMessageHandler(model: model)
         }
         
         lazy var wkWebView: WKWebView = {
@@ -85,8 +58,17 @@ struct WebView: UIViewRepresentable {
             if UserDefaults.standard.bool(forKey: "use_yubikey") {
                 userContentController.addUserScript(userScript)
             }
-            userContentController.addScriptMessageHandler(createMessageHandler, contentWorld: .page, name: webauthnCreateInterface)
+
+            let createMessageHandler = MessageHandler { [weak self] message, replyHandler in
+                self?.model.didReceiveCreate(message: message, replyHandler: replyHandler)
+            }
+            userContentController.addScriptMessageHandler(createMessageHandler, contentWorld: .page, name: "__webauthn_create_interface__")
+            
+            let getMessageHandler = MessageHandler { [weak self] message, replyHandler in
+                self?.model.didReceiveGet(message: message, replyHandler: replyHandler)
+            }
             userContentController.addScriptMessageHandler(getMessageHandler, contentWorld: .page, name: "__webauthn_get_interface__")
+            
             let configuration = WKWebViewConfiguration()
             configuration.limitsNavigationsToAppBoundDomains = true;
             configuration.userContentController = userContentController
