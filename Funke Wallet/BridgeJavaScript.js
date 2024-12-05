@@ -147,20 +147,11 @@ var __webauthn_hooks__;
 
     console.log("Initializing webauthn hooks");
 
-    var pendingResolveGet = null;
-    var pendingResolveCreate = null;
-    var pendingRejectGet = null;
-    var pendingRejectCreate = null;
-
     function create(request) {
         console.log("Executing create with request: " + request);
         if (!("publicKey" in request)) {
             return __webauthn_hooks__.originalCreateFunction(request);
         }
-        var ret = new Promise(function (resolve, reject) {
-            pendingResolveCreate = resolve;
-            pendingRejectCreate = reject;
-        });
         var temppk = request.publicKey;
         if (temppk.hasOwnProperty('challenge')) {
             var str = CM_base64url_encode(temppk.challenge);
@@ -174,11 +165,11 @@ var __webauthn_hooks__;
 
         var json = stringify(jsonObj);
         console.log("Post message: " + json);
-        window.webkit.messageHandlers.__webauthn_create_interface__.postMessage(json)
+        return window.webkit.messageHandlers.__webauthn_create_interface__.postMessage(json)
         .then(
               function(result) {
                   console.log(result);
-                  onReply(result)
+                  return onReply(result);
               }
         )
         .catch(
@@ -189,7 +180,6 @@ var __webauthn_hooks__;
                    }
                }
         );
-        return ret;
     }
     __webauthn_hooks__.create = create;
 
@@ -198,10 +188,6 @@ var __webauthn_hooks__;
         if (!("publicKey" in request)) {
             return __webauthn_hooks__.originalGetFunction(request);
         }
-        var ret = new Promise(function (resolve, reject) {
-            pendingResolveGet = resolve;
-            pendingRejectGet = reject;
-        });
         var temppk = request.publicKey;
         if (temppk.hasOwnProperty('challenge')) {
             var str = CM_base64url_encode(temppk.challenge);
@@ -210,11 +196,11 @@ var __webauthn_hooks__;
         var jsonObj = {"type":"get", "request":temppk}
 
         var json = stringify(jsonObj);
-        window.webkit.messageHandlers.__webauthn_get_interface__.postMessage(json)
+        return window.webkit.messageHandlers.__webauthn_get_interface__.postMessage(json)
         .then(
               function(result) {
                   console.log(result);
-                  onReply(result);
+                  return onReply(result);
               }
         )
         .catch(
@@ -225,7 +211,6 @@ var __webauthn_hooks__;
                    }
                }
         );
-        return ret;
     }
     __webauthn_hooks__.get = get;
 
@@ -233,61 +218,15 @@ var __webauthn_hooks__;
     // The embedder gives replies back here, caught by the event listener.
     function onReply(msg) {
         var reply = JSON.parse(msg.data);
-        var type = reply[2];
         console.log("Called onReply with " + msg);
-        if(type === "get") {
-            onReplyGet(reply);
-        } else if (type === "create") {
-            onReplyCreate(reply);
-        } else {
-            console.log("Incorrect response format for reply");
-        }
-    }
 
-    // Resolves what is expected for get, called when the embedder is ready
-    function onReplyGet(reply) {
-        console.log("Received get reply: " + reply)
-        if (pendingResolveGet === null || pendingRejectGet === null) {
-            console.log("Reply failure: Resolve: " + pendingResolveCreate +
-                        " and reject: " + pendingRejectCreate);
-            return;
-        }
         if (reply[0] != 'success') {
-            var reject = pendingRejectGet;
-            pendingResolveGet = null;
-            pendingRejectGet = null;
-            reject(new DOMException(reply[1], "NotAllowedError"));
-            return;
+          throw new DOMException(reply[1], "NotAllowedError");
         }
-        console.log("Get credential: " + reply[1])
         var cred = decodeReply(reply[1]);
-        var resolve = pendingResolveGet;
-        pendingResolveGet = null;
-        pendingRejectGet = null;
-        resolve(cred);
+        console.log("Created or got credential: " + reply[1])
+        return cred;
     }
-    __webauthn_hooks__.onReplyGet = onReplyGet;
-    // Resolves what is expected for create, called when the embedder is ready
-    function onReplyCreate(reply) {
-        console.log("Received create reply: " + reply)
-        if (pendingResolveCreate === null || pendingRejectCreate === null) {
-            return;
-        }
-        if (reply[0] != 'success') {
-            var reject = pendingRejectCreate;
-            pendingResolveCreate = null;
-            pendingRejectCreate = null;
-            reject(new DOMException(reply[1], "NotAllowedError"));
-            return;
-        }
-        console.log("Created credential: " + reply[1])
-        var cred = decodeReply(reply[1]);
-        var resolve = pendingResolveCreate;
-        pendingResolveCreate = null;
-        pendingRejectCreate = null;
-        resolve(cred);
-    }
-    __webauthn_hooks__.onReplyCreate = onReplyCreate;
 
 })(__webauthn_hooks__ || (__webauthn_hooks__ = {}));
 
