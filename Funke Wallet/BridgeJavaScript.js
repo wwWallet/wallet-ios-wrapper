@@ -159,18 +159,7 @@ var __webauthn_hooks__;
         if (!("publicKey" in request)) {
             return __webauthn_hooks__.originalCreateFunction(request);
         }
-        var temppk = request.publicKey;
-        if (temppk.hasOwnProperty('challenge')) {
-            var str = CM_base64url_encode(temppk.challenge);
-            temppk.challenge = str;
-        }
-        if (temppk.hasOwnProperty('user') && temppk.user.hasOwnProperty('id')) {
-            var encodedString = CM_base64url_encode(temppk.user.id);
-            temppk.user.id = encodedString;
-        }
-        var jsonObj = {"type":"create", "request":temppk}
-
-        var json = stringify(jsonObj);
+        var json = stringify({ "type": "create", "request": request.publicKey });
         console.log("Post message: " + json);
         return window.webkit.messageHandlers.__webauthn_create_interface__.postMessage(json)
         .then(onReply)
@@ -191,14 +180,7 @@ var __webauthn_hooks__;
         if (!("publicKey" in request)) {
             return __webauthn_hooks__.originalGetFunction(request);
         }
-        var temppk = request.publicKey;
-        if (temppk.hasOwnProperty('challenge')) {
-            var str = CM_base64url_encode(temppk.challenge);
-            temppk.challenge = str;
-        }
-        var jsonObj = {"type":"get", "request":temppk}
-
-        var json = stringify(jsonObj);
+        var json = stringify({ "type": "get", "request": request.publicKey });
         return window.webkit.messageHandlers.__webauthn_get_interface__.postMessage(json)
         .then(onReply)
         .catch(
