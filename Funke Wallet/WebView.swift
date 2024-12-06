@@ -8,49 +8,21 @@
 import SwiftUI
 @preconcurrency import WebKit
 
-class CreateMessageHandler: NSObject, WKScriptMessageHandlerWithReply {
-    let model: BridgeModel
+class MessageHandler: NSObject, WKScriptMessageHandlerWithReply {
     
-    public init(model: BridgeModel) {
-        self.model = model
+    let handler: (WKScriptMessage, (@escaping @MainActor @Sendable (Any?, String?) -> Void)) -> Void
+    
+    init(handler: @escaping @MainActor @Sendable (WKScriptMessage, @escaping (Any?, String?) -> Void) -> Void) {
+        self.handler = handler
     }
     
     func userContentController(_ userContentController: WKUserContentController,
                                didReceive message: WKScriptMessage,
                                replyHandler: @escaping @MainActor @Sendable (Any?, String?) -> Void) {
         
-        let jsonString = message.body as! String
-        let jsonData = jsonString.data(using: .utf8)!
-        
-        guard let jsonDictionary = try! JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any] else {
-            fatalError()
-        }
-        model.didReceiveCreate(message: jsonDictionary, replyHandler: replyHandler)
+        self.handler(message, replyHandler)
     }
 }
-
-
-class GetMessageHandler: NSObject, WKScriptMessageHandlerWithReply {
-    let model: BridgeModel
-    
-    public init(model: BridgeModel) {
-        self.model = model
-    }
-    
-    func userContentController(_ userContentController: WKUserContentController,
-                               didReceive message: WKScriptMessage,
-                               replyHandler: @escaping @MainActor @Sendable (Any?, String?) -> Void) {
-        
-        let jsonString = message.body as! String
-        let jsonData = jsonString.data(using: .utf8)!
-        
-        guard let jsonDictionary = try! JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any] else {
-            fatalError()
-        }
-        model.didReceiveGet(message: jsonDictionary, replyHandler: replyHandler)
-    }
-}
-
 
 struct WebView: UIViewRepresentable {
     let url: URL
@@ -64,17 +36,11 @@ struct WebView: UIViewRepresentable {
         
         let url: URL
         let model: BridgeModel
-        let createMessageHandler: CreateMessageHandler
-        let getMessageHandler: GetMessageHandler
-        private let webauthnGetInterface = "__webauthn_get_interface__"
-        private let webauthnCreateInterface = "__webauthn_create_interface__"
 
         init(url: URL, model: BridgeModel) {
             UserDefaults.standard.register(defaults: ["use_yubikey" : false])
             self.url = url
             self.model = model
-            self.createMessageHandler = CreateMessageHandler(model: model)
-            self.getMessageHandler = GetMessageHandler(model: model)
         }
         
         lazy var wkWebView: WKWebView = {
@@ -85,8 +51,60 @@ struct WebView: UIViewRepresentable {
             if UserDefaults.standard.bool(forKey: "use_yubikey") {
                 userContentController.addUserScript(userScript)
             }
-            userContentController.addScriptMessageHandler(createMessageHandler, contentWorld: .page, name: webauthnCreateInterface)
+
+            // Webauthn
+            let createMessageHandler = MessageHandler { [weak self] message, replyHandler in
+                self?.model.didReceiveCreate(message: message, replyHandler: replyHandler)
+            }
+            userContentController.addScriptMessageHandler(createMessageHandler, contentWorld: .page, name: "__webauthn_create_interface__")
+            
+            let getMessageHandler = MessageHandler { [weak self] message, replyHandler in
+                self?.model.didReceiveGet(message: message, replyHandler: replyHandler)
+            }
             userContentController.addScriptMessageHandler(getMessageHandler, contentWorld: .page, name: "__webauthn_get_interface__")
+            
+            // BLE hooks
+            let bleStatusMessageHandler = MessageHandler { [weak self] message, replyHandler in
+                print("Status message: \(message)")
+            }
+            userContentController.addScriptMessageHandler(bleStatusMessageHandler, contentWorld: .page, name: "__bluetoothStatus__")
+            
+            let bleTerminateMessageHandler = MessageHandler { [weak self] message, replyHandler in
+                print("Terminate message: \(message.body)")
+                replyHandler(true, nil)
+            }
+            userContentController.addScriptMessageHandler(bleTerminateMessageHandler, contentWorld: .page, name: "__bluetoothTerminate__")
+            
+            let bleCreateServerMessageHandler = MessageHandler { [weak self] message, replyHandler in
+                print("Create server message: \(message.body)")
+            }
+            userContentController.addScriptMessageHandler(bleCreateServerMessageHandler, contentWorld: .page, name: "__bluetoothCreateServer__")
+            
+            let bleCreateClientMessageHandler = MessageHandler { [weak self] message, replyHandler in
+                print("Create client message: \"\(message.body)\"")
+            }
+            userContentController.addScriptMessageHandler(bleCreateClientMessageHandler, contentWorld: .page, name: "__bluetoothCreateClient__")
+            
+            let bleSendToServerMessageHandler = MessageHandler { [weak self] message, replyHandler in
+                print("Send to server message: \(message.body)")
+            }
+            userContentController.addScriptMessageHandler(bleSendToServerMessageHandler, contentWorld: .page, name: "__bluetoothSendToServer__")
+            
+            let bleSendToClientMessageHandler = MessageHandler { [weak self] message, replyHandler in
+                print("Send to client message: \(message.body)")
+            }
+            userContentController.addScriptMessageHandler(bleSendToClientMessageHandler, contentWorld: .page, name: "__bluetoothSendToClient__")
+            
+            let bleReceiveFromClientMessageHandler = MessageHandler { [weak self] message, replyHandler in
+                print("Receive from client message: \(message.body)")
+            }
+            userContentController.addScriptMessageHandler(bleReceiveFromClientMessageHandler, contentWorld: .page, name: "__bluetoothReceiveFromClient__")
+            
+            let bleReceiveFromServerMessageHandler = MessageHandler { [weak self] message, replyHandler in
+                print("Receive from server message: \(message.body)")
+            }
+            userContentController.addScriptMessageHandler(bleReceiveFromServerMessageHandler, contentWorld: .page, name: "__bluetoothReceiveFromServer__")
+            
             let configuration = WKWebViewConfiguration()
             configuration.limitsNavigationsToAppBoundDomains = true;
             configuration.userContentController = userContentController

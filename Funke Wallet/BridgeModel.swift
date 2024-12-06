@@ -8,6 +8,7 @@
 
 import SwiftUI
 import YubiKit
+import WebKit
 
 @Observable class BridgeModel {
     
@@ -21,16 +22,18 @@ import YubiKit
         loadURLCallback?(url)
     }
     
-    func didReceiveCreate(message: [String: Any], replyHandler: @escaping (Any?, String?) -> Void) {
-       print(message)
+    func didReceiveCreate(message: WKScriptMessage, replyHandler: @escaping (Any?, String?) -> Void) {
         
+        let jsonDictionary = message.jsonDictionary() ?? [String: Any]()
+        print("BridgeModel, didReceiveCreate: \n \(jsonDictionary)")
+
         connection.connection { connection in
             connection.fido2Session { session, error in
                 guard let session else { fatalError() }
                 session.verifyPin("123456") { result in
                     guard result == nil else { fatalError(result!.localizedDescription) }
                     
-                    guard let request = message["request"] as? [String: Any], let requestRp = request["rp"] as? [String: Any] else { fatalError() }
+                    guard let request = jsonDictionary["request"] as? [String: Any], let requestRp = request["rp"] as? [String: Any] else { fatalError() }
                     guard let challengeString = request["challenge"] as? String, let challenge = challengeString.webSafeBase64DecodedData() else { fatalError() }
                     let clientData = YKFWebAuthnClientData(type: .create, challenge: challenge, origin: #"https://"# + (requestRp["id"] as! String))!
                     let rp = YKFFIDO2PublicKeyCredentialRpEntity()
@@ -140,16 +143,18 @@ import YubiKit
         }
     }
     
-    func didReceiveGet(message: [String: Any], replyHandler: @escaping (Any?, String?) -> Void) {
-        print("didReceiveGet: \n \(message)")
+    func didReceiveGet(message: WKScriptMessage, replyHandler: @escaping (Any?, String?) -> Void) {
         
+        let jsonDictionary = message.jsonDictionary() ?? [String: Any]()
+        print("BridgeModel, didReceiveGet: \n \(jsonDictionary)")
+
         connection.connection { connection in
             connection.fido2Session { session, error in
                 guard let session else { fatalError() }
                 session.verifyPin("123456") { result in
                     guard result == nil else { fatalError(result!.localizedDescription) }
                     
-                    guard let request = message["request"] as? [String: Any], let rpId = request["rpId"] as? String else { fatalError() }
+                    guard let request = jsonDictionary["request"] as? [String: Any], let rpId = request["rpId"] as? String else { fatalError() }
                     guard let challengeString = request["challenge"] as? String, let challenge = challengeString.webSafeBase64DecodedData() else { fatalError() }
                     let clientData = YKFWebAuthnClientData(type: .get, challenge: challenge, origin: #"https://"# + rpId)!
                     
@@ -224,4 +229,16 @@ import YubiKit
 //        sendCallback?(message)
 //        print("Sent: \(message)")
 //    }
+}
+
+
+extension WKScriptMessage {
+    func jsonDictionary() -> [String: Any]? {
+        guard let jsonString = self.body as? String,
+              let jsonData = jsonString.data(using: .utf8),
+              let jsonDictionary = try? JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any] else {
+            return nil
+        }
+        return jsonDictionary
+    }
 }

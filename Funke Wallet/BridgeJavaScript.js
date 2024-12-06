@@ -6,41 +6,46 @@
 //
 
 
+const stringifyBinary = (key, value) => {
+    if (value instanceof Uint8Array) {
+        return CM_base64url_encode(value);
+    } else if (value instanceof ArrayBuffer) {
+        return CM_base64url_encode(new Uint8Array(value));
+    } else {
+        return value;
+    }
+};
+
+const stringify = (data) => {
+    return JSON.stringify(data, stringifyBinary);
+};
+
+function CM_base64url_decode(value) {
+    var m = value.length % 4;
+    return Uint8Array.from(atob(value.replace(/-/g, '+')
+                                .replace(/_/g, '/')
+                                .padEnd(value.length + (m === 0 ? 0 : 4 - m), '=')), function (c)
+                            { return c.charCodeAt(0); }).buffer;
+}
+
+function CM_base64url_encode(buffer) {
+    return btoa(Array.from(new Uint8Array(buffer), function (b)
+                            { return String.fromCharCode(b); }).join(''))
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_')
+    .replace(/=+${'$'}/, '');
+}
+
+
 var __webauthn_hooks__;
 (function (__webauthn_hooks__) {
 
-    // helper methods
-    const stringifyBinary = (key, value) => {
-        if (value instanceof Uint8Array) {
-            return CM_base64url_encode(value);
-        } else if (value instanceof ArrayBuffer) {
-            return CM_base64url_encode(new Uint8Array(value));
-        } else {
-            return value;
-        }
-    };
-
-    const stringify = (data) => {
-        return JSON.stringify(data, stringifyBinary);
-    };
-
-    // This a specific decoder for expected types contained in PublicKeyCredential json
-    function CM_base64url_decode(value) {
-        var m = value.length % 4;
-        return Uint8Array.from(atob(value.replace(/-/g, '+')
-                                    .replace(/_/g, '/')
-                                    .padEnd(value.length + (m === 0 ? 0 : 4 - m), '=')), function (c)
-                               { return c.charCodeAt(0); }).buffer;
+    if (!__webauthn_hooks__.originalCreateFunction) {
+        __webauthn_hooks__.originalCreateFunction = navigator.credentials.create.bind(navigator.credentials);
     }
-    __webauthn_hooks__.CM_base64url_decode = CM_base64url_decode;
-    function CM_base64url_encode(buffer) {
-        return btoa(Array.from(new Uint8Array(buffer), function (b)
-                               { return String.fromCharCode(b); }).join(''))
-        .replace(/\+/g, '-')
-        .replace(/\//g, '_')
-        .replace(/=+${'$'}/, '');
+    if (!__webauthn_hooks__.originalGetFunction) {
+        __webauthn_hooks__.originalGetFunction = navigator.credentials.get.bind(navigator.credentials);
     }
-    __webauthn_hooks__.CM_base64url_encode = CM_base64url_encode;
 
     function recodeLargeBlob(value) {
         largeBlob = {}
@@ -147,49 +152,24 @@ var __webauthn_hooks__;
 
     console.log("Initializing webauthn hooks");
 
-    var pendingResolveGet = null;
-    var pendingResolveCreate = null;
-    var pendingRejectGet = null;
-    var pendingRejectCreate = null;
-
     function create(request) {
         console.log("Executing create with request: " + request);
         if (!("publicKey" in request)) {
             return __webauthn_hooks__.originalCreateFunction(request);
         }
-        var ret = new Promise(function (resolve, reject) {
-            pendingResolveCreate = resolve;
-            pendingRejectCreate = reject;
-        });
-        var temppk = request.publicKey;
-        if (temppk.hasOwnProperty('challenge')) {
-            var str = CM_base64url_encode(temppk.challenge);
-            temppk.challenge = str;
-        }
-        if (temppk.hasOwnProperty('user') && temppk.user.hasOwnProperty('id')) {
-            var encodedString = CM_base64url_encode(temppk.user.id);
-            temppk.user.id = encodedString;
-        }
-        var jsonObj = {"type":"create", "request":temppk}
-
-        var json = stringify(jsonObj);
+        var json = stringify({ "type": "create", "request": request.publicKey });
         console.log("Post message: " + json);
-        window.webkit.messageHandlers.__webauthn_create_interface__.postMessage(json)
-        .then(
-              function(result) {
-                  console.log(result);
-                  onReply(result)
-              }
-        )
+        return window.webkit.messageHandlers.__webauthn_create_interface__.postMessage(json)
+        .then(onReply)
         .catch(
                function(err) {
                    console.log("error: ", err);
                    if (err == "0x19") {
                        throw new DOMException("This authenticator is already registered.", "InvalidStateError");
                    }
+                   throw err;
                }
         );
-        return ret;
     }
     __webauthn_hooks__.create = create;
 
@@ -198,34 +178,15 @@ var __webauthn_hooks__;
         if (!("publicKey" in request)) {
             return __webauthn_hooks__.originalGetFunction(request);
         }
-        var ret = new Promise(function (resolve, reject) {
-            pendingResolveGet = resolve;
-            pendingRejectGet = reject;
-        });
-        var temppk = request.publicKey;
-        if (temppk.hasOwnProperty('challenge')) {
-            var str = CM_base64url_encode(temppk.challenge);
-            temppk.challenge = str;
-        }
-        var jsonObj = {"type":"get", "request":temppk}
-
-        var json = stringify(jsonObj);
-        window.webkit.messageHandlers.__webauthn_get_interface__.postMessage(json)
-        .then(
-              function(result) {
-                  console.log(result);
-                  onReply(result);
-              }
-        )
+        var json = stringify({ "type": "get", "request": request.publicKey });
+        return window.webkit.messageHandlers.__webauthn_get_interface__.postMessage(json)
+        .then(onReply)
         .catch(
                function(err) {
                    console.log("error: ", err);
-                   if (err == "0x19") {
-                       throw new DOMException("This authenticator is already registered.", "InvalidStateError");
-                   }
+                   throw err;
                }
         );
-        return ret;
     }
     __webauthn_hooks__.get = get;
 
@@ -233,68 +194,19 @@ var __webauthn_hooks__;
     // The embedder gives replies back here, caught by the event listener.
     function onReply(msg) {
         var reply = JSON.parse(msg.data);
-        var type = reply[2];
         console.log("Called onReply with " + msg);
-        if(type === "get") {
-            onReplyGet(reply);
-        } else if (type === "create") {
-            onReplyCreate(reply);
-        } else {
-            console.log("Incorrect response format for reply");
-        }
-    }
 
-    // Resolves what is expected for get, called when the embedder is ready
-    function onReplyGet(reply) {
-        console.log("Received get reply: " + reply)
-        if (pendingResolveGet === null || pendingRejectGet === null) {
-            console.log("Reply failure: Resolve: " + pendingResolveCreate +
-                        " and reject: " + pendingRejectCreate);
-            return;
-        }
         if (reply[0] != 'success') {
-            var reject = pendingRejectGet;
-            pendingResolveGet = null;
-            pendingRejectGet = null;
-            reject(new DOMException(reply[1], "NotAllowedError"));
-            return;
+          throw new DOMException(reply[1], "NotAllowedError");
         }
-        console.log("Get credential: " + reply[1])
         var cred = decodeReply(reply[1]);
-        var resolve = pendingResolveGet;
-        pendingResolveGet = null;
-        pendingRejectGet = null;
-        resolve(cred);
+        console.log("Created or got credential: " + reply[1])
+        return cred;
     }
-    __webauthn_hooks__.onReplyGet = onReplyGet;
-    // Resolves what is expected for create, called when the embedder is ready
-    function onReplyCreate(reply) {
-        console.log("Received create reply: " + reply)
-        if (pendingResolveCreate === null || pendingRejectCreate === null) {
-            return;
-        }
-        if (reply[0] != 'success') {
-            var reject = pendingRejectCreate;
-            pendingResolveCreate = null;
-            pendingRejectCreate = null;
-            reject(new DOMException(reply[1], "NotAllowedError"));
-            return;
-        }
-        console.log("Created credential: " + reply[1])
-        var cred = decodeReply(reply[1]);
-        var resolve = pendingResolveCreate;
-        pendingResolveCreate = null;
-        pendingRejectCreate = null;
-        resolve(cred);
-    }
-    __webauthn_hooks__.onReplyCreate = onReplyCreate;
 
 })(__webauthn_hooks__ || (__webauthn_hooks__ = {}));
 
-__webauthn_hooks__.originalCreateFunction = navigator.credentials.create.bind(navigator.credentials);
 navigator.credentials.create = __webauthn_hooks__.create;
-
-__webauthn_hooks__.originalGetFunction = navigator.credentials.get.bind(navigator.credentials);
 navigator.credentials.get = __webauthn_hooks__.get;
 
 // Some sites test that `typeof window.PublicKeyCredential` is `function`.
@@ -305,3 +217,39 @@ function () {
 };
 
 console.log("webauthn hooks initialized");
+
+window.nativeWrapper = (function (nativeWrapper) {
+    console.log("Initializing nativeWrapper");
+
+    function createBluetoothMethod(funcName) {
+        nativeWrapper[funcName] = function (arg) {
+            console.log(funcName, arg);
+            return window.webkit.messageHandlers['__' + funcName + '__'].postMessage(stringify(arg))
+              .then(function (msg) {
+                  console.log(funcName, "raw result:", msg);
+                  var reply = JSON.parse(msg);
+                  console.log(funcName, "result:", reply);
+                  return reply;
+              })
+              .catch(
+                  function (err) {
+                      console.log("error: ", err);
+                      throw err;
+                  }
+              );
+        };
+    }
+
+    createBluetoothMethod('bluetoothStatus');
+    createBluetoothMethod('bluetoothTerminate');
+    createBluetoothMethod('bluetoothCreateServer');
+    createBluetoothMethod('bluetoothCreateClient');
+    createBluetoothMethod('bluetoothSendToServer');
+    createBluetoothMethod('bluetoothSendToClient');
+    createBluetoothMethod('bluetoothReceiveFromClient');
+    createBluetoothMethod('bluetoothReceiveFromServer');
+
+    console.log("nativeWrapper initialized");
+
+    return nativeWrapper;
+})({});
