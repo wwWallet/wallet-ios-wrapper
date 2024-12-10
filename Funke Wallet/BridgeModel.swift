@@ -214,31 +214,4 @@ import WebKit
             }
         }
     }
-    
-//    func receive(message: String) {
-//        receivedMessage = message
-//        print("Received: \(message)")
-//        connection.connection { connection in
-//            print("Got connection: \(connection)")
-//        }
-//    }
-//
-//    var sendCallback: ((String) -> Void)?
-//    func send(message: String) {
-//        sentMessage = message
-//        sendCallback?(message)
-//        print("Sent: \(message)")
-//    }
-}
-
-
-extension WKScriptMessage {
-    func jsonDictionary() -> [String: Any]? {
-        guard let jsonString = self.body as? String,
-              let jsonData = jsonString.data(using: .utf8),
-              let jsonDictionary = try? JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any] else {
-            return nil
-        }
-        return jsonDictionary
-    }
 }

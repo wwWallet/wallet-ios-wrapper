@@ -7,6 +7,7 @@
 
 import SwiftUI
 @preconcurrency import WebKit
+import CoreBluetooth
 
 class MessageHandler: NSObject, WKScriptMessageHandlerWithReply {
     
@@ -36,7 +37,9 @@ struct WebView: UIViewRepresentable {
         
         let url: URL
         let model: BridgeModel
-
+        let bleServer = BLEServer.shared
+        let bleClient = BLEClient.shared
+        
         init(url: URL, model: BridgeModel) {
             UserDefaults.standard.register(defaults: ["use_yubikey" : false])
             self.url = url
@@ -70,38 +73,49 @@ struct WebView: UIViewRepresentable {
             userContentController.addScriptMessageHandler(bleStatusMessageHandler, contentWorld: .page, name: "__bluetoothStatus__")
             
             let bleTerminateMessageHandler = MessageHandler { [weak self] message, replyHandler in
-                print("Terminate message: \(message.body)")
+                print("⚙️ Terminate message: \(message.body)")
+                self?.bleClient.disconnect()
+                self?.bleServer.disconnect()
                 replyHandler(true, nil)
             }
             userContentController.addScriptMessageHandler(bleTerminateMessageHandler, contentWorld: .page, name: "__bluetoothTerminate__")
             
             let bleCreateServerMessageHandler = MessageHandler { [weak self] message, replyHandler in
-                print("Create server message: \(message.body)")
+                print("⚙️ Create server message: \(message.body)")
             }
             userContentController.addScriptMessageHandler(bleCreateServerMessageHandler, contentWorld: .page, name: "__bluetoothCreateServer__")
             
             let bleCreateClientMessageHandler = MessageHandler { [weak self] message, replyHandler in
-                print("Create client message: \"\(message.body)\"")
+                print("⚙️ Create client message: \(message.body)")
+                guard let uuidString: String = message.parseJSON() else { replyHandler(nil, "Not a valid UUID string."); return }
+                let uuid = CBUUID(string: uuidString)
+                self?.bleClient.startScanning(for: uuid, completionHandler: replyHandler)
             }
             userContentController.addScriptMessageHandler(bleCreateClientMessageHandler, contentWorld: .page, name: "__bluetoothCreateClient__")
             
             let bleSendToServerMessageHandler = MessageHandler { [weak self] message, replyHandler in
-                print("Send to server message: \(message.body)")
+                print("⚙️ Send to server message: \(message.body)")
+                let jsonString = message.body as! String
+                let jsonData = (jsonString.dropFirst().dropLast()).data(using: .utf8)!
+                guard let result = try? JSONSerialization.jsonObject(with: jsonData, options: [.allowFragments]) as? [UInt8] else { return }
+                let data = Data(result)
+                self?.bleClient.sendToServer(data: data, completionHandler: replyHandler)
             }
             userContentController.addScriptMessageHandler(bleSendToServerMessageHandler, contentWorld: .page, name: "__bluetoothSendToServer__")
             
             let bleSendToClientMessageHandler = MessageHandler { [weak self] message, replyHandler in
-                print("Send to client message: \(message.body)")
+                print("⚙️ Send to client message: \(message.body)")
             }
             userContentController.addScriptMessageHandler(bleSendToClientMessageHandler, contentWorld: .page, name: "__bluetoothSendToClient__")
             
             let bleReceiveFromClientMessageHandler = MessageHandler { [weak self] message, replyHandler in
-                print("Receive from client message: \(message.body)")
+                print("⚙️ Receive from client message: \(message.body)")
             }
             userContentController.addScriptMessageHandler(bleReceiveFromClientMessageHandler, contentWorld: .page, name: "__bluetoothReceiveFromClient__")
             
-            let bleReceiveFromServerMessageHandler = MessageHandler { [weak self] message, replyHandler in
-                print("Receive from server message: \(message.body)")
+            let bleReceiveFromServerMessageHandler = MessageHandler { [weak self] _, replyHandler in
+                print("⚙️ Receive from server")
+                self?.bleClient.receiveFromServer(completionHandler: replyHandler)
             }
             userContentController.addScriptMessageHandler(bleReceiveFromServerMessageHandler, contentWorld: .page, name: "__bluetoothReceiveFromServer__")
             

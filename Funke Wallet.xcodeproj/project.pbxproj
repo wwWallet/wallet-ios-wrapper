@@ -18,6 +18,9 @@
 		B40A362D2CFA01CA0044D2C6 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40A36232CFA01CA0044D2C6 /* WebView.swift */; };
 		B40A362E2CFA01CA0044D2C6 /* YubiKeyConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40A36242CFA01CA0044D2C6 /* YubiKeyConnection.swift */; };
 		B40A36342CFA16D30044D2C6 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B40A36332CFA16D30044D2C6 /* Settings.bundle */; };
+		B40A36382D0088FF0044D2C6 /* BLEServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40A36372D0088F90044D2C6 /* BLEServer.swift */; };
+		B40A363A2D00890B0044D2C6 /* BLEClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40A36392D0089060044D2C6 /* BLEClient.swift */; };
+		B43CB36F2D030CD900634811 /* WKScriptMessage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B43CB36E2D030CC000634811 /* WKScriptMessage+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +36,9 @@
 		B40A36232CFA01CA0044D2C6 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		B40A36242CFA01CA0044D2C6 /* YubiKeyConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YubiKeyConnection.swift; sourceTree = "<group>"; };
 		B40A36332CFA16D30044D2C6 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		B40A36372D0088F90044D2C6 /* BLEServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEServer.swift; sourceTree = "<group>"; };
+		B40A36392D0089060044D2C6 /* BLEClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEClient.swift; sourceTree = "<group>"; };
+		B43CB36E2D030CC000634811 /* WKScriptMessage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WKScriptMessage+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,8 +85,11 @@
 				B40A361E2CFA01CA0044D2C6 /* ContentView.swift */,
 				B40A36232CFA01CA0044D2C6 /* WebView.swift */,
 				B40A361D2CFA01CA0044D2C6 /* BridgeModel.swift */,
+				B40A36392D0089060044D2C6 /* BLEClient.swift */,
+				B40A36372D0088F90044D2C6 /* BLEServer.swift */,
 				B40A36242CFA01CA0044D2C6 /* YubiKeyConnection.swift */,
 				B40A361F2CFA01CA0044D2C6 /* Data+Extensions.swift */,
+				B43CB36E2D030CC000634811 /* WKScriptMessage+Extensions.swift */,
 				B40A36222CFA01CA0044D2C6 /* BridgeJavaScript.js */,
 				B40A36202CFA01CA0044D2C6 /* Funke Wallet.entitlements */,
 				B40A361C2CFA01CA0044D2C6 /* Assets.xcassets */,
@@ -168,9 +177,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B40A36382D0088FF0044D2C6 /* BLEServer.swift in Sources */,
 				B40A36292CFA01CA0044D2C6 /* BridgeModel.swift in Sources */,
+				B43CB36F2D030CD900634811 /* WKScriptMessage+Extensions.swift in Sources */,
 				B40A362A2CFA01CA0044D2C6 /* ContentView.swift in Sources */,
 				B40A362B2CFA01CA0044D2C6 /* Data+Extensions.swift in Sources */,
+				B40A363A2D00890B0044D2C6 /* BLEClient.swift in Sources */,
 				B40A362C2CFA01CA0044D2C6 /* Funke_WalletApp.swift in Sources */,
 				B40A362D2CFA01CA0044D2C6 /* WebView.swift in Sources */,
 				B40A362E2CFA01CA0044D2C6 /* YubiKeyConnection.swift in Sources */,
@@ -313,6 +325,8 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Funke-Wallet-Info.plist";
 				INFOPLIST_KEY_NFCReaderUsageDescription = "The application needs access to NFC reading to communicate with your YubiKey.";
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Always use bluetooth";
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "The app need to communicate with BLE";
 				INFOPLIST_KEY_NSCameraUsageDescription = "The app needs the camera to read QR codes.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -346,6 +360,8 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Funke-Wallet-Info.plist";
 				INFOPLIST_KEY_NFCReaderUsageDescription = "The application needs access to NFC reading to communicate with your YubiKey.";
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Always use bluetooth";
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "The app need to communicate with BLE";
 				INFOPLIST_KEY_NSCameraUsageDescription = "The app needs the camera to read QR codes.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
