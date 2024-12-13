@@ -5,38 +5,6 @@
 //  Created by Jens Utbult on 2024-11-29.
 //
 
-
-const stringifyBinary = (key, value) => {
-    if (value instanceof Uint8Array) {
-        return CM_base64url_encode(value);
-    } else if (value instanceof ArrayBuffer) {
-        return CM_base64url_encode(new Uint8Array(value));
-    } else {
-        return value;
-    }
-};
-
-const stringify = (data) => {
-    return JSON.stringify(data, stringifyBinary);
-};
-
-function CM_base64url_decode(value) {
-    var m = value.length % 4;
-    return Uint8Array.from(atob(value.replace(/-/g, '+')
-                                .replace(/_/g, '/')
-                                .padEnd(value.length + (m === 0 ? 0 : 4 - m), '=')), function (c)
-                            { return c.charCodeAt(0); }).buffer;
-}
-
-function CM_base64url_encode(buffer) {
-    return btoa(Array.from(new Uint8Array(buffer), function (b)
-                            { return String.fromCharCode(b); }).join(''))
-    .replace(/\+/g, '-')
-    .replace(/\//g, '_')
-    .replace(/=+${'$'}/, '');
-}
-
-
 var __webauthn_hooks__;
 (function (__webauthn_hooks__) {
 
@@ -217,39 +185,3 @@ function () {
 };
 
 console.log("webauthn hooks initialized");
-
-window.nativeWrapper = (function (nativeWrapper) {
-    console.log("Initializing nativeWrapper");
-
-    function createBluetoothMethod(funcName) {
-        nativeWrapper[funcName] = function (arg) {
-            console.log(funcName, arg);
-            return window.webkit.messageHandlers['__' + funcName + '__'].postMessage(stringify(arg))
-              .then(function (msg) {
-                  console.log(funcName, "raw result:", msg);
-                  var reply = JSON.parse(msg);
-                  console.log(funcName, "result:", reply);
-                  return reply;
-              })
-              .catch(
-                  function (err) {
-                      console.log("error: ", err);
-                      throw err;
-                  }
-              );
-        };
-    }
-
-    createBluetoothMethod('bluetoothStatus');
-    createBluetoothMethod('bluetoothTerminate');
-    createBluetoothMethod('bluetoothCreateServer');
-    createBluetoothMethod('bluetoothCreateClient');
-    createBluetoothMethod('bluetoothSendToServer');
-    createBluetoothMethod('bluetoothSendToClient');
-    createBluetoothMethod('bluetoothReceiveFromClient');
-    createBluetoothMethod('bluetoothReceiveFromServer');
-
-    console.log("nativeWrapper initialized");
-
-    return nativeWrapper;
-})({});

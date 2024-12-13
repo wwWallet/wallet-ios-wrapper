@@ -21,6 +21,8 @@
 		B40A36382D0088FF0044D2C6 /* BLEServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40A36372D0088F90044D2C6 /* BLEServer.swift */; };
 		B40A363A2D00890B0044D2C6 /* BLEClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40A36392D0089060044D2C6 /* BLEClient.swift */; };
 		B43CB36F2D030CD900634811 /* WKScriptMessage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B43CB36E2D030CC000634811 /* WKScriptMessage+Extensions.swift */; };
+		B4FB6A962D0C287600647AED /* NativeWrapperJavaScript.js in Resources */ = {isa = PBXBuildFile; fileRef = B4FB6A952D0C286700647AED /* NativeWrapperJavaScript.js */; };
+		B4FB6A982D0C404200647AED /* SharedJavaScript.js in Resources */ = {isa = PBXBuildFile; fileRef = B4FB6A972D0C403800647AED /* SharedJavaScript.js */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +41,8 @@
 		B40A36372D0088F90044D2C6 /* BLEServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEServer.swift; sourceTree = "<group>"; };
 		B40A36392D0089060044D2C6 /* BLEClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEClient.swift; sourceTree = "<group>"; };
 		B43CB36E2D030CC000634811 /* WKScriptMessage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WKScriptMessage+Extensions.swift"; sourceTree = "<group>"; };
+		B4FB6A952D0C286700647AED /* NativeWrapperJavaScript.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = NativeWrapperJavaScript.js; sourceTree = "<group>"; };
+		B4FB6A972D0C403800647AED /* SharedJavaScript.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = SharedJavaScript.js; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,7 +94,9 @@
 				B40A36242CFA01CA0044D2C6 /* YubiKeyConnection.swift */,
 				B40A361F2CFA01CA0044D2C6 /* Data+Extensions.swift */,
 				B43CB36E2D030CC000634811 /* WKScriptMessage+Extensions.swift */,
+				B4FB6A972D0C403800647AED /* SharedJavaScript.js */,
 				B40A36222CFA01CA0044D2C6 /* BridgeJavaScript.js */,
+				B4FB6A952D0C286700647AED /* NativeWrapperJavaScript.js */,
 				B40A36202CFA01CA0044D2C6 /* Funke Wallet.entitlements */,
 				B40A361C2CFA01CA0044D2C6 /* Assets.xcassets */,
 				B40A36332CFA16D30044D2C6 /* Settings.bundle */,
@@ -164,6 +170,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				B40A36342CFA16D30044D2C6 /* Settings.bundle in Resources */,
+				B4FB6A962D0C287600647AED /* NativeWrapperJavaScript.js in Resources */,
+				B4FB6A982D0C404200647AED /* SharedJavaScript.js in Resources */,
 				B40A36262CFA01CA0044D2C6 /* Preview Assets.xcassets in Resources */,
 				B40A36272CFA01CA0044D2C6 /* Assets.xcassets in Resources */,
 				B40A36282CFA01CA0044D2C6 /* BridgeJavaScript.js in Resources */,
@@ -318,7 +326,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Funke Wallet/Funke Wallet.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_ASSET_PATHS = "\"Funke Wallet/Preview Content\"";
 				DEVELOPMENT_TEAM = LQA3CS5MM7;
 				ENABLE_PREVIEWS = YES;
@@ -353,7 +361,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Funke Wallet/Funke Wallet.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_ASSET_PATHS = "\"Funke Wallet/Preview Content\"";
 				DEVELOPMENT_TEAM = LQA3CS5MM7;
 				ENABLE_PREVIEWS = YES;

@@ -47,25 +47,35 @@ struct WebView: UIViewRepresentable {
         }
         
         lazy var wkWebView: WKWebView = {
-            let userScript = WKUserScript(source: String.bridgeJavaScript,
-                                          injectionTime: .atDocumentEnd,
-                                          forMainFrameOnly: false)
             let userContentController = WKUserContentController()
+            
+            
+            let sharedScript = WKUserScript(source: String.sharedJavaScript,
+                                          injectionTime: .atDocumentStart,
+                                          forMainFrameOnly: false)
+            userContentController.addUserScript(sharedScript)
             if UserDefaults.standard.bool(forKey: "use_yubikey") {
-                userContentController.addUserScript(userScript)
+                let bridgeScript = WKUserScript(source: String.bridgeJavaScript,
+                                              injectionTime: .atDocumentStart,
+                                              forMainFrameOnly: false)
+                userContentController.addUserScript(bridgeScript)
+                // Webauthn
+                let createMessageHandler = MessageHandler { [weak self] message, replyHandler in
+                    self?.model.didReceiveCreate(message: message, replyHandler: replyHandler)
+                }
+                userContentController.addScriptMessageHandler(createMessageHandler, contentWorld: .page, name: "__webauthn_create_interface__")
+                
+                let getMessageHandler = MessageHandler { [weak self] message, replyHandler in
+                    self?.model.didReceiveGet(message: message, replyHandler: replyHandler)
+                }
+                userContentController.addScriptMessageHandler(getMessageHandler, contentWorld: .page, name: "__webauthn_get_interface__")
             }
+            let nativeWrapperScript = WKUserScript(source: String.nativeWrapperJavaScript,
+                                          injectionTime: .atDocumentStart,
+                                          forMainFrameOnly: false)
+            userContentController.addUserScript(nativeWrapperScript)
+            
 
-            // Webauthn
-            let createMessageHandler = MessageHandler { [weak self] message, replyHandler in
-                self?.model.didReceiveCreate(message: message, replyHandler: replyHandler)
-            }
-            userContentController.addScriptMessageHandler(createMessageHandler, contentWorld: .page, name: "__webauthn_create_interface__")
-            
-            let getMessageHandler = MessageHandler { [weak self] message, replyHandler in
-                self?.model.didReceiveGet(message: message, replyHandler: replyHandler)
-            }
-            userContentController.addScriptMessageHandler(getMessageHandler, contentWorld: .page, name: "__webauthn_get_interface__")
-            
             // BLE hooks
             let bleStatusMessageHandler = MessageHandler { [weak self] message, replyHandler in
                 print("Status message: \(message)")
@@ -159,8 +169,18 @@ struct WebView: UIViewRepresentable {
 
 
 extension String {
+    static var sharedJavaScript: String {
+        let path = Bundle.main.path(forResource: "SharedJavaScript", ofType: "js")
+        return try! String(contentsOfFile: path!, encoding: String.Encoding.utf8)
+    }
+    
     static var bridgeJavaScript: String {
         let path = Bundle.main.path(forResource: "BridgeJavaScript", ofType: "js")
+        return try! String(contentsOfFile: path!, encoding: String.Encoding.utf8)
+    }
+    
+    static var nativeWrapperJavaScript: String {
+        let path = Bundle.main.path(forResource: "NativeWrapperJavaScript", ofType: "js")
         return try! String(contentsOfFile: path!, encoding: String.Encoding.utf8)
     }
 }
