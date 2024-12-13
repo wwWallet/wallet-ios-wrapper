@@ -28,4 +28,7 @@ extension Data {
         return base64EncodedString.replacingOccurrences(of: "+", with: "-").replacingOccurrences(of: "/", with: "_").replacingOccurrences(of: "=", with: "")
     }
     
+    var hexString: String {
+        return self.map { String(format: "%02x", $0) }.joined()
+    }
 }
