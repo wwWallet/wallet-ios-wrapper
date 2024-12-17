@@ -10,9 +10,19 @@
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 			<key>Title</key>
-			<string>Use YubiKey</string>
+			<string>Bypass select key type at app start</string>
 			<key>Key</key>
-			<string>use_yubikey</string>
+			<string>bypassSelectKeyType</string>
+			<key>DefaultValue</key>
+			<false/>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
+			<string>Use YubiKey (only active if bypass is disabled)</string>
+			<key>Key</key>
+			<string>useYubiKey</string>
 			<key>DefaultValue</key>
 			<false/>
 		</dict>

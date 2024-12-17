@@ -25,25 +25,31 @@ class MessageHandler: NSObject, WKScriptMessageHandlerWithReply {
     }
 }
 
+enum PasskeyType {
+    case builtin, yubikey
+}
+
 struct WebView: UIViewRepresentable {
     let url: URL
     let model: BridgeModel
+    let passkeyType: PasskeyType
     
     func makeCoordinator() -> Coordinator {
-        Coordinator(url: url, model: model)
+        Coordinator(url: url, model: model, passkeyType: passkeyType)
     }
     
     class Coordinator: NSObject, WKNavigationDelegate {
         
         let url: URL
         let model: BridgeModel
+        let passkeyType: PasskeyType
         let bleServer = BLEServer.shared
         let bleClient = BLEClient.shared
         
-        init(url: URL, model: BridgeModel) {
-            UserDefaults.standard.register(defaults: ["use_yubikey" : false])
+        init(url: URL, model: BridgeModel, passkeyType: PasskeyType) {
             self.url = url
             self.model = model
+            self.passkeyType = passkeyType
         }
         
         lazy var wkWebView: WKWebView = {
@@ -54,7 +60,7 @@ struct WebView: UIViewRepresentable {
                                           injectionTime: .atDocumentStart,
                                           forMainFrameOnly: false)
             userContentController.addUserScript(sharedScript)
-            if UserDefaults.standard.bool(forKey: "use_yubikey") {
+            if passkeyType == .yubikey {
                 let bridgeScript = WKUserScript(source: String.bridgeJavaScript,
                                               injectionTime: .atDocumentStart,
                                               forMainFrameOnly: false)
