@@ -14,50 +14,62 @@ struct ContentView: View {
     @Environment(\.scenePhase) var scenePhase
     @AppStorage("bypassSelectKeyType") var bypassSelectKeyType: Bool = false
     @AppStorage("useYubiKey") var useYubiKey: Bool = false
-    @State var showRememberMyChoiceAlert: Bool = false
+    @State var presentSelectKeyType: Bool = false
 
     var body: some View {
-        VStack {
-            if let passkeyType {
-                WebView(url: URL(string: "https://funke.wwwallet.org")!, model: model, passkeyType: passkeyType)
-                    .ignoresSafeArea(.container, edges: .bottom)
-                    .onOpenURL { url in
-                        model.openUrl(url)
-                    }
-            } else {
-                VStack {
-                    Text("Select key type").font(.title).bold()
-                        .padding(.top, 30)
-                    Button("YubiKey") { passkeyType = .yubikey; useYubiKey = true }
-                        .buttonStyle(.borderedProminent)
-                        .padding()
-                    Button("Builtin Passkey") { passkeyType = .builtin; useYubiKey = false }
-                        .buttonStyle(.borderedProminent)
-                    Toggle("Remember my choice", isOn: $bypassSelectKeyType)
-                        .padding(30)
+        ZStack {
+            Color(red: 17/255, green: 25/255, blue: 40/255)
+            VStack {
+                if let passkeyType {
+                    WebView(url: URL(string: "https://funke.wwwallet.org")!, model: model, passkeyType: passkeyType)
+                        .onOpenURL { url in
+                            model.openUrl(url)
+                        }
                 }
-                .background(Color(.systemGray6))
-                .clipShape(.rect(cornerRadius: 15))
-                .padding(30)
+            }.padding(0)
+        }
+        .sheet(isPresented: $presentSelectKeyType) {
+            VStack {
+                Image(.wallet).resizable().scaledToFit().frame(width: 110)
+                    .padding(.top, 20)
+                Text("Select the authorization method to use. You can change your remembered choice later in the iOS Settings app.")
+                    .font(.callout)
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+                    .lineLimit(nil)
+                    .padding(15)
+                VStack {
+                    Button("Built-in passkey") {
+                        passkeyType = .builtin
+                        useYubiKey = false
+                        presentSelectKeyType = false
+                    }
+                        .buttonStyle(.basicButton)
+                    Button("YubiKey") {
+                        passkeyType = .yubikey
+                        useYubiKey = true
+                        presentSelectKeyType = false
+                    }
+                        .bold()
+                        .padding(.top, 15)
+                    Spacer()
+                    Toggle("Remember my choice", isOn: $bypassSelectKeyType)
+                        .padding(.horizontal, 30)
+                }
             }
-        }
-        .onChange(of: bypassSelectKeyType) {
-            showRememberMyChoiceAlert = bypassSelectKeyType
-        }
-        .alert("Notice", isPresented: $showRememberMyChoiceAlert) {
-            Button("OK") { }
-        } message: {
-            Text("The select key type option will not be visible at application startup if selected. If you wish to change the key type in the future, you must do so in the Funke Wallet section of the iOS Settings app.")
+            .padding()
+            .presentationDetents([.medium])
+                .interactiveDismissDisabled(true)
         }
         .onAppear {
             if bypassSelectKeyType {
                 passkeyType = useYubiKey ? .yubikey : .builtin
                 print("select key type from settings")
+            } else {
+                presentSelectKeyType = true
             }
         }
-        .onChange(of: scenePhase) {
-            print("scenePhase: \(scenePhase)")
-        }
+        .ignoresSafeArea()
         .preferredColorScheme(.dark)
     }
 }

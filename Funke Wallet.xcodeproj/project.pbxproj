@@ -21,6 +21,7 @@
 		B40A36382D0088FF0044D2C6 /* BLEServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40A36372D0088F90044D2C6 /* BLEServer.swift */; };
 		B40A363A2D00890B0044D2C6 /* BLEClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40A36392D0089060044D2C6 /* BLEClient.swift */; };
 		B43CB36F2D030CD900634811 /* WKScriptMessage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B43CB36E2D030CC000634811 /* WKScriptMessage+Extensions.swift */; };
+		B49F14722D12BEC30063C12F /* ButtonStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49F14712D12BEBE0063C12F /* ButtonStyles.swift */; };
 		B4FB6A962D0C287600647AED /* NativeWrapperJavaScript.js in Resources */ = {isa = PBXBuildFile; fileRef = B4FB6A952D0C286700647AED /* NativeWrapperJavaScript.js */; };
 		B4FB6A982D0C404200647AED /* SharedJavaScript.js in Resources */ = {isa = PBXBuildFile; fileRef = B4FB6A972D0C403800647AED /* SharedJavaScript.js */; };
 /* End PBXBuildFile section */
@@ -41,6 +42,7 @@
 		B40A36372D0088F90044D2C6 /* BLEServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEServer.swift; sourceTree = "<group>"; };
 		B40A36392D0089060044D2C6 /* BLEClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEClient.swift; sourceTree = "<group>"; };
 		B43CB36E2D030CC000634811 /* WKScriptMessage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WKScriptMessage+Extensions.swift"; sourceTree = "<group>"; };
+		B49F14712D12BEBE0063C12F /* ButtonStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStyles.swift; sourceTree = "<group>"; };
 		B4FB6A952D0C286700647AED /* NativeWrapperJavaScript.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = NativeWrapperJavaScript.js; sourceTree = "<group>"; };
 		B4FB6A972D0C403800647AED /* SharedJavaScript.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = SharedJavaScript.js; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -94,6 +96,7 @@
 				B40A36242CFA01CA0044D2C6 /* YubiKeyConnection.swift */,
 				B40A361F2CFA01CA0044D2C6 /* Data+Extensions.swift */,
 				B43CB36E2D030CC000634811 /* WKScriptMessage+Extensions.swift */,
+				B49F14712D12BEBE0063C12F /* ButtonStyles.swift */,
 				B4FB6A972D0C403800647AED /* SharedJavaScript.js */,
 				B40A36222CFA01CA0044D2C6 /* BridgeJavaScript.js */,
 				B4FB6A952D0C286700647AED /* NativeWrapperJavaScript.js */,
@@ -188,6 +191,7 @@
 				B40A36382D0088FF0044D2C6 /* BLEServer.swift in Sources */,
 				B40A36292CFA01CA0044D2C6 /* BridgeModel.swift in Sources */,
 				B43CB36F2D030CD900634811 /* WKScriptMessage+Extensions.swift in Sources */,
+				B49F14722D12BEC30063C12F /* ButtonStyles.swift in Sources */,
 				B40A362A2CFA01CA0044D2C6 /* ContentView.swift in Sources */,
 				B40A362B2CFA01CA0044D2C6 /* Data+Extensions.swift in Sources */,
 				B40A363A2D00890B0044D2C6 /* BLEClient.swift in Sources */,
@@ -338,7 +342,6 @@
 				INFOPLIST_KEY_NSCameraUsageDescription = "The app needs the camera to read QR codes.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -373,7 +376,6 @@
 				INFOPLIST_KEY_NSCameraUsageDescription = "The app needs the camera to read QR codes.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
