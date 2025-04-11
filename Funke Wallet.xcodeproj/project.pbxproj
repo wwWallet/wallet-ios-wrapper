@@ -3,10 +3,14 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 90;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A00436AA2DA7F42C00002721 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00436A92DA7F41D00002721 /* UIViewController+Extensions.swift */; };
+		A08D827C2DA915D9009373AB /* YKFFIDO2Session+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08D827B2DA915D9009373AB /* YKFFIDO2Session+Extensions.swift */; };
+		A08D827F2DA91A5D009373AB /* JsonModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08D827E2DA91A5D009373AB /* JsonModels.swift */; };
+		A08D82812DA91AE6009373AB /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08D82802DA91AE6009373AB /* Errors.swift */; };
 		B40A360A2CF9DDCF0044D2C6 /* YubiKit in Frameworks */ = {isa = PBXBuildFile; productRef = B40A36092CF9DDCF0044D2C6 /* YubiKit */; };
 		B40A36262CFA01CA0044D2C6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B40A361A2CFA01CA0044D2C6 /* Preview Assets.xcassets */; };
 		B40A36272CFA01CA0044D2C6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B40A361C2CFA01CA0044D2C6 /* Assets.xcassets */; };
@@ -27,6 +31,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A00436A92DA7F41D00002721 /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
+		A08D827B2DA915D9009373AB /* YKFFIDO2Session+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "YKFFIDO2Session+Extensions.swift"; sourceTree = "<group>"; };
+		A08D827E2DA91A5D009373AB /* JsonModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonModels.swift; sourceTree = "<group>"; };
+		A08D82802DA91AE6009373AB /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
+		A08D82832DA93BE4009373AB /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = SOURCE_ROOT; };
 		B40A35F42CF9DB6A0044D2C6 /* Funke Wallet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Funke Wallet.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B40A361A2CFA01CA0044D2C6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B40A361C2CFA01CA0044D2C6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -50,15 +59,43 @@
 /* Begin PBXFrameworksBuildPhase section */
 		B40A35F12CF9DB6A0044D2C6 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 				B40A360A2CF9DDCF0044D2C6 /* YubiKit in Frameworks */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A08D82762DA9141A009373AB /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				B40A361F2CFA01CA0044D2C6 /* Data+Extensions.swift */,
+				B43CB36E2D030CC000634811 /* WKScriptMessage+Extensions.swift */,
+				A00436A92DA7F41D00002721 /* UIViewController+Extensions.swift */,
+				A08D827B2DA915D9009373AB /* YKFFIDO2Session+Extensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		A08D827D2DA91A2D009373AB /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B40A36242CFA01CA0044D2C6 /* YubiKeyConnection.swift */,
+				B40A361D2CFA01CA0044D2C6 /* BridgeModel.swift */,
+				A08D827E2DA91A5D009373AB /* JsonModels.swift */,
+				A08D82802DA91AE6009373AB /* Errors.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		A08D82822DA93BC0009373AB /* Build */ = {
+			isa = PBXGroup;
+			children = (
+				A08D82832DA93BE4009373AB /* .gitignore */,
+			);
+			path = Build;
+			sourceTree = "<group>";
+		};
 		B40A35EB2CF9DB6A0044D2C6 = {
 			isa = PBXGroup;
 			children = (
@@ -86,16 +123,15 @@
 		B40A36252CFA01CA0044D2C6 /* Funke Wallet */ = {
 			isa = PBXGroup;
 			children = (
+				A08D82822DA93BC0009373AB /* Build */,
+				A08D827D2DA91A2D009373AB /* Models */,
+				A08D82762DA9141A009373AB /* Extensions */,
 				B40A361B2CFA01CA0044D2C6 /* Preview Content */,
 				B40A36212CFA01CA0044D2C6 /* Funke_WalletApp.swift */,
 				B40A361E2CFA01CA0044D2C6 /* ContentView.swift */,
 				B40A36232CFA01CA0044D2C6 /* WebView.swift */,
-				B40A361D2CFA01CA0044D2C6 /* BridgeModel.swift */,
 				B40A36392D0089060044D2C6 /* BLEClient.swift */,
 				B40A36372D0088F90044D2C6 /* BLEServer.swift */,
-				B40A36242CFA01CA0044D2C6 /* YubiKeyConnection.swift */,
-				B40A361F2CFA01CA0044D2C6 /* Data+Extensions.swift */,
-				B43CB36E2D030CC000634811 /* WKScriptMessage+Extensions.swift */,
 				B49F14712D12BEBE0063C12F /* ButtonStyles.swift */,
 				B4FB6A972D0C403800647AED /* SharedJavaScript.js */,
 				B40A36222CFA01CA0044D2C6 /* BridgeJavaScript.js */,
@@ -120,8 +156,6 @@
 			);
 			buildRules = (
 			);
-			dependencies = (
-			);
 			name = "Funke Wallet";
 			packageProductDependencies = (
 				B40A36092CF9DDCF0044D2C6 /* YubiKit */,
@@ -142,6 +176,7 @@
 				TargetAttributes = {
 					B40A35F32CF9DB6A0044D2C6 = {
 						CreatedOnToolsVersion = 16.1;
+						LastSwiftMigration = 1630;
 					};
 				};
 			};
@@ -157,7 +192,7 @@
 			packageReferences = (
 				B40A36082CF9DDCF0044D2C6 /* XCRemoteSwiftPackageReference "yubikit-ios" */,
 			);
-			preferredProjectObjectVersion = 77;
+			preferredProjectObjectVersion = 90;
 			productRefGroup = B40A35F52CF9DB6A0044D2C6 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -170,7 +205,6 @@
 /* Begin PBXResourcesBuildPhase section */
 		B40A35F22CF9DB6A0044D2C6 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 				B40A36342CFA16D30044D2C6 /* Settings.bundle in Resources */,
 				B4FB6A962D0C287600647AED /* NativeWrapperJavaScript.js in Resources */,
@@ -179,32 +213,33 @@
 				B40A36272CFA01CA0044D2C6 /* Assets.xcassets in Resources */,
 				B40A36282CFA01CA0044D2C6 /* BridgeJavaScript.js in Resources */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		B40A35F02CF9DB6A0044D2C6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 				B40A36382D0088FF0044D2C6 /* BLEServer.swift in Sources */,
+				A08D82812DA91AE6009373AB /* Errors.swift in Sources */,
 				B40A36292CFA01CA0044D2C6 /* BridgeModel.swift in Sources */,
 				B43CB36F2D030CD900634811 /* WKScriptMessage+Extensions.swift in Sources */,
 				B49F14722D12BEC30063C12F /* ButtonStyles.swift in Sources */,
 				B40A362A2CFA01CA0044D2C6 /* ContentView.swift in Sources */,
 				B40A362B2CFA01CA0044D2C6 /* Data+Extensions.swift in Sources */,
+				A00436AA2DA7F42C00002721 /* UIViewController+Extensions.swift in Sources */,
+				A08D827C2DA915D9009373AB /* YKFFIDO2Session+Extensions.swift in Sources */,
+				A08D827F2DA91A5D009373AB /* JsonModels.swift in Sources */,
 				B40A363A2D00890B0044D2C6 /* BLEClient.swift in Sources */,
 				B40A362C2CFA01CA0044D2C6 /* Funke_WalletApp.swift in Sources */,
 				B40A362D2CFA01CA0044D2C6 /* WebView.swift in Sources */,
 				B40A362E2CFA01CA0044D2C6 /* YubiKeyConnection.swift in Sources */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		B40A36002CF9DB6B0044D2C6 /* Debug */ = {
+		B40A36002CF9DB6B0044D2C6 /* Debug configuration for PBXProject "Funke Wallet" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -267,7 +302,7 @@
 			};
 			name = Debug;
 		};
-		B40A36012CF9DB6B0044D2C6 /* Release */ = {
+		B40A36012CF9DB6B0044D2C6 /* Release configuration for PBXProject "Funke Wallet" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -323,19 +358,22 @@
 			};
 			name = Release;
 		};
-		B40A36032CF9DB6B0044D2C6 /* Debug */ = {
+		B40A36032CF9DB6B0044D2C6 /* Debug configuration for PBXNativeTarget "Funke Wallet" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "Funke Wallet/Funke Wallet.entitlements";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_ASSET_PATHS = "\"Funke Wallet/Preview Content\"";
 				DEVELOPMENT_TEAM = LQA3CS5MM7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Funke-Wallet-Info.plist";
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_NFCReaderUsageDescription = "The application needs access to NFC reading to communicate with your YubiKey.";
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Always use bluetooth";
 				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "The app need to communicate with BLE";
@@ -352,24 +390,28 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.yubico.funkewallet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
-		B40A36042CF9DB6B0044D2C6 /* Release */ = {
+		B40A36042CF9DB6B0044D2C6 /* Release configuration for PBXNativeTarget "Funke Wallet" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "Funke Wallet/Funke Wallet.entitlements";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_ASSET_PATHS = "\"Funke Wallet/Preview Content\"";
 				DEVELOPMENT_TEAM = LQA3CS5MM7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Funke-Wallet-Info.plist";
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_NFCReaderUsageDescription = "The application needs access to NFC reading to communicate with your YubiKey.";
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Always use bluetooth";
 				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "The app need to communicate with BLE";
@@ -397,19 +439,17 @@
 		B40A35EF2CF9DB6A0044D2C6 /* Build configuration list for PBXProject "Funke Wallet" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				B40A36002CF9DB6B0044D2C6 /* Debug */,
-				B40A36012CF9DB6B0044D2C6 /* Release */,
+				B40A36002CF9DB6B0044D2C6 /* Debug configuration for PBXProject "Funke Wallet" */,
+				B40A36012CF9DB6B0044D2C6 /* Release configuration for PBXProject "Funke Wallet" */,
 			);
-			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 		B40A36022CF9DB6B0044D2C6 /* Build configuration list for PBXNativeTarget "Funke Wallet" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				B40A36032CF9DB6B0044D2C6 /* Debug */,
-				B40A36042CF9DB6B0044D2C6 /* Release */,
+				B40A36032CF9DB6B0044D2C6 /* Debug configuration for PBXNativeTarget "Funke Wallet" */,
+				B40A36042CF9DB6B0044D2C6 /* Release configuration for PBXNativeTarget "Funke Wallet" */,
 			);
-			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */

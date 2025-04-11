@@ -38,8 +38,8 @@ struct WebView: UIViewRepresentable {
         Coordinator(url: url, model: model, passkeyType: passkeyType)
     }
     
-    class Coordinator: NSObject, WKNavigationDelegate {
-        
+    class Coordinator: NSObject, WKNavigationDelegate, WKUIDelegate {
+
         let url: URL
         let model: BridgeModel
         let passkeyType: PasskeyType
@@ -67,12 +67,28 @@ struct WebView: UIViewRepresentable {
                 userContentController.addUserScript(bridgeScript)
                 // Webauthn
                 let createMessageHandler = MessageHandler { [weak self] message, replyHandler in
-                    self?.model.didReceiveCreate(message: message, replyHandler: replyHandler)
+                    Task {
+                        do {
+                            let reply = try await self?.model.didReceiveCreate(message)
+                            replyHandler(reply, nil)
+                        }
+                        catch {
+                            replyHandler(nil, error.localizedDescription)
+                        }
+                    }
                 }
                 userContentController.addScriptMessageHandler(createMessageHandler, contentWorld: .page, name: "__webauthn_create_interface__")
                 
                 let getMessageHandler = MessageHandler { [weak self] message, replyHandler in
-                    self?.model.didReceiveGet(message: message, replyHandler: replyHandler)
+                    Task {
+                        do {
+                            let reply = try await self?.model.didReceiveGet(message)
+                            replyHandler(reply, nil)
+                        }
+                        catch {
+                            replyHandler(nil, error.localizedDescription)
+                        }
+                    }
                 }
                 userContentController.addScriptMessageHandler(getMessageHandler, contentWorld: .page, name: "__webauthn_get_interface__")
             }
@@ -147,21 +163,93 @@ struct WebView: UIViewRepresentable {
             let request = URLRequest(url: url)
             wkWebView.isInspectable = true
             wkWebView.navigationDelegate = self
+            wkWebView.uiDelegate = self
             wkWebView.load(request)
             return wkWebView
         }()
         
-        // WKNavigationDelegate
-        func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+
+        // MARK: WKNavigationDelegate
+
+        func webView(
+            _ webView: WKWebView,
+            decidePolicyFor navigationAction: WKNavigationAction,
+            decisionHandler: @escaping (WKNavigationActionPolicy) -> Void
+        ) {
             if let requestUrl = navigationAction.request.url {
                 if requestUrl.scheme == "eid" {
                     // Open the AusweisApp
                     UIApplication.shared.open(requestUrl)
-                    decisionHandler(.cancel)
-                    return
+
+                    return decisionHandler(.cancel)
                 }
             }
+
             decisionHandler(.allow)
+        }
+
+
+        // MARK: WKUIDelegate
+
+        func webView(
+            _ webView: WKWebView,
+            runJavaScriptAlertPanelWithMessage message: String,
+            initiatedByFrame frame: WKFrameInfo
+        ) async {
+            await withCheckedContinuation { continuation in
+                let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+
+                alert.addAction(.init(title: NSLocalizedString("Ok", comment: ""), style: .default) { _ in
+                    continuation.resume()
+                })
+
+                UIApplication.shared.keyWindow?.rootViewController?.top.present(alert, animated: true)
+            }
+        }
+
+        func webView(
+            _ webView: WKWebView,
+            runJavaScriptTextInputPanelWithPrompt prompt: String,
+            defaultText: String?,
+            initiatedByFrame frame: WKFrameInfo
+        ) async -> String? {
+            await withCheckedContinuation { continuation in
+                let alert = UIAlertController(title: nil, message: prompt, preferredStyle: .alert)
+
+                alert.addAction(.init(title: NSLocalizedString("Ok", comment: ""), style: .default) { _ in
+                    continuation.resume(returning: alert.textFields?.first?.text)
+                })
+
+                alert.addAction(.init(title: NSLocalizedString("Cancel", comment: ""), style: .cancel) { _ in
+                    continuation.resume(returning: nil)
+                })
+
+                alert.addTextField { tf in
+                    tf.placeholder = defaultText
+                }
+
+                UIApplication.shared.keyWindow?.rootViewController?.top.present(alert, animated: true)
+            }
+        }
+
+        func webView(
+            _ webView: WKWebView,
+            runJavaScriptConfirmPanelWithMessage message: String,
+            initiatedByFrame frame: WKFrameInfo
+        ) async -> Bool {
+            await withCheckedContinuation { continuation in
+                let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+
+                alert.addAction(.init(title: NSLocalizedString("Ok", comment: ""), style: .default) { _ in
+                    continuation.resume(returning: true)
+                })
+
+                alert.addAction(.init(title: NSLocalizedString("Cancel", comment: ""), style: .cancel) { _ in
+                    continuation.resume(returning: false)
+                })
+
+                UIApplication.shared.keyWindow?.rootViewController?.top.present(alert, animated: true)
+            }
         }
     }
     
@@ -170,6 +258,7 @@ struct WebView: UIViewRepresentable {
     }
 
     func updateUIView(_ webView: WKWebView, context: Context) {
+        webView.uiDelegate = context.coordinator
     }
 }
 

@@ -27,6 +27,14 @@ class YubiKeyConnection: NSObject {
             YubiKitManager.shared.startNFCConnection()
         }
     }
+
+    func connect() async -> any YKFConnectionProtocol {
+        await withCheckedContinuation { continuation in
+            connection { connection in
+                continuation.resume(returning: connection)
+            }
+        }
+    }
 }
 
 extension YubiKeyConnection: YKFManagerDelegate {
