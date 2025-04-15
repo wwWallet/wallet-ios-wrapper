@@ -40,7 +40,6 @@ extension YKFFIDO2Session {
         }
     }
 
-
     func getAssertion(
         with clientDataHash: Data,
         rpId: String,

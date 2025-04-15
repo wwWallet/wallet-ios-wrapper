@@ -22,7 +22,7 @@ import WebKit
         loadURLCallback?(url)
     }
 
-    func didReceiveCreate(_ message: WKScriptMessage, pin: String? = "123456") async throws -> [String: String?] {
+    func didReceiveCreate(_ message: WKScriptMessage, pin: String? = nil) async throws -> [String: String?] {
         do {
             guard let data = await (message.body as? String)?.data(using: .utf8) else {
                 throw Errors.cannotDecodeMessage
@@ -34,7 +34,6 @@ import WebKit
 
             let session = try await conn.fido2Session()
 
-            // TODO: How to detect, when PIN entry is necessary?
             if let pin = pin, !pin.isEmpty {
                 try await session.verifyPin(pin)
             }
@@ -72,7 +71,19 @@ import WebKit
         catch {
             YubiKitManager.shared.stopNFCConnection(withErrorMessage: error.localizedDescription)
 
-            if (error as NSError).code == 0x19 {
+            let error = error as NSError
+
+            if error.domain == "com.yubico" {
+                if [
+                    49 /* "PIN is invalid." */,
+                    54 /* "PIN is required for the selected operation." */
+                ].contains(error.code)
+                {
+                    return try await didReceiveCreate(message, pin: getPin(message))
+                }
+            }
+
+            if error.code == 0x19 {
                 // Special treatment for unclear reasons.
                 throw Errors.error0x19
             }
@@ -103,34 +114,14 @@ import WebKit
                 throw Errors.cannotCreateClientDataHash
             }
 
-            let response: YKFFIDO2GetAssertionResponse
-
-            do {
-                // TODO: This thing throws NSExceptions like crazy all over the place in
-                //      threads, which are uncatchable and hence crash the app.
-                //      This needs to change.
-                response = try await session.getAssertion(
-                    with: clientDataHash,
-                    rpId: r.rpId,
-                    allowList: r.allowCredentials?.compactMap { $0.descriptor },
-                    extensions: r.extensions)
-            }
-            catch {
-                // TODO: Nice try, but this doesn't work as expected:
-                //      When used without a PIN, this method still succeeds.
-                //      How the hell to detect, when a PIN entry is necessary?
-                if pin?.isEmpty ?? true {
-                    YubiKitManager.shared.stopNFCConnection()
-
-                    let value = try await message.webView?.callAsyncJavaScript(
-                        "return prompt(\"\(NSLocalizedString("Please enter your FIDO2/WebAuthn PIN.", comment: ""))\")",
-                        contentWorld: message.world)
-
-                    return try await didReceiveGet(message, pin: value as? String)
-                }
-
-                throw error
-            }
+            // TODO: This thing throws NSExceptions like crazy all over the place in
+            //      threads, which are uncatchable and hence crash the app.
+            //      This needs to change.
+            let response = try await session.getAssertion(
+                with: clientDataHash,
+                rpId: r.rpId,
+                allowList: r.allowCredentials?.compactMap { $0.descriptor },
+                extensions: r.extensions)
 
             let credentials = Credentials(r.clientData!, response)
 
@@ -143,7 +134,35 @@ import WebKit
         catch {
             YubiKitManager.shared.stopNFCConnection(withErrorMessage: error.localizedDescription)
 
+            let error = error as NSError
+
+            // TODO: Nice try, but this doesn't work as expected:
+            //      When used without a PIN, this method still succeeds.
+            //      How the hell to detect, when a PIN entry is necessary?
+            if error.domain == "com.yubico" {
+                if [
+                    49 /* "PIN is invalid." */,
+                    54 /* "PIN is required for the selected operation." */
+                ].contains(error.code)
+                {
+                    return try await didReceiveGet(message, pin: getPin(message))
+                }
+            }
+
             throw error
+        }
+    }
+
+    private func getPin(_ message: WKScriptMessage) async -> String? {
+        do {
+            let value = try await message.webView?.callAsyncJavaScript(
+                "return prompt(\"\(NSLocalizedString("Please enter your FIDO2/WebAuthn PIN.", comment: ""))\")",
+                contentWorld: message.world)
+
+            return value as? String
+        }
+        catch {
+            return nil
         }
     }
 }
