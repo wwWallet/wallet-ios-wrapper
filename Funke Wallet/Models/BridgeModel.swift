@@ -18,11 +18,13 @@ import WebKit
 
     var loadURLCallback: ((URL) -> Void)?
 
+    private(set) var pin: String?
+
     func openUrl(_ url: URL) {
         loadURLCallback?(url)
     }
 
-    func didReceiveCreate(_ message: WKScriptMessage, pin: String? = nil) async throws -> [String: String?] {
+    func didReceiveCreate(_ message: WKScriptMessage) async throws -> [String: String?] {
         do {
             guard let data = await (message.body as? String)?.data(using: .utf8) else {
                 throw Errors.cannotDecodeMessage
@@ -79,7 +81,9 @@ import WebKit
                     54 /* "PIN is required for the selected operation." */
                 ].contains(error.code)
                 {
-                    return try await didReceiveCreate(message, pin: getPin(message))
+                    await acquirePin(message)
+
+                    return try await didReceiveCreate(message)
                 }
             }
 
@@ -92,7 +96,7 @@ import WebKit
         }
     }
 
-    func didReceiveGet(_ message: WKScriptMessage, pin: String? = "123456") async throws -> [String: String?] {
+    func didReceiveGet(_ message: WKScriptMessage) async throws -> [String: String?] {
         do {
             guard let data = await (message.body as? String)?.data(using: .utf8) else {
                 throw Errors.cannotDecodeMessage
@@ -104,8 +108,14 @@ import WebKit
 
             let session = try await conn.fido2Session()
 
-            if let pin = pin, !pin.isEmpty {
-                try await session.verifyPin(pin)
+            // If wwWallet wants user verification, we *do need to use a PIN*.
+            // At the first time, this PIN will be empty, but we'll do it anyway,
+            // in order to have it throw and then ask the user for the PIN in the
+            // catch.
+            // For subsequent calls, we then have the PIN available.
+            // See https://developers.yubico.com/WebAuthn/WebAuthn_Developer_Guide/User_Presence_vs_User_Verification.html
+            if request.request.userVerification?.lowercased() == "required" {
+                try await session.verifyPin(pin ?? "")
             }
 
             let r = request.request
@@ -136,16 +146,15 @@ import WebKit
 
             let error = error as NSError
 
-            // TODO: Nice try, but this doesn't work as expected:
-            //      When used without a PIN, this method still succeeds.
-            //      How the hell to detect, when a PIN entry is necessary?
             if error.domain == "com.yubico" {
                 if [
                     49 /* "PIN is invalid." */,
                     54 /* "PIN is required for the selected operation." */
                 ].contains(error.code)
                 {
-                    return try await didReceiveGet(message, pin: getPin(message))
+                    await acquirePin(message)
+
+                    return try await didReceiveGet(message)
                 }
             }
 
@@ -153,16 +162,16 @@ import WebKit
         }
     }
 
-    private func getPin(_ message: WKScriptMessage) async -> String? {
+    private func acquirePin(_ message: WKScriptMessage) async {
         do {
             let value = try await message.webView?.callAsyncJavaScript(
                 "return prompt(\"\(NSLocalizedString("Please enter your FIDO2/WebAuthn PIN.", comment: ""))\")",
                 contentWorld: message.world)
 
-            return value as? String
+            pin = value as? String
         }
         catch {
-            return nil
+            pin = nil
         }
     }
 }
