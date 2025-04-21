@@ -13,6 +13,7 @@ enum Errors: LocalizedError {
     case cannotCreateClientDataHash
     case cannotCreateUserEntity
     case error0x19
+    case invalidUuid
 
     var localizedDescription: String {
         switch self {
@@ -27,6 +28,9 @@ enum Errors: LocalizedError {
 
         case .error0x19:
             return "0x19"
+
+        case .invalidUuid:
+            return NSLocalizedString("Not a valid UUID string.", comment: "")
         }
     }
 }

@@ -1,5 +1,5 @@
 //
-//  NativeWrapperJavaScript.js
+//  NativeWrapper.js
 //  Funke Wallet
 //
 //  Created by Jens Utbult on 2024-12-13.

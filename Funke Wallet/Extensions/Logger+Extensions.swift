@@ -28,4 +28,13 @@ public extension Logger {
     init(for class: AnyClass, category: String) {
         self.init(subsystem: Bundle(for: `class`).bundleIdentifier ?? String(describing: `class`), category: category)
     }
+
+    /**
+     Creates a logger which uses the name of the subject as subsystem and category.
+
+     - parameter subject: The subject to use its name as the subsystem and category.
+     */
+    init<Subject>(with subject: Subject) {
+        self.init(subsystem: String(describing: subject), category: String(describing: subject))
+    }
 }

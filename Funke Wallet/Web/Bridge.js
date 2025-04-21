@@ -1,5 +1,5 @@
 //
-//  JavaScriptBridge.js
+//  Bridge.js
 //  Funke Wallet
 //
 //  Created by Jens Utbult on 2024-11-29.

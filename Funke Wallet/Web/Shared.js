@@ -1,5 +1,5 @@
 //
-//  SharedJavaScript.js
+//  Shared.js
 //  Funke Wallet
 //
 //  Created by Jens Utbult on 2024-12-13.

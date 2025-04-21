@@ -16,12 +16,15 @@ import WebKit
     var sentMessage: String?
     let connection = YubiKeyConnection()
 
+    @MainActor
     var loadURLCallback: ((URL) -> Void)?
 
     private(set) var pin: String?
 
     func openUrl(_ url: URL) {
-        loadURLCallback?(url)
+        Task {
+            await loadURLCallback?(url)
+        }
     }
 
     func didReceiveCreate(_ message: WKScriptMessage) async throws -> [String: String?] {

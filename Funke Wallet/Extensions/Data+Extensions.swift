@@ -15,7 +15,7 @@ extension String {
             .replacingOccurrences(of: "_", with: "/")
 
         var padding = ""
-        var rest = base64EncodedString.count % 4
+        let rest = base64EncodedString.count % 4
 
         if rest != 0 {
             padding = String(repeating: "=", count: 4 - rest)

@@ -11,10 +11,13 @@
 		A08D827C2DA915D9009373AB /* YKFFIDO2Session+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08D827B2DA915D9009373AB /* YKFFIDO2Session+Extensions.swift */; };
 		A08D827F2DA91A5D009373AB /* JsonModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08D827E2DA91A5D009373AB /* JsonModels.swift */; };
 		A08D82812DA91AE6009373AB /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08D82802DA91AE6009373AB /* Errors.swift */; };
+		A099D37A2DB69750007F6983 /* WKUserScript+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A099D3792DB69750007F6983 /* WKUserScript+Extensions.swift */; };
+		A099D37C2DB69A71007F6983 /* MessageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A099D37B2DB69A71007F6983 /* MessageHandler.swift */; };
+		A099D37E2DB6A1F7007F6983 /* WKUserContentController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A099D37D2DB6A1F7007F6983 /* WKUserContentController+Extensions.swift */; };
 		A0F7A1792DB68B5A009F3178 /* Logger+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F7A1782DB68B5A009F3178 /* Logger+Extensions.swift */; };
 		B40A360A2CF9DDCF0044D2C6 /* YubiKit in Frameworks */ = {isa = PBXBuildFile; productRef = B40A36092CF9DDCF0044D2C6 /* YubiKit */; };
 		B40A36272CFA01CA0044D2C6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B40A361C2CFA01CA0044D2C6 /* Assets.xcassets */; };
-		B40A36282CFA01CA0044D2C6 /* BridgeJavaScript.js in Resources */ = {isa = PBXBuildFile; fileRef = B40A36222CFA01CA0044D2C6 /* BridgeJavaScript.js */; };
+		B40A36282CFA01CA0044D2C6 /* Bridge.js in Resources */ = {isa = PBXBuildFile; fileRef = B40A36222CFA01CA0044D2C6 /* Bridge.js */; };
 		B40A36292CFA01CA0044D2C6 /* BridgeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40A361D2CFA01CA0044D2C6 /* BridgeModel.swift */; };
 		B40A362A2CFA01CA0044D2C6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40A361E2CFA01CA0044D2C6 /* ContentView.swift */; };
 		B40A362B2CFA01CA0044D2C6 /* Data+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40A361F2CFA01CA0044D2C6 /* Data+Extensions.swift */; };
@@ -26,8 +29,8 @@
 		B40A363A2D00890B0044D2C6 /* BLEClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40A36392D0089060044D2C6 /* BLEClient.swift */; };
 		B43CB36F2D030CD900634811 /* WKScriptMessage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B43CB36E2D030CC000634811 /* WKScriptMessage+Extensions.swift */; };
 		B49F14722D12BEC30063C12F /* ButtonStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49F14712D12BEBE0063C12F /* ButtonStyles.swift */; };
-		B4FB6A962D0C287600647AED /* NativeWrapperJavaScript.js in Resources */ = {isa = PBXBuildFile; fileRef = B4FB6A952D0C286700647AED /* NativeWrapperJavaScript.js */; };
-		B4FB6A982D0C404200647AED /* SharedJavaScript.js in Resources */ = {isa = PBXBuildFile; fileRef = B4FB6A972D0C403800647AED /* SharedJavaScript.js */; };
+		B4FB6A962D0C287600647AED /* NativeWrapper.js in Resources */ = {isa = PBXBuildFile; fileRef = B4FB6A952D0C286700647AED /* NativeWrapper.js */; };
+		B4FB6A982D0C404200647AED /* Shared.js in Resources */ = {isa = PBXBuildFile; fileRef = B4FB6A972D0C403800647AED /* Shared.js */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +39,9 @@
 		A08D827E2DA91A5D009373AB /* JsonModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonModels.swift; sourceTree = "<group>"; };
 		A08D82802DA91AE6009373AB /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		A08D82832DA93BE4009373AB /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = SOURCE_ROOT; };
+		A099D3792DB69750007F6983 /* WKUserScript+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WKUserScript+Extensions.swift"; sourceTree = "<group>"; };
+		A099D37B2DB69A71007F6983 /* MessageHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageHandler.swift; sourceTree = "<group>"; };
+		A099D37D2DB6A1F7007F6983 /* WKUserContentController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WKUserContentController+Extensions.swift"; sourceTree = "<group>"; };
 		A0F7A1782DB68B5A009F3178 /* Logger+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Logger+Extensions.swift"; sourceTree = "<group>"; };
 		B40A35F42CF9DB6A0044D2C6 /* Funke Wallet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Funke Wallet.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B40A361C2CFA01CA0044D2C6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -44,7 +50,7 @@
 		B40A361F2CFA01CA0044D2C6 /* Data+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Extensions.swift"; sourceTree = "<group>"; };
 		B40A36202CFA01CA0044D2C6 /* Funke Wallet.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Funke Wallet.entitlements"; sourceTree = "<group>"; };
 		B40A36212CFA01CA0044D2C6 /* Funke_WalletApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Funke_WalletApp.swift; sourceTree = "<group>"; };
-		B40A36222CFA01CA0044D2C6 /* BridgeJavaScript.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = BridgeJavaScript.js; sourceTree = "<group>"; };
+		B40A36222CFA01CA0044D2C6 /* Bridge.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = Bridge.js; sourceTree = "<group>"; };
 		B40A36232CFA01CA0044D2C6 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		B40A36242CFA01CA0044D2C6 /* YubiKeyConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YubiKeyConnection.swift; sourceTree = "<group>"; };
 		B40A36332CFA16D30044D2C6 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
@@ -52,8 +58,8 @@
 		B40A36392D0089060044D2C6 /* BLEClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEClient.swift; sourceTree = "<group>"; };
 		B43CB36E2D030CC000634811 /* WKScriptMessage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WKScriptMessage+Extensions.swift"; sourceTree = "<group>"; };
 		B49F14712D12BEBE0063C12F /* ButtonStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStyles.swift; sourceTree = "<group>"; };
-		B4FB6A952D0C286700647AED /* NativeWrapperJavaScript.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = NativeWrapperJavaScript.js; sourceTree = "<group>"; };
-		B4FB6A972D0C403800647AED /* SharedJavaScript.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = SharedJavaScript.js; sourceTree = "<group>"; };
+		B4FB6A952D0C286700647AED /* NativeWrapper.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = NativeWrapper.js; sourceTree = "<group>"; };
+		B4FB6A972D0C403800647AED /* Shared.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = Shared.js; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,8 +77,10 @@
 			children = (
 				B40A361F2CFA01CA0044D2C6 /* Data+Extensions.swift */,
 				A0F7A1782DB68B5A009F3178 /* Logger+Extensions.swift */,
-				B43CB36E2D030CC000634811 /* WKScriptMessage+Extensions.swift */,
 				A00436A92DA7F41D00002721 /* UIViewController+Extensions.swift */,
+				B43CB36E2D030CC000634811 /* WKScriptMessage+Extensions.swift */,
+				A099D37D2DB6A1F7007F6983 /* WKUserContentController+Extensions.swift */,
+				A099D3792DB69750007F6983 /* WKUserScript+Extensions.swift */,
 				A08D827B2DA915D9009373AB /* YKFFIDO2Session+Extensions.swift */,
 			);
 			path = Extensions;
@@ -81,10 +89,10 @@
 		A08D827D2DA91A2D009373AB /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				B40A36242CFA01CA0044D2C6 /* YubiKeyConnection.swift */,
 				B40A361D2CFA01CA0044D2C6 /* BridgeModel.swift */,
-				A08D827E2DA91A5D009373AB /* JsonModels.swift */,
 				A08D82802DA91AE6009373AB /* Errors.swift */,
+				A08D827E2DA91A5D009373AB /* JsonModels.swift */,
+				B40A36242CFA01CA0044D2C6 /* YubiKeyConnection.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -100,9 +108,9 @@
 		A0F7A1732DB6829D009F3178 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				B49F14712D12BEBE0063C12F /* ButtonStyles.swift */,
 				B40A361E2CFA01CA0044D2C6 /* ContentView.swift */,
 				B40A36232CFA01CA0044D2C6 /* WebView.swift */,
-				B49F14712D12BEBE0063C12F /* ButtonStyles.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -110,9 +118,10 @@
 		A0F7A1742DB682EA009F3178 /* Web */ = {
 			isa = PBXGroup;
 			children = (
-				B40A36222CFA01CA0044D2C6 /* BridgeJavaScript.js */,
-				B4FB6A972D0C403800647AED /* SharedJavaScript.js */,
-				B4FB6A952D0C286700647AED /* NativeWrapperJavaScript.js */,
+				A099D37B2DB69A71007F6983 /* MessageHandler.swift */,
+				B40A36222CFA01CA0044D2C6 /* Bridge.js */,
+				B4FB6A952D0C286700647AED /* NativeWrapper.js */,
+				B4FB6A972D0C403800647AED /* Shared.js */,
 			);
 			path = Web;
 			sourceTree = "<group>";
@@ -223,10 +232,10 @@
 			isa = PBXResourcesBuildPhase;
 			files = (
 				B40A36342CFA16D30044D2C6 /* Settings.bundle in Resources */,
-				B4FB6A962D0C287600647AED /* NativeWrapperJavaScript.js in Resources */,
-				B4FB6A982D0C404200647AED /* SharedJavaScript.js in Resources */,
+				B4FB6A962D0C287600647AED /* NativeWrapper.js in Resources */,
+				B4FB6A982D0C404200647AED /* Shared.js in Resources */,
 				B40A36272CFA01CA0044D2C6 /* Assets.xcassets in Resources */,
-				B40A36282CFA01CA0044D2C6 /* BridgeJavaScript.js in Resources */,
+				B40A36282CFA01CA0044D2C6 /* Bridge.js in Resources */,
 			);
 		};
 /* End PBXResourcesBuildPhase section */
@@ -237,6 +246,7 @@
 			files = (
 				B40A36382D0088FF0044D2C6 /* BLEServer.swift in Sources */,
 				A08D82812DA91AE6009373AB /* Errors.swift in Sources */,
+				A099D37E2DB6A1F7007F6983 /* WKUserContentController+Extensions.swift in Sources */,
 				B40A36292CFA01CA0044D2C6 /* BridgeModel.swift in Sources */,
 				B43CB36F2D030CD900634811 /* WKScriptMessage+Extensions.swift in Sources */,
 				B49F14722D12BEC30063C12F /* ButtonStyles.swift in Sources */,
@@ -244,6 +254,8 @@
 				B40A362B2CFA01CA0044D2C6 /* Data+Extensions.swift in Sources */,
 				A00436AA2DA7F42C00002721 /* UIViewController+Extensions.swift in Sources */,
 				A08D827C2DA915D9009373AB /* YKFFIDO2Session+Extensions.swift in Sources */,
+				A099D37C2DB69A71007F6983 /* MessageHandler.swift in Sources */,
+				A099D37A2DB69750007F6983 /* WKUserScript+Extensions.swift in Sources */,
 				A08D827F2DA91A5D009373AB /* JsonModels.swift in Sources */,
 				B40A363A2D00890B0044D2C6 /* BLEClient.swift in Sources */,
 				B40A362C2CFA01CA0044D2C6 /* Funke_WalletApp.swift in Sources */,

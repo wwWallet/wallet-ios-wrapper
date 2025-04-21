@@ -13,7 +13,7 @@ class BLEClient: NSObject {
     static let shared = BLEClient()
 
     private let manager = CBCentralManager()
-    private var completionHandler: ((Any?, String?) -> Void)?
+    private var completionHandler: ((Any?) -> Void)?
     private var serviceUuid: CBUUID?
     private var connectedPeripheral: CBPeripheral?
     private var service: CBService?
@@ -28,7 +28,7 @@ class BLEClient: NSObject {
     }
 
 
-    func startScanning(for serviceUuid: CBUUID, completionHandler: @escaping (Any?, String?) -> Void) {
+    func startScanning(for serviceUuid: CBUUID, completionHandler: @escaping (Any?) -> Void) {
         log.debug("🔹 startScanning for \(serviceUuid)")
 
         self.serviceUuid = serviceUuid
@@ -37,14 +37,30 @@ class BLEClient: NSObject {
         manager.scanForPeripherals(withServices: [serviceUuid])
     }
 
-    func receiveFromServer(completionHandler: @escaping (Any?, String?) -> Void) {
+    func startScanning(for serviceUuid: CBUUID) async -> Any? {
+        await withCheckedContinuation { continuation in
+            startScanning(for: serviceUuid) { reply in
+                continuation.resume(returning: reply)
+            }
+        }
+    }
+
+    func receiveFromServer(completionHandler: @escaping (Any?) -> Void) {
         log.debug("🔹 receiveFromServer")
 
         self.receivedDataBuffer = Data()
         self.completionHandler = completionHandler
     }
 
-    func sendToServer(data: Data, completionHandler: @escaping (Any?, String?) -> Void) {
+    func receiveFromServer() async -> Any? {
+        await withCheckedContinuation { continuation in
+            receiveFromServer { reply in
+                continuation.resume(returning: reply)
+            }
+        }
+    }
+
+    func sendToServer(data: Data, completionHandler: @escaping (Any?) -> Void) {
         log.debug("🔹 sendToServer \(data.hexString)")
 
         if let client2ServerChar = service?.characteristics?.filter({ $0.uuid == DefaultCharacteristics.Mode.mDocReader.client2Server }).first
@@ -53,10 +69,18 @@ class BLEClient: NSObject {
 
             connectedPeripheral?.writeValue(data, for: client2ServerChar, type: .withoutResponse)
 
-            completionHandler(true, nil)
+            completionHandler(true)
         }
         else {
-            completionHandler(false, nil)
+            completionHandler(false)
+        }
+    }
+
+    func sendToServer(data: Data) async -> Any? {
+        await withCheckedContinuation { continuation in
+            sendToServer(data: data) { reply in
+                continuation.resume(returning: reply)
+            }
         }
     }
 
@@ -94,7 +118,7 @@ extension BLEClient: CBCentralManagerDelegate {
         peripheral.discoverServices([serviceUuid])
 
         connectedPeripheral = peripheral
-        completionHandler?(true, nil)
+        completionHandler?(true)
         completionHandler = nil
     }
 
@@ -181,7 +205,7 @@ extension BLEClient: CBPeripheralDelegate {
 
             log.debug("🔹 send to web view: \"\(jsonString)\"")
 
-            completionHandler("\"\(jsonString)\"", nil)
+            completionHandler("\"\(jsonString)\"")
 
             self.completionHandler = nil
         }
