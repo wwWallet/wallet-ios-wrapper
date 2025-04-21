@@ -6,17 +6,19 @@
 //
 
 import CoreBluetooth
+import OSLog
 
 class BLEClient: NSObject {
 
     static let shared = BLEClient()
 
-    let manager = CBCentralManager()
-    var completionHandler: ((Any?, String?) -> Void)?
-    var serviceUuid: CBUUID?
-    var connectedPeripheral: CBPeripheral?
-    var service: CBService?
-    var receivedDataBuffer: Data?
+    private let manager = CBCentralManager()
+    private var completionHandler: ((Any?, String?) -> Void)?
+    private var serviceUuid: CBUUID?
+    private var connectedPeripheral: CBPeripheral?
+    private var service: CBService?
+    private var receivedDataBuffer: Data?
+    private let log = Logger(for: BLEClient.self)
 
 
     private override init() {
@@ -27,25 +29,28 @@ class BLEClient: NSObject {
 
 
     func startScanning(for serviceUuid: CBUUID, completionHandler: @escaping (Any?, String?) -> Void) {
-        print("🔹 startScanning for \(serviceUuid)")
+        log.debug("🔹 startScanning for \(serviceUuid)")
+
         self.serviceUuid = serviceUuid
         self.completionHandler = completionHandler
+
         manager.scanForPeripherals(withServices: [serviceUuid])
     }
 
     func receiveFromServer(completionHandler: @escaping (Any?, String?) -> Void) {
-        print("🔹 receiveFromServer")
+        log.debug("🔹 receiveFromServer")
+
         self.receivedDataBuffer = Data()
         self.completionHandler = completionHandler
     }
 
     func sendToServer(data: Data, completionHandler: @escaping (Any?, String?) -> Void) {
-        print("🔹 sendToServer \(data.hexString)")
+        log.debug("🔹 sendToServer \(data.hexString)")
 
-        if let characteristics = service?.characteristics,
-            let client2ServerChar = characteristics.filter({ $0.uuid == DefaultCharacteristics.MdocReaderService.client2Server.cbuuid }).first
+        if let client2ServerChar = service?.characteristics?.filter({ $0.uuid == DefaultCharacteristics.Mode.mDocReader.client2Server }).first
         {
-            print("🔹 periperhal didWriteValueFor stateChar: \(client2ServerChar.uuid)")
+            log.debug("🔹 periperhal didWriteValueFor stateChar: \(client2ServerChar.uuid)")
+
             connectedPeripheral?.writeValue(data, for: client2ServerChar, type: .withoutResponse)
 
             completionHandler(true, nil)
@@ -56,8 +61,12 @@ class BLEClient: NSObject {
     }
 
     func disconnect() {
-        print("🔹 disconnect")
-        guard let connectedPeripheral else { return }
+        log.debug("🔹 disconnect")
+
+        guard let connectedPeripheral else {
+            return
+        }
+
 //        manager.cancelPeripheralConnection(connectedPeripheral)
 //        self.connectedPeripheral = nil
     }
@@ -67,28 +76,30 @@ class BLEClient: NSObject {
 extension BLEClient: CBCentralManagerDelegate {
 
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
-        print("🔹 centralManager didDiscover peripheral:\(peripheral)")
-        self.connectedPeripheral = peripheral
+        log.debug("🔹 centralManager didDiscover peripheral: \(peripheral)")
+
+        connectedPeripheral = peripheral
         peripheral.delegate = self
+
         manager.connect(peripheral)
     }
 
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
         guard let serviceUuid else {
-            fatalError();
+            return log.error("serviceUuid is nil")
         }
 
-        print("🔹 centralManager didConnect peripheral:\(peripheral)")
+        log.debug("🔹 centralManager didConnect peripheral: \(peripheral)")
 
         peripheral.discoverServices([serviceUuid])
 
-        self.connectedPeripheral = peripheral
-        self.completionHandler?(true, nil)
-        self.completionHandler = nil
+        connectedPeripheral = peripheral
+        completionHandler?(true, nil)
+        completionHandler = nil
     }
 
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
-        print("🔹 CBCentralManager state:\(central.state)")
+        log.debug("🔹 CBCentralManager state: \(central.state.rawValue)")
     }
 }
 
@@ -96,11 +107,10 @@ extension BLEClient: CBCentralManagerDelegate {
 extension BLEClient: CBPeripheralDelegate {
 
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
-        print("🔹 peripheral didDiscoverServices:\(peripheral.services) error:\(error)")
+        log.debug("🔹 peripheral didDiscoverServices: \(peripheral.services?.description ?? "(nil)") error:\(error)")
 
         guard let serviceUuid,
-                let services = peripheral.services,
-                let service = (services.filter { $0.uuid == serviceUuid }).first
+              let service = peripheral.services?.filter({ $0.uuid == serviceUuid }).first
         else {
             return
         }
@@ -108,75 +118,75 @@ extension BLEClient: CBPeripheralDelegate {
         peripheral.discoverCharacteristics(nil, for: service)
         self.service = service
 
-        print("selected service:\(service)")
+        log.debug("selected service:\(service)")
     }
 
     func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: (any Error)?) {
-        print("🔹 peripheral didDiscoverCharacteristicsFor service:\(service), characteristics: \(service.characteristics) error:\(error)")
+        log.debug("🔹 peripheral didDiscoverCharacteristicsFor service:\(service), characteristics: \(service.characteristics?.description ?? "(nil)") error:\(error)")
 
-        if let server2ClientChar = service.characteristics?.filter({ $0.uuid == DefaultCharacteristics.MdocReaderService.server2Client.cbuuid }).first
+        if let server2ClientChar = service.characteristics?.filter({ $0.uuid == DefaultCharacteristics.Mode.mDocReader.server2Client }).first
         {
             peripheral.setNotifyValue(true, for: server2ClientChar)
         }
 
-        if let client2ServerChar = service.characteristics?.filter({ $0.uuid == DefaultCharacteristics.MdocReaderService.client2Server.cbuuid }).first
+        if let client2ServerChar = service.characteristics?.filter({ $0.uuid == DefaultCharacteristics.Mode.mDocReader.client2Server }).first
         {
             peripheral.setNotifyValue(true, for: client2ServerChar)
         }
 
-        if let stateChar = service.characteristics?.filter({ $0.uuid == DefaultCharacteristics.MdocReaderService.state.cbuuid }).first
+        if let stateChar = service.characteristics?.filter({ $0.uuid == DefaultCharacteristics.Mode.mDocReader.state }).first
         {
             peripheral.setNotifyValue(true, for: stateChar)
 
-            print("🔹 periperhal didWriteValueFor: 0x01 for stateChar: \(stateChar.uuid)")
+            log.debug("🔹 periperhal didWriteValueFor: 0x01 for stateChar: \(stateChar.uuid)")
 
             peripheral.writeValue(Data([0x01]), for: stateChar, type: .withoutResponse)
         }
     }
 
     func peripheral(_ peripheral: CBPeripheral, didUpdateNotificationStateFor characteristic: CBCharacteristic, error: (any Error)?) {
-        print("🔹 didUpdateNotificationStateFor characteristic: \(characteristic), value: \(characteristic.value?.hexString ?? "nil")")
+        log.debug("🔹 didUpdateNotificationStateFor characteristic: \(characteristic), value: \(characteristic.value?.hexString ?? "(nil)")")
     }
 
     func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: (any Error)?) {
-        print("🔹 didWriteValueFor characteristic: \(characteristic), value: \(characteristic.value?.hexString ?? "nil")")
+        log.debug("🔹 didWriteValueFor characteristic: \(characteristic), value: \(characteristic.value?.hexString ?? "(nil)")")
     }
 
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: (any Error)?) {
-        print("🔹 didUpdateValueFor characteristic: \(characteristic), value: \(characteristic.value?.hexString ?? "nil")")
+        log.debug("🔹 didUpdateValueFor characteristic: \(characteristic), value: \(characteristic.value?.hexString ?? "(nil)")")
 
-        guard characteristic.uuid == DefaultCharacteristics.MdocReaderService.server2Client.cbuuid
+        guard characteristic.uuid == DefaultCharacteristics.Mode.mDocReader.server2Client
         else {
-            return print("🐞 Received data from wrong peripheral!")
+            return log.error("🐞 Received data from wrong peripheral!")
         }
 
         guard let receivedData = characteristic.value,
                 let header = receivedData.first
         else {
-            return print("🐞 Missing data from peripheral!")
+            return log.error("🐞 Missing data from peripheral!")
         }
 
         receivedDataBuffer?.append(receivedData.dropFirst())
 
         if header == 0x00 {
-            print("🔹 received last packet")
+            log.debug("🔹 received last packet")
 
             guard let completionHandler = completionHandler,
                   let data = receivedDataBuffer,
                   let jsonData = try? JSONSerialization.data(withJSONObject: [UInt8](Data([0x00]) + data), options: [.fragmentsAllowed]),
                   let jsonString = String(data: jsonData, encoding: .utf8)
             else {
-                return print("🐞 Bad state for receiving data!")
+                return log.error("🐞 Bad state for receiving data!")
             }
 
-            print("🔹 send to web view: \"\(jsonString)\"")
+            log.debug("🔹 send to web view: \"\(jsonString)\"")
 
             completionHandler("\"\(jsonString)\"", nil)
 
             self.completionHandler = nil
         }
         else {
-            print("🔹 more packets to receive")
+            log.debug("🔹 more packets to receive")
         }
     }
 }

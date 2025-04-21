@@ -6,14 +6,15 @@
 //
 
 import CoreBluetooth
+import OSLog
 
 class BLEServer: NSObject {
 
     static let shared = BLEServer()
 
     private var characteristics = DefaultCharacteristics()
-
-    let perihperalManager = CBPeripheralManager()
+    private let perihperalManager = CBPeripheralManager()
+    private let log = Logger(for: BLEServer.self)
 
     private override init() {
         super.init()
@@ -40,7 +41,7 @@ class BLEServer: NSObject {
 extension BLEServer: CBPeripheralManagerDelegate {
 
     func peripheralManagerDidUpdateState(_ peripheral: CBPeripheralManager) {
-        print("CBPeripheralManager state: \(peripheral.state)")
+        log.debug("CBPeripheralManager state: \(peripheral.state.rawValue)")
 
         switch peripheral.state {
         case .poweredOn:
@@ -52,16 +53,16 @@ extension BLEServer: CBPeripheralManagerDelegate {
     }
 
     func peripheralManager(_ peripheral: CBPeripheralManager, didReceiveRead request: CBATTRequest) {
-        print("didReceiveRead requests: \(request)")
+        log.debug("didReceiveRead requests: \(request)")
     }
 
     func peripheralManager(_ peripheral: CBPeripheralManager, didReceiveWrite requests: [CBATTRequest]) {
-        print("didReceiveWrite requests: \(requests)")
+        log.debug("didReceiveWrite requests: \(requests)")
     }
 
 
     func peripheralManager(_ peripheral: CBPeripheralManager, didAdd service: CBService, error: (any Error)?) {
-        print("CBPeripheralManager didAdd: \(service)\(error != nil ? "with error: \(error!)" : "")")
+        log.debug("CBPeripheralManager didAdd: \(service)\(error != nil ? "with error: \(error!)" : "")")
     }
 }
 
@@ -71,49 +72,46 @@ struct DefaultCharacteristics {
 
     enum Mode {
         case mDocReader, mDoc
+
+        var state: CBUUID {
+            switch self {
+            case .mDocReader:
+                return CBUUID(string: "00000005-A123-48CE-896B-4C76973373E6")
+
+            case .mDoc:
+                return CBUUID(string: "00000001-A123-48CE-896B-4C76973373E6")
+            }
+        }
+
+        var client2Server: CBUUID {
+            switch self {
+            case .mDocReader:
+                return CBUUID(string: "00000006-A123-48CE-896B-4C76973373E6")
+
+            case .mDoc:
+                return CBUUID(string: "00000002-A123-48CE-896B-4C76973373E6")
+            }
+        }
+
+        var server2Client: CBUUID {
+            switch self {
+            case .mDocReader:
+                return CBUUID(string: "00000007-A123-48CE-896B-4C76973373E6")
+
+            case .mDoc:
+                return CBUUID(string: "00000003-A123-48CE-896B-4C76973373E6")
+            }
+        }
     }
 
     let mode: Mode = .mDocReader
 
-    enum MdocService: String, Sendable {
-
-        case state =         "00000001-A123-48CE-896B-4C76973373E6"
-        case client2Server = "00000002-A123-48CE-896B-4C76973373E6"
-        case server2Client = "00000003-A123-48CE-896B-4C76973373E6"
-
-        var cbuuid: CBUUID {
-            CBUUID(string: self.rawValue)
-        }
-    }
-
-    enum MdocReaderService: String, Sendable {
-
-        case state =         "00000005-A123-48CE-896B-4C76973373E6"
-        case client2Server = "00000006-A123-48CE-896B-4C76973373E6"
-        case server2Client = "00000007-A123-48CE-896B-4C76973373E6"
-
-        var cbuuid: CBUUID {
-            CBUUID(string: self.rawValue)
-        }
-    }
-
     func characteristics() -> [CBMutableCharacteristic] {
-        switch mode {
-        case .mDoc:
-            return [.init(type: MdocService.state.cbuuid, properties: [.notify, .writeWithoutResponse],
-                          value: nil, permissions: [.writeable]),
-                    .init(type: MdocService.client2Server.cbuuid, properties: [.notify, .writeWithoutResponse],
-                          value: nil, permissions: [.writeable]),
-                    .init(type: MdocService.server2Client.cbuuid, properties: [.notify],
-                          value: nil, permissions: [.writeable])]
-
-        case .mDocReader:
-            return [.init(type: MdocReaderService.state.cbuuid, properties: [.notify, .writeWithoutResponse],
-                          value: nil, permissions: [.writeable]),
-                    .init(type: MdocReaderService.client2Server.cbuuid, properties: [.notify, .writeWithoutResponse],
-                          value: nil, permissions: [.writeable]),
-                    .init(type: MdocReaderService.server2Client.cbuuid, properties: [.notify],
-                          value: nil, permissions: [.writeable])]
-        }
+        return [.init(type: mode.state, properties: [.notify, .writeWithoutResponse],
+                      value: nil, permissions: [.writeable]),
+                .init(type: mode.client2Server, properties: [.notify, .writeWithoutResponse],
+                      value: nil, permissions: [.writeable]),
+                .init(type: mode.server2Client, properties: [.notify],
+                      value: nil, permissions: [.writeable])]
     }
 }
