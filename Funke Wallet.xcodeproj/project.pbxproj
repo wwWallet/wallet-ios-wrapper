@@ -12,7 +12,6 @@
 		A08D827F2DA91A5D009373AB /* JsonModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08D827E2DA91A5D009373AB /* JsonModels.swift */; };
 		A08D82812DA91AE6009373AB /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08D82802DA91AE6009373AB /* Errors.swift */; };
 		B40A360A2CF9DDCF0044D2C6 /* YubiKit in Frameworks */ = {isa = PBXBuildFile; productRef = B40A36092CF9DDCF0044D2C6 /* YubiKit */; };
-		B40A36262CFA01CA0044D2C6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B40A361A2CFA01CA0044D2C6 /* Preview Assets.xcassets */; };
 		B40A36272CFA01CA0044D2C6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B40A361C2CFA01CA0044D2C6 /* Assets.xcassets */; };
 		B40A36282CFA01CA0044D2C6 /* BridgeJavaScript.js in Resources */ = {isa = PBXBuildFile; fileRef = B40A36222CFA01CA0044D2C6 /* BridgeJavaScript.js */; };
 		B40A36292CFA01CA0044D2C6 /* BridgeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40A361D2CFA01CA0044D2C6 /* BridgeModel.swift */; };
@@ -37,7 +36,6 @@
 		A08D82802DA91AE6009373AB /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		A08D82832DA93BE4009373AB /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = SOURCE_ROOT; };
 		B40A35F42CF9DB6A0044D2C6 /* Funke Wallet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Funke Wallet.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		B40A361A2CFA01CA0044D2C6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B40A361C2CFA01CA0044D2C6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B40A361D2CFA01CA0044D2C6 /* BridgeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BridgeModel.swift; sourceTree = "<group>"; };
 		B40A361E2CFA01CA0044D2C6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -96,6 +94,35 @@
 			path = Build;
 			sourceTree = "<group>";
 		};
+		A0F7A1732DB6829D009F3178 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B40A361E2CFA01CA0044D2C6 /* ContentView.swift */,
+				B40A36232CFA01CA0044D2C6 /* WebView.swift */,
+				B49F14712D12BEBE0063C12F /* ButtonStyles.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		A0F7A1742DB682EA009F3178 /* Web */ = {
+			isa = PBXGroup;
+			children = (
+				B40A36222CFA01CA0044D2C6 /* BridgeJavaScript.js */,
+				B4FB6A972D0C403800647AED /* SharedJavaScript.js */,
+				B4FB6A952D0C286700647AED /* NativeWrapperJavaScript.js */,
+			);
+			path = Web;
+			sourceTree = "<group>";
+		};
+		A0F7A1752DB688C6009F3178 /* Bluetooth */ = {
+			isa = PBXGroup;
+			children = (
+				B40A36392D0089060044D2C6 /* BLEClient.swift */,
+				B40A36372D0088F90044D2C6 /* BLEServer.swift */,
+			);
+			path = Bluetooth;
+			sourceTree = "<group>";
+		};
 		B40A35EB2CF9DB6A0044D2C6 = {
 			isa = PBXGroup;
 			children = (
@@ -112,30 +139,16 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		B40A361B2CFA01CA0044D2C6 /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				B40A361A2CFA01CA0044D2C6 /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
-			sourceTree = "<group>";
-		};
 		B40A36252CFA01CA0044D2C6 /* Funke Wallet */ = {
 			isa = PBXGroup;
 			children = (
 				A08D82822DA93BC0009373AB /* Build */,
 				A08D827D2DA91A2D009373AB /* Models */,
 				A08D82762DA9141A009373AB /* Extensions */,
-				B40A361B2CFA01CA0044D2C6 /* Preview Content */,
+				A0F7A1732DB6829D009F3178 /* Views */,
+				A0F7A1742DB682EA009F3178 /* Web */,
+				A0F7A1752DB688C6009F3178 /* Bluetooth */,
 				B40A36212CFA01CA0044D2C6 /* Funke_WalletApp.swift */,
-				B40A361E2CFA01CA0044D2C6 /* ContentView.swift */,
-				B40A36232CFA01CA0044D2C6 /* WebView.swift */,
-				B40A36392D0089060044D2C6 /* BLEClient.swift */,
-				B40A36372D0088F90044D2C6 /* BLEServer.swift */,
-				B49F14712D12BEBE0063C12F /* ButtonStyles.swift */,
-				B4FB6A972D0C403800647AED /* SharedJavaScript.js */,
-				B40A36222CFA01CA0044D2C6 /* BridgeJavaScript.js */,
-				B4FB6A952D0C286700647AED /* NativeWrapperJavaScript.js */,
 				B40A36202CFA01CA0044D2C6 /* Funke Wallet.entitlements */,
 				B40A361C2CFA01CA0044D2C6 /* Assets.xcassets */,
 				B40A36332CFA16D30044D2C6 /* Settings.bundle */,
@@ -209,7 +222,6 @@
 				B40A36342CFA16D30044D2C6 /* Settings.bundle in Resources */,
 				B4FB6A962D0C287600647AED /* NativeWrapperJavaScript.js in Resources */,
 				B4FB6A982D0C404200647AED /* SharedJavaScript.js in Resources */,
-				B40A36262CFA01CA0044D2C6 /* Preview Assets.xcassets in Resources */,
 				B40A36272CFA01CA0044D2C6 /* Assets.xcassets in Resources */,
 				B40A36282CFA01CA0044D2C6 /* BridgeJavaScript.js in Resources */,
 			);
@@ -368,7 +380,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 12;
-				DEVELOPMENT_ASSET_PATHS = "\"Funke Wallet/Preview Content\"";
+				DEVELOPMENT_TEAM = "";
 				DEVELOPMENT_TEAM = LQA3CS5MM7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -406,7 +418,6 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 12;
-				DEVELOPMENT_ASSET_PATHS = "\"Funke Wallet/Preview Content\"";
 				DEVELOPMENT_TEAM = LQA3CS5MM7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;

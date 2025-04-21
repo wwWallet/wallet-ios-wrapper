@@ -8,45 +8,37 @@
 import WebKit
 
 extension WKScriptMessage {
-    
+
     func parseJSON<T : Decodable>() -> T? {
-//        guard let jsonString = self.body as? String else { return nil }
-//        guard let jsonData = jsonString.data(using: .utf8) else { return nil }
-//        do {
-//            let result = try JSONSerialization.jsonObject(with: jsonData, options: [.allowFragments])
-//            print(result)
-//        } catch {
-//            print(error)
-//        }
-        
-        
-        
-        
-        guard let jsonString = self.body as? String,
-              let jsonData = jsonString.data(using: .utf8),
-              let result = try? JSONSerialization.jsonObject(with: jsonData, options: [.allowFragments]) as? T else {
-            return nil
+        if let jsonString = self.body as? String,
+           let jsonData = jsonString.data(using: .utf8),
+           let result = try? JSONSerialization.jsonObject(with: jsonData, options: [.allowFragments]) as? T
+        {
+            return result
         }
-        return result
+
+        return nil
     }
-    
-    
-    
+
     func jsonDictionary() -> [String: Any]? {
-        guard let jsonString = self.body as? String,
-              let jsonData = jsonString.data(using: .utf8),
-              let jsonDictionary = try? JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any] else {
-            return nil
+        if let jsonString = self.body as? String,
+           let jsonData = jsonString.data(using: .utf8),
+           let jsonDictionary = try? JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any]
+        {
+            return jsonDictionary
         }
-        return jsonDictionary
+
+        return nil
     }
-    
+
     func jsonString() -> String? {
-        guard let jsonString = self.body as? String,
-              let jsonData = jsonString.data(using: .utf8),
-              let jsonString = try? JSONSerialization.jsonObject(with: jsonData, options: []) as? String else {
-            return nil
+        if let jsonString = self.body as? String,
+           let jsonData = jsonString.data(using: .utf8),
+           let jsonString = try? JSONSerialization.jsonObject(with: jsonData, options: []) as? String
+        {
+            return jsonString
         }
-        return jsonString
+
+        return nil
     }
 }
