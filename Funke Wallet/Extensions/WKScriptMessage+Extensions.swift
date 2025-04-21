@@ -9,36 +9,21 @@ import WebKit
 
 extension WKScriptMessage {
 
-    func parseJSON<T : Decodable>() -> T? {
-        if let jsonString = self.body as? String,
-           let jsonData = jsonString.data(using: .utf8),
-           let result = try? JSONSerialization.jsonObject(with: jsonData, options: [.allowFragments]) as? T
-        {
-            return result
-        }
+    static let decoder = JSONDecoder()
 
-        return nil
+    var stringBody: String? {
+        body as? String
     }
 
-    func jsonDictionary() -> [String: Any]? {
-        if let jsonString = self.body as? String,
-           let jsonData = jsonString.data(using: .utf8),
-           let jsonDictionary = try? JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any]
-        {
-            return jsonDictionary
-        }
-
-        return nil
+    var dataBody: Data? {
+        stringBody?.data(using: .utf8)
     }
 
-    func jsonString() -> String? {
-        if let jsonString = self.body as? String,
-           let jsonData = jsonString.data(using: .utf8),
-           let jsonString = try? JSONSerialization.jsonObject(with: jsonData, options: []) as? String
-        {
-            return jsonString
+    func decode<T: Decodable>() throws -> T {
+        guard let data = dataBody else {
+            throw Errors.cannotDecodeMessage
         }
 
-        return nil
+        return try Self.decoder.decode(T.self, from: data)
     }
 }

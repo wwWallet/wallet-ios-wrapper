@@ -70,7 +70,7 @@ struct WebView: UIViewRepresentable {
             }
 
             ucc.addPageHandler(named: "__bluetoothTerminate__") {[weak self] message in
-                self?.log.debug("⚙️ Terminate message: \(message.body as? String ?? "(unknown encoding)")")
+                self?.log.debug("⚙️ Terminate message: \(message.stringBody ?? "(unknown encoding)")")
 
                 self?.bleClient.disconnect()
                 self?.bleServer.disconnect()
@@ -79,42 +79,39 @@ struct WebView: UIViewRepresentable {
             }
 
             ucc.addPageHandler(named: "__bluetoothCreateServer__") { [weak self] message in
-                self?.log.debug("⚙️ Create server message: \(message.body as? String ?? "(unknown encoding)")")
+                self?.log.debug("⚙️ Create server message: \(message.stringBody ?? "(unknown encoding)")")
 
                 return nil
             }
 
             ucc.addPageHandler(named: "__bluetoothCreateClient__") { [weak self] message in
-                self?.log.debug("⚙️ Create client message: \(message.body as? String ?? "(unknown encoding)")")
+                self?.log.debug("⚙️ Create client message: \(message.stringBody ?? "(unknown encoding)")")
 
-                guard let uuidString: String = message.parseJSON() else {
-                    throw Errors.invalidUuid
-                }
+                let uuidString: String = try message.decode()
 
                 return await self?.bleClient.startScanning(for: CBUUID(string: uuidString))
             }
 
             ucc.addPageHandler(named: "__bluetoothSendToServer__") { [weak self] message in
-                self?.log.debug("⚙️ Send to server message: \(message.body as? String ?? "(unknown encoding)")")
+                self?.log.debug("⚙️ Send to server message: \(message.stringBody ?? "(unknown encoding)")")
 
-                guard let jsonString = message.body as? String,
-                      let jsonData = jsonString.dropFirst().dropLast().data(using: .utf8),
-                      let result = try? JSONSerialization.jsonObject(with: jsonData, options: [.allowFragments]) as? [UInt8]
-                else {
-                    return nil
+                guard let data = message.stringBody?.dropFirst().dropLast().data(using: .utf8) else {
+                    throw Errors.cannotDecodeMessage
                 }
+
+                let result = try WKScriptMessage.decoder.decode([UInt8].self, from: data)
 
                 return await self?.bleClient.sendToServer(data: Data(result))
             }
 
             ucc.addPageHandler(named: "__bluetoothSendToClient__") { [weak self] message in
-                self?.log.debug("⚙️ Send to client message: \(message.body as? String ?? "(unknown encoding)")")
+                self?.log.debug("⚙️ Send to client message: \(message.stringBody ?? "(unknown encoding)")")
 
                 return nil
             }
 
             ucc.addPageHandler(named: "__bluetoothReceiveFromClient__") { [weak self] message in
-                self?.log.debug("⚙️ Receive from client message: \(message.body as? String ?? "(unknown encoding)")")
+                self?.log.debug("⚙️ Receive from client message: \(message.stringBody ?? "(unknown encoding)")")
 
                 return nil
             }

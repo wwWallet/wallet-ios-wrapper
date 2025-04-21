@@ -29,11 +29,7 @@ import WebKit
 
     func didReceiveCreate(_ message: WKScriptMessage) async throws -> [String: String?] {
         do {
-            guard let data = await (message.body as? String)?.data(using: .utf8) else {
-                throw Errors.cannotDecodeMessage
-            }
-
-            let request = try JSONDecoder().decode(CreateRequestWrapper.self, from: data)
+            let request: CreateRequestWrapper = try await message.decode()
 
             let conn = await connection.connect()
 
@@ -101,11 +97,7 @@ import WebKit
 
     func didReceiveGet(_ message: WKScriptMessage) async throws -> [String: String?] {
         do {
-            guard let data = await (message.body as? String)?.data(using: .utf8) else {
-                throw Errors.cannotDecodeMessage
-            }
-
-            let request = try JSONDecoder().decode(GetRequestWrapper.self, from: data)
+            let request: GetRequestWrapper = try await message.decode()
 
             let conn = await connection.connect()
 

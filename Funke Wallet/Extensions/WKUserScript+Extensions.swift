@@ -9,11 +9,11 @@ import WebKit
 
 extension WKUserScript {
 
-    static let sharedScript: WKUserScript? = bundledScript(named: "Shared")
+    static let sharedScript = bundledScript(named: "Shared")
 
-    static let bridgeScript: WKUserScript? = bundledScript(named: "Bridge")
+    static let bridgeScript = bundledScript(named: "Bridge")
 
-    static let nativeWrapperScript: WKUserScript? = bundledScript(named: "NativeWrapper")
+    static let nativeWrapperScript = bundledScript(named: "NativeWrapper")
 
     
     private class func bundledScript(named name: String) -> WKUserScript? {
