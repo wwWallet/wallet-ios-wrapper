@@ -8,9 +8,11 @@
 const stringifyBinary = (key, value) => {
     if (value instanceof Uint8Array) {
         return CM_base64url_encode(value);
-    } else if (value instanceof ArrayBuffer) {
+    }
+    else if (value instanceof ArrayBuffer) {
         return CM_base64url_encode(new Uint8Array(value));
-    } else {
+    }
+    else {
         return value;
     }
 };
@@ -21,15 +23,18 @@ const stringify = (data) => {
 
 function CM_base64url_decode(value) {
     var m = value.length % 4;
+
     return Uint8Array.from(atob(value.replace(/-/g, '+')
                                 .replace(/_/g, '/')
-                                .padEnd(value.length + (m === 0 ? 0 : 4 - m), '=')), function (c)
-                            { return c.charCodeAt(0); }).buffer;
+                                .padEnd(value.length + (m === 0 ? 0 : 4 - m), '=')),
+                           function (c) { return c.charCodeAt(0); }).buffer;
 }
 
-function CM_base64url_encode(buffer) {
-    return btoa(Array.from(new Uint8Array(buffer), function (b)
-                            { return String.fromCharCode(b); }).join(''))
+function CM_base64url_encode(uint8array) {
+    return btoa(Array.from(
+                           uint8array,
+                           function (b) { return String.fromCharCode(b); })
+                .join(''))
     .replace(/\+/g, '-')
     .replace(/\//g, '_')
     .replace(/=+${'$'}/, '');

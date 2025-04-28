@@ -11,12 +11,16 @@ window.nativeWrapper = (function (nativeWrapper) {
     function createBluetoothMethod(funcName) {
         nativeWrapper[funcName] = function (arg) {
             console.log("NativeWrapper, ", funcName, arg);
-            return window.webkit.messageHandlers['__' + funcName + '__'].postMessage(stringify(arg))
-              .then(function (msg) {
-                  console.log(funcName, "raw result:", msg);
-                  var reply = JSON.parse(msg);
-                  console.log(funcName, "result:", reply);
-                  return reply;
+
+            return window.webkit.messageHandlers['__' + funcName + '__']
+            .postMessage(stringify(arg))
+            .then(function (msg) {
+                console.log(funcName, "raw result:", msg);
+
+                var reply = JSON.parse(msg);
+                console.log(funcName, "result:", reply);
+
+                return reply;
               })
               .catch(
                   function (err) {
