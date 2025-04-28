@@ -9,13 +9,15 @@ import WebKit
 
 extension WKUserScript {
 
-    static let sharedScript = bundledScript(named: "Shared")
+    static let bluetoothScript = bundledScript(named: "WebBluetooth")
 
     static let bridgeScript = bundledScript(named: "Bridge")
 
     static let nativeWrapperScript = bundledScript(named: "NativeWrapper")
 
-    
+    static let sharedScript = bundledScript(named: "Shared")
+
+
     private class func bundledScript(named name: String) -> WKUserScript? {
         guard let url = Bundle.main.url(forResource: name, withExtension: "js"),
               let content = try? String(contentsOf: url, encoding: .utf8)

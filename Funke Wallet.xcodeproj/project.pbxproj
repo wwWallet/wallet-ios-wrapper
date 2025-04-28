@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A00436AA2DA7F42C00002721 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00436A92DA7F41D00002721 /* UIViewController+Extensions.swift */; };
+		A05D7AC82DBFB8FB001940B3 /* WebBluetooth.js in Resources */ = {isa = PBXBuildFile; fileRef = A05D7AC72DBFB8F7001940B3 /* WebBluetooth.js */; };
 		A08D827C2DA915D9009373AB /* YKFFIDO2Session+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08D827B2DA915D9009373AB /* YKFFIDO2Session+Extensions.swift */; };
 		A08D827F2DA91A5D009373AB /* JsonModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08D827E2DA91A5D009373AB /* JsonModels.swift */; };
 		A08D82812DA91AE6009373AB /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08D82802DA91AE6009373AB /* Errors.swift */; };
@@ -35,6 +36,7 @@
 
 /* Begin PBXFileReference section */
 		A00436A92DA7F41D00002721 /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
+		A05D7AC72DBFB8F7001940B3 /* WebBluetooth.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = WebBluetooth.js; sourceTree = "<group>"; };
 		A08D827B2DA915D9009373AB /* YKFFIDO2Session+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "YKFFIDO2Session+Extensions.swift"; sourceTree = "<group>"; };
 		A08D827E2DA91A5D009373AB /* JsonModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonModels.swift; sourceTree = "<group>"; };
 		A08D82802DA91AE6009373AB /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 			isa = PBXGroup;
 			children = (
 				A099D37B2DB69A71007F6983 /* MessageHandler.swift */,
+				A05D7AC72DBFB8F7001940B3 /* WebBluetooth.js */,
 				B40A36222CFA01CA0044D2C6 /* Bridge.js */,
 				B4FB6A952D0C286700647AED /* NativeWrapper.js */,
 				B4FB6A972D0C403800647AED /* Shared.js */,
@@ -236,6 +239,7 @@
 				B4FB6A982D0C404200647AED /* Shared.js in Resources */,
 				B40A36272CFA01CA0044D2C6 /* Assets.xcassets in Resources */,
 				B40A36282CFA01CA0044D2C6 /* Bridge.js in Resources */,
+				A05D7AC82DBFB8FB001940B3 /* WebBluetooth.js in Resources */,
 			);
 		};
 /* End PBXResourcesBuildPhase section */

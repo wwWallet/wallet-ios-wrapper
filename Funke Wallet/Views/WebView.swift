@@ -122,6 +122,8 @@ struct WebView: UIViewRepresentable {
                 return await self?.bleClient.receiveFromServer()
             }
 
+//            ucc.addUserScript(.bluetoothScript!)
+
 
             let configuration = WKWebViewConfiguration()
             configuration.limitsNavigationsToAppBoundDomains = true
