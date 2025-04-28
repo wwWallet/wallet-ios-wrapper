@@ -9,6 +9,7 @@ import SwiftUI
 
 @main
 struct Funke_WalletApp: App {
+
     var body: some Scene {
         WindowGroup {
             ContentView()

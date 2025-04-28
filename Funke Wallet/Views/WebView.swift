@@ -151,10 +151,12 @@ struct WebView: UIViewRepresentable {
             decidePolicyFor navigationAction: WKNavigationAction,
             decisionHandler: @escaping (WKNavigationActionPolicy) -> Void)
         {
-            if let requestUrl = navigationAction.request.url {
-                if requestUrl.scheme == "eid" {
-                    // Open the AusweisApp
-                    UIApplication.shared.open(requestUrl)
+            if let url = navigationAction.request.url {
+
+                // Open all foreign web pages and app schemes like "eid" for the AusweisApp
+                // externally. Only wwWallet code is allowed inside the app.
+                if url.scheme != self.url.scheme || url.host != self.url.host {
+                    UIApplication.shared.open(url)
 
                     return decisionHandler(.cancel)
                 }

@@ -23,7 +23,9 @@ import WebKit
 
     func openUrl(_ url: URL) {
         Task {
-            await loadURLCallback?(url)
+            await MainActor.run {
+                loadURLCallback?(url)
+            }
         }
     }
 
