@@ -1,0 +1,510 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 90;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A00436AA2DA7F42C00002721 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00436A92DA7F41D00002721 /* UIViewController+Extensions.swift */; };
+		A05D7AC82DBFB8FB001940B3 /* WebBluetooth.js in Resources */ = {isa = PBXBuildFile; fileRef = A05D7AC72DBFB8F7001940B3 /* WebBluetooth.js */; };
+		A08D827C2DA915D9009373AB /* YKFFIDO2Session+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08D827B2DA915D9009373AB /* YKFFIDO2Session+Extensions.swift */; };
+		A08D827F2DA91A5D009373AB /* JsonModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08D827E2DA91A5D009373AB /* JsonModels.swift */; };
+		A08D82812DA91AE6009373AB /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08D82802DA91AE6009373AB /* Errors.swift */; };
+		A099D37A2DB69750007F6983 /* WKUserScript+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A099D3792DB69750007F6983 /* WKUserScript+Extensions.swift */; };
+		A099D37C2DB69A71007F6983 /* MessageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A099D37B2DB69A71007F6983 /* MessageHandler.swift */; };
+		A099D37E2DB6A1F7007F6983 /* WKUserContentController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A099D37D2DB6A1F7007F6983 /* WKUserContentController+Extensions.swift */; };
+		A0F7A1792DB68B5A009F3178 /* Logger+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F7A1782DB68B5A009F3178 /* Logger+Extensions.swift */; };
+		B40A360A2CF9DDCF0044D2C6 /* YubiKit in Frameworks */ = {isa = PBXBuildFile; productRef = B40A36092CF9DDCF0044D2C6 /* YubiKit */; };
+		B40A36272CFA01CA0044D2C6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B40A361C2CFA01CA0044D2C6 /* Assets.xcassets */; };
+		B40A36282CFA01CA0044D2C6 /* Bridge.js in Resources */ = {isa = PBXBuildFile; fileRef = B40A36222CFA01CA0044D2C6 /* Bridge.js */; };
+		B40A36292CFA01CA0044D2C6 /* BridgeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40A361D2CFA01CA0044D2C6 /* BridgeModel.swift */; };
+		B40A362A2CFA01CA0044D2C6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40A361E2CFA01CA0044D2C6 /* ContentView.swift */; };
+		B40A362B2CFA01CA0044D2C6 /* Data+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40A361F2CFA01CA0044D2C6 /* Data+Extensions.swift */; };
+		B40A362C2CFA01CA0044D2C6 /* wwWalletApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40A36212CFA01CA0044D2C6 /* wwWalletApp.swift */; };
+		B40A362D2CFA01CA0044D2C6 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40A36232CFA01CA0044D2C6 /* WebView.swift */; };
+		B40A362E2CFA01CA0044D2C6 /* YubiKeyConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40A36242CFA01CA0044D2C6 /* YubiKeyConnection.swift */; };
+		B40A36342CFA16D30044D2C6 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B40A36332CFA16D30044D2C6 /* Settings.bundle */; };
+		B40A36382D0088FF0044D2C6 /* BLEServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40A36372D0088F90044D2C6 /* BLEServer.swift */; };
+		B40A363A2D00890B0044D2C6 /* BLEClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40A36392D0089060044D2C6 /* BLEClient.swift */; };
+		B43CB36F2D030CD900634811 /* WKScriptMessage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B43CB36E2D030CC000634811 /* WKScriptMessage+Extensions.swift */; };
+		B49F14722D12BEC30063C12F /* ButtonStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49F14712D12BEBE0063C12F /* ButtonStyles.swift */; };
+		B4FB6A962D0C287600647AED /* NativeWrapper.js in Resources */ = {isa = PBXBuildFile; fileRef = B4FB6A952D0C286700647AED /* NativeWrapper.js */; };
+		B4FB6A982D0C404200647AED /* Shared.js in Resources */ = {isa = PBXBuildFile; fileRef = B4FB6A972D0C403800647AED /* Shared.js */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		A00436A92DA7F41D00002721 /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
+		A04B09E72DD1FEB900A1BFF7 /* wwWallet-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "wwWallet-Info.plist"; sourceTree = SOURCE_ROOT; };
+		A05D7AC72DBFB8F7001940B3 /* WebBluetooth.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = WebBluetooth.js; sourceTree = "<group>"; };
+		A08D827B2DA915D9009373AB /* YKFFIDO2Session+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "YKFFIDO2Session+Extensions.swift"; sourceTree = "<group>"; };
+		A08D827E2DA91A5D009373AB /* JsonModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonModels.swift; sourceTree = "<group>"; };
+		A08D82802DA91AE6009373AB /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
+		A08D82832DA93BE4009373AB /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = SOURCE_ROOT; };
+		A099D3792DB69750007F6983 /* WKUserScript+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WKUserScript+Extensions.swift"; sourceTree = "<group>"; };
+		A099D37B2DB69A71007F6983 /* MessageHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageHandler.swift; sourceTree = "<group>"; };
+		A099D37D2DB6A1F7007F6983 /* WKUserContentController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WKUserContentController+Extensions.swift"; sourceTree = "<group>"; };
+		A0F7A1782DB68B5A009F3178 /* Logger+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Logger+Extensions.swift"; sourceTree = "<group>"; };
+		B40A35F42CF9DB6A0044D2C6 /* wwWallet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = wwWallet.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B40A361C2CFA01CA0044D2C6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B40A361D2CFA01CA0044D2C6 /* BridgeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BridgeModel.swift; sourceTree = "<group>"; };
+		B40A361E2CFA01CA0044D2C6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		B40A361F2CFA01CA0044D2C6 /* Data+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Extensions.swift"; sourceTree = "<group>"; };
+		B40A36202CFA01CA0044D2C6 /* wwWallet.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = wwWallet.entitlements; sourceTree = "<group>"; };
+		B40A36212CFA01CA0044D2C6 /* wwWalletApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = wwWalletApp.swift; sourceTree = "<group>"; };
+		B40A36222CFA01CA0044D2C6 /* Bridge.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = Bridge.js; sourceTree = "<group>"; };
+		B40A36232CFA01CA0044D2C6 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
+		B40A36242CFA01CA0044D2C6 /* YubiKeyConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YubiKeyConnection.swift; sourceTree = "<group>"; };
+		B40A36332CFA16D30044D2C6 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		B40A36372D0088F90044D2C6 /* BLEServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEServer.swift; sourceTree = "<group>"; };
+		B40A36392D0089060044D2C6 /* BLEClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEClient.swift; sourceTree = "<group>"; };
+		B43CB36E2D030CC000634811 /* WKScriptMessage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WKScriptMessage+Extensions.swift"; sourceTree = "<group>"; };
+		B49F14712D12BEBE0063C12F /* ButtonStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStyles.swift; sourceTree = "<group>"; };
+		B4FB6A952D0C286700647AED /* NativeWrapper.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = NativeWrapper.js; sourceTree = "<group>"; };
+		B4FB6A972D0C403800647AED /* Shared.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = Shared.js; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		B40A35F12CF9DB6A0044D2C6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			files = (
+				B40A360A2CF9DDCF0044D2C6 /* YubiKit in Frameworks */,
+			);
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A08D82762DA9141A009373AB /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				B40A361F2CFA01CA0044D2C6 /* Data+Extensions.swift */,
+				A0F7A1782DB68B5A009F3178 /* Logger+Extensions.swift */,
+				A00436A92DA7F41D00002721 /* UIViewController+Extensions.swift */,
+				B43CB36E2D030CC000634811 /* WKScriptMessage+Extensions.swift */,
+				A099D37D2DB6A1F7007F6983 /* WKUserContentController+Extensions.swift */,
+				A099D3792DB69750007F6983 /* WKUserScript+Extensions.swift */,
+				A08D827B2DA915D9009373AB /* YKFFIDO2Session+Extensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		A08D827D2DA91A2D009373AB /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B40A361D2CFA01CA0044D2C6 /* BridgeModel.swift */,
+				A08D82802DA91AE6009373AB /* Errors.swift */,
+				A08D827E2DA91A5D009373AB /* JsonModels.swift */,
+				B40A36242CFA01CA0044D2C6 /* YubiKeyConnection.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		A08D82822DA93BC0009373AB /* Build */ = {
+			isa = PBXGroup;
+			children = (
+				A08D82832DA93BE4009373AB /* .gitignore */,
+				A04B09E72DD1FEB900A1BFF7 /* wwWallet-Info.plist */,
+			);
+			path = Build;
+			sourceTree = "<group>";
+		};
+		A0F7A1732DB6829D009F3178 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B49F14712D12BEBE0063C12F /* ButtonStyles.swift */,
+				B40A361E2CFA01CA0044D2C6 /* ContentView.swift */,
+				B40A36232CFA01CA0044D2C6 /* WebView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		A0F7A1742DB682EA009F3178 /* Web */ = {
+			isa = PBXGroup;
+			children = (
+				A099D37B2DB69A71007F6983 /* MessageHandler.swift */,
+				A05D7AC72DBFB8F7001940B3 /* WebBluetooth.js */,
+				B40A36222CFA01CA0044D2C6 /* Bridge.js */,
+				B4FB6A952D0C286700647AED /* NativeWrapper.js */,
+				B4FB6A972D0C403800647AED /* Shared.js */,
+			);
+			path = Web;
+			sourceTree = "<group>";
+		};
+		A0F7A1752DB688C6009F3178 /* Bluetooth */ = {
+			isa = PBXGroup;
+			children = (
+				B40A36392D0089060044D2C6 /* BLEClient.swift */,
+				B40A36372D0088F90044D2C6 /* BLEServer.swift */,
+			);
+			path = Bluetooth;
+			sourceTree = "<group>";
+		};
+		B40A35EB2CF9DB6A0044D2C6 = {
+			isa = PBXGroup;
+			children = (
+				B40A36252CFA01CA0044D2C6 /* wwWallet */,
+				B40A35F52CF9DB6A0044D2C6 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		B40A35F52CF9DB6A0044D2C6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B40A35F42CF9DB6A0044D2C6 /* wwWallet.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B40A36252CFA01CA0044D2C6 /* wwWallet */ = {
+			isa = PBXGroup;
+			children = (
+				A08D82822DA93BC0009373AB /* Build */,
+				A08D827D2DA91A2D009373AB /* Models */,
+				A08D82762DA9141A009373AB /* Extensions */,
+				A0F7A1732DB6829D009F3178 /* Views */,
+				A0F7A1742DB682EA009F3178 /* Web */,
+				A0F7A1752DB688C6009F3178 /* Bluetooth */,
+				B40A36212CFA01CA0044D2C6 /* wwWalletApp.swift */,
+				B40A36202CFA01CA0044D2C6 /* wwWallet.entitlements */,
+				B40A361C2CFA01CA0044D2C6 /* Assets.xcassets */,
+				B40A36332CFA16D30044D2C6 /* Settings.bundle */,
+			);
+			path = wwWallet;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		B40A35F32CF9DB6A0044D2C6 /* wwWallet */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B40A36022CF9DB6B0044D2C6 /* Build configuration list for PBXNativeTarget "wwWallet" */;
+			buildPhases = (
+				B40A35F02CF9DB6A0044D2C6 /* Sources */,
+				B40A35F12CF9DB6A0044D2C6 /* Frameworks */,
+				B40A35F22CF9DB6A0044D2C6 /* Resources */,
+			);
+			buildRules = (
+			);
+			name = wwWallet;
+			packageProductDependencies = (
+				B40A36092CF9DDCF0044D2C6 /* YubiKit */,
+			);
+			productName = wwWallet;
+			productReference = B40A35F42CF9DB6A0044D2C6 /* wwWallet.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		B40A35EC2CF9DB6A0044D2C6 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1610;
+				LastUpgradeCheck = 1610;
+				TargetAttributes = {
+					B40A35F32CF9DB6A0044D2C6 = {
+						CreatedOnToolsVersion = 16.1;
+						LastSwiftMigration = 1630;
+					};
+				};
+			};
+			buildConfigurationList = B40A35EF2CF9DB6A0044D2C6 /* Build configuration list for PBXProject "wwWallet" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = B40A35EB2CF9DB6A0044D2C6;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				B40A36082CF9DDCF0044D2C6 /* XCRemoteSwiftPackageReference "yubikit-ios" */,
+			);
+			preferredProjectObjectVersion = 90;
+			productRefGroup = B40A35F52CF9DB6A0044D2C6 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				B40A35F32CF9DB6A0044D2C6 /* wwWallet */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		B40A35F22CF9DB6A0044D2C6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			files = (
+				B40A36342CFA16D30044D2C6 /* Settings.bundle in Resources */,
+				B4FB6A962D0C287600647AED /* NativeWrapper.js in Resources */,
+				B4FB6A982D0C404200647AED /* Shared.js in Resources */,
+				B40A36272CFA01CA0044D2C6 /* Assets.xcassets in Resources */,
+				B40A36282CFA01CA0044D2C6 /* Bridge.js in Resources */,
+				A05D7AC82DBFB8FB001940B3 /* WebBluetooth.js in Resources */,
+			);
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		B40A35F02CF9DB6A0044D2C6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			files = (
+				B40A36382D0088FF0044D2C6 /* BLEServer.swift in Sources */,
+				A08D82812DA91AE6009373AB /* Errors.swift in Sources */,
+				A099D37E2DB6A1F7007F6983 /* WKUserContentController+Extensions.swift in Sources */,
+				B40A36292CFA01CA0044D2C6 /* BridgeModel.swift in Sources */,
+				B43CB36F2D030CD900634811 /* WKScriptMessage+Extensions.swift in Sources */,
+				B49F14722D12BEC30063C12F /* ButtonStyles.swift in Sources */,
+				B40A362A2CFA01CA0044D2C6 /* ContentView.swift in Sources */,
+				B40A362B2CFA01CA0044D2C6 /* Data+Extensions.swift in Sources */,
+				A00436AA2DA7F42C00002721 /* UIViewController+Extensions.swift in Sources */,
+				A08D827C2DA915D9009373AB /* YKFFIDO2Session+Extensions.swift in Sources */,
+				A099D37C2DB69A71007F6983 /* MessageHandler.swift in Sources */,
+				A099D37A2DB69750007F6983 /* WKUserScript+Extensions.swift in Sources */,
+				A08D827F2DA91A5D009373AB /* JsonModels.swift in Sources */,
+				B40A363A2D00890B0044D2C6 /* BLEClient.swift in Sources */,
+				B40A362C2CFA01CA0044D2C6 /* wwWalletApp.swift in Sources */,
+				A0F7A1792DB68B5A009F3178 /* Logger+Extensions.swift in Sources */,
+				B40A362D2CFA01CA0044D2C6 /* WebView.swift in Sources */,
+				B40A362E2CFA01CA0044D2C6 /* YubiKeyConnection.swift in Sources */,
+			);
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		B40A36002CF9DB6B0044D2C6 /* Debug configuration for PBXProject "wwWallet" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		B40A36012CF9DB6B0044D2C6 /* Release configuration for PBXProject "wwWallet" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		B40A36032CF9DB6B0044D2C6 /* Debug configuration for PBXNativeTarget "wwWallet" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = wwWallet/wwWallet.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 12;
+				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = LQA3CS5MM7;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "wwWallet-Info.plist";
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_NFCReaderUsageDescription = "The application needs access to NFC reading to communicate with your YubiKey.";
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Always use bluetooth";
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "The app need to communicate with BLE";
+				INFOPLIST_KEY_NSCameraUsageDescription = "The app needs the camera to read QR codes.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yubico.funkewallet;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		B40A36042CF9DB6B0044D2C6 /* Release configuration for PBXNativeTarget "wwWallet" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = wwWallet/wwWallet.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 12;
+				DEVELOPMENT_TEAM = LQA3CS5MM7;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "wwWallet-Info.plist";
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_NFCReaderUsageDescription = "The application needs access to NFC reading to communicate with your YubiKey.";
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Always use bluetooth";
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "The app need to communicate with BLE";
+				INFOPLIST_KEY_NSCameraUsageDescription = "The app needs the camera to read QR codes.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yubico.funkewallet;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		B40A35EF2CF9DB6A0044D2C6 /* Build configuration list for PBXProject "wwWallet" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B40A36002CF9DB6B0044D2C6 /* Debug configuration for PBXProject "wwWallet" */,
+				B40A36012CF9DB6B0044D2C6 /* Release configuration for PBXProject "wwWallet" */,
+			);
+			defaultConfigurationName = Release;
+		};
+		B40A36022CF9DB6B0044D2C6 /* Build configuration list for PBXNativeTarget "wwWallet" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B40A36032CF9DB6B0044D2C6 /* Debug configuration for PBXNativeTarget "wwWallet" */,
+				B40A36042CF9DB6B0044D2C6 /* Release configuration for PBXNativeTarget "wwWallet" */,
+			);
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		B40A36082CF9DDCF0044D2C6 /* XCRemoteSwiftPackageReference "yubikit-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Yubico/yubikit-ios";
+			requirement = {
+				branch = jens/extensions;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B40A36092CF9DDCF0044D2C6 /* YubiKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B40A36082CF9DDCF0044D2C6 /* XCRemoteSwiftPackageReference "yubikit-ios" */;
+			productName = YubiKit;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = B40A35EC2CF9DB6A0044D2C6 /* Project object */;
+}
