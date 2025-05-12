@@ -1,0 +1,34 @@
+//
+//  Config.xcconfig
+//  wwWallet
+//
+//  Created by Benjamin Erhart on 12.05.25.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+// Avoid accidental checkins:
+// git update-index --skip-worktree Config.xcconfig
+// git update-index --no-skip-worktree Config.xcconfig
+
+APP_BUNDLE_ID[config=Debug] =
+EAF_BUNDLE_ID[config=Debug] =
+APP_GROUP[config=Debug] =
+DEVELOPMENT_TEAM[config=Debug] =
+CODE_SIGN_IDENTITY[config=Debug] = iPhone Developer
+APP_PROVISIONING_PROFILE_SPECIFIER[config=Debug] =
+EAF_PROVISIONING_PROFILE_SPECIFIER[config=Debug] =
+
+APP_BUNDLE_ID[config=Release] =
+EAF_BUNDLE_ID[config=Release] =
+APP_GROUP[config=Release] =
+DEVELOPMENT_TEAM[config=Release] =
+CODE_SIGN_IDENTITY[config=Release] =
+APP_PROVISIONING_PROFILE_SPECIFIER[config=Release] =
+EAF_PROVISIONING_PROFILE_SPECIFIER[config=Release] =
+
+MARKETING_VERSION = 0.1.0
+CURRENT_PROJECT_VERSION = 12
+
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) EXT_BUNDLE_ID="$(EXT_BUNDLE_ID)" APP_GROUP="$(APP_GROUP)"
