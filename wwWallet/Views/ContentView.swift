@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AuthenticationServices
 
 struct ContentView: View {
     
@@ -67,6 +68,11 @@ struct ContentView: View {
                 print("select key type from settings")
             } else {
                 presentSelectKeyType = true
+            }
+
+            Task {
+                // Point the user at the passkeys auto-fill feature.
+                await ASSettingsHelper.requestToTurnOnCredentialProviderExtension()
             }
         }
         .ignoresSafeArea()

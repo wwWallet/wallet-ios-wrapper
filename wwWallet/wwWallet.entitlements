@@ -7,6 +7,8 @@
 		<string>webcredentials:funke.wwwallet.org</string>
 		<string>applinks:funke.wwwallet.org</string>
 	</array>
+	<key>com.apple.developer.authentication-services.autofill-credential-provider</key>
+	<true/>
 	<key>com.apple.developer.nfc.readersession.formats</key>
 	<array>
 		<string>TAG</string>

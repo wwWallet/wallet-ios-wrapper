@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		A00436AA2DA7F42C00002721 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00436A92DA7F41D00002721 /* UIViewController+Extensions.swift */; };
+		A04B09EF2DD2021000A1BFF7 /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A04B09EE2DD2021000A1BFF7 /* AuthenticationServices.framework */; };
+		A04B09FA2DD2021000A1BFF7 /* AutoFillExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A04B09EC2DD2021000A1BFF7 /* AutoFillExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		A05D7AC82DBFB8FB001940B3 /* WebBluetooth.js in Resources */ = {isa = PBXBuildFile; fileRef = A05D7AC72DBFB8F7001940B3 /* WebBluetooth.js */; };
 		A08D827C2DA915D9009373AB /* YKFFIDO2Session+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08D827B2DA915D9009373AB /* YKFFIDO2Session+Extensions.swift */; };
 		A08D827F2DA91A5D009373AB /* JsonModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08D827E2DA91A5D009373AB /* JsonModels.swift */; };
@@ -34,9 +36,34 @@
 		B4FB6A982D0C404200647AED /* Shared.js in Resources */ = {isa = PBXBuildFile; fileRef = B4FB6A972D0C403800647AED /* Shared.js */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		A04B09F82DD2021000A1BFF7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B40A35EC2CF9DB6A0044D2C6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A04B09EB2DD2021000A1BFF7;
+			remoteInfo = AutoFillExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		A04B09FF2DD2021000A1BFF7 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			dstPath = "";
+			dstSubfolder = PlugIns;
+			files = (
+				A04B09FA2DD2021000A1BFF7 /* AutoFillExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		A00436A92DA7F41D00002721 /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 		A04B09E72DD1FEB900A1BFF7 /* wwWallet-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "wwWallet-Info.plist"; sourceTree = SOURCE_ROOT; };
+		A04B09EC2DD2021000A1BFF7 /* AutoFillExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = AutoFillExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		A04B09EE2DD2021000A1BFF7 /* AuthenticationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AuthenticationServices.framework; path = System/Library/Frameworks/AuthenticationServices.framework; sourceTree = SDKROOT; };
+		A04B0A002DD2035C00A1BFF7 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = SOURCE_ROOT; };
 		A05D7AC72DBFB8F7001940B3 /* WebBluetooth.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = WebBluetooth.js; sourceTree = "<group>"; };
 		A08D827B2DA915D9009373AB /* YKFFIDO2Session+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "YKFFIDO2Session+Extensions.swift"; sourceTree = "<group>"; };
 		A08D827E2DA91A5D009373AB /* JsonModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonModels.swift; sourceTree = "<group>"; };
@@ -65,7 +92,34 @@
 		B4FB6A972D0C403800647AED /* Shared.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = Shared.js; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		A04B09FB2DD2021000A1BFF7 /* Exceptions for "AutoFillExtension" folder in "AutoFillExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = A04B09EB2DD2021000A1BFF7 /* AutoFillExtension */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		A04B09F02DD2021000A1BFF7 /* AutoFillExtension */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				A04B09FB2DD2021000A1BFF7 /* Exceptions for "AutoFillExtension" folder in "AutoFillExtension" target */,
+			);
+			path = AutoFillExtension;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
+		A04B09E92DD2021000A1BFF7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			files = (
+				A04B09EF2DD2021000A1BFF7 /* AuthenticationServices.framework in Frameworks */,
+			);
+		};
 		B40A35F12CF9DB6A0044D2C6 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			files = (
@@ -75,6 +129,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A04B09ED2DD2021000A1BFF7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A04B09EE2DD2021000A1BFF7 /* AuthenticationServices.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		A08D82762DA9141A009373AB /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -145,6 +207,8 @@
 			isa = PBXGroup;
 			children = (
 				B40A36252CFA01CA0044D2C6 /* wwWallet */,
+				A04B09F02DD2021000A1BFF7 /* AutoFillExtension */,
+				A04B09ED2DD2021000A1BFF7 /* Frameworks */,
 				B40A35F52CF9DB6A0044D2C6 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -153,6 +217,7 @@
 			isa = PBXGroup;
 			children = (
 				B40A35F42CF9DB6A0044D2C6 /* wwWallet.app */,
+				A04B09EC2DD2021000A1BFF7 /* AutoFillExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -177,6 +242,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		A04B09EB2DD2021000A1BFF7 /* AutoFillExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A04B09FC2DD2021000A1BFF7 /* Build configuration list for PBXNativeTarget "AutoFillExtension" */;
+			buildPhases = (
+				A04B09E82DD2021000A1BFF7 /* Sources */,
+				A04B09E92DD2021000A1BFF7 /* Frameworks */,
+				A04B09EA2DD2021000A1BFF7 /* Resources */,
+			);
+			buildRules = (
+			);
+			fileSystemSynchronizedGroups = (
+				A04B09F02DD2021000A1BFF7 /* AutoFillExtension */,
+			);
+			name = AutoFillExtension;
+			productName = AutoFillExtension;
+			productReference = A04B09EC2DD2021000A1BFF7 /* AutoFillExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		B40A35F32CF9DB6A0044D2C6 /* wwWallet */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = B40A36022CF9DB6B0044D2C6 /* Build configuration list for PBXNativeTarget "wwWallet" */;
@@ -184,8 +267,12 @@
 				B40A35F02CF9DB6A0044D2C6 /* Sources */,
 				B40A35F12CF9DB6A0044D2C6 /* Frameworks */,
 				B40A35F22CF9DB6A0044D2C6 /* Resources */,
+				A04B09FF2DD2021000A1BFF7 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
+			);
+			dependencies = (
+				A04B09F92DD2021000A1BFF7 /* PBXTargetDependency */,
 			);
 			name = wwWallet;
 			packageProductDependencies = (
@@ -205,6 +292,9 @@
 				LastSwiftUpdateCheck = 1630;
 				LastUpgradeCheck = 1610;
 				TargetAttributes = {
+					A04B09EB2DD2021000A1BFF7 = {
+						CreatedOnToolsVersion = 16.3;
+					};
 					B40A35F32CF9DB6A0044D2C6 = {
 						CreatedOnToolsVersion = 16.1;
 						LastSwiftMigration = 1630;
@@ -229,11 +319,17 @@
 			projectRoot = "";
 			targets = (
 				B40A35F32CF9DB6A0044D2C6 /* wwWallet */,
+				A04B09EB2DD2021000A1BFF7 /* AutoFillExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		A04B09EA2DD2021000A1BFF7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			files = (
+			);
+		};
 		B40A35F22CF9DB6A0044D2C6 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			files = (
@@ -248,6 +344,11 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		A04B09E82DD2021000A1BFF7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			files = (
+			);
+		};
 		B40A35F02CF9DB6A0044D2C6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			files = (
@@ -273,7 +374,67 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		A04B09F92DD2021000A1BFF7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A04B09EB2DD2021000A1BFF7 /* AutoFillExtension */;
+			targetProxy = A04B09F82DD2021000A1BFF7 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		A04B09FD2DD2021000A1BFF7 /* Debug configuration for PBXNativeTarget "AutoFillExtension" */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A04B0A002DD2035C00A1BFF7 /* Config.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = AutoFillExtension/AutoFillExtension.entitlements;
+				CODE_SIGN_STYLE = Manual;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AutoFillExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = AutoFillExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "$(EAF_BUNDLE_ID)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "$(EAF_PROVISIONING_PROFILE_SPECIFIER)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A04B09FE2DD2021000A1BFF7 /* Release configuration for PBXNativeTarget "AutoFillExtension" */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A04B0A002DD2035C00A1BFF7 /* Config.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = AutoFillExtension/AutoFillExtension.entitlements;
+				CODE_SIGN_STYLE = Manual;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AutoFillExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = AutoFillExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "$(EAF_BUNDLE_ID)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "$(EAF_PROVISIONING_PROFILE_SPECIFIER)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		B40A36002CF9DB6B0044D2C6 /* Debug configuration for PBXProject "wwWallet" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -465,6 +626,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		A04B09FC2DD2021000A1BFF7 /* Build configuration list for PBXNativeTarget "AutoFillExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A04B09FD2DD2021000A1BFF7 /* Debug configuration for PBXNativeTarget "AutoFillExtension" */,
+				A04B09FE2DD2021000A1BFF7 /* Release configuration for PBXNativeTarget "AutoFillExtension" */,
+			);
+			defaultConfigurationName = Release;
+		};
 		B40A35EF2CF9DB6A0044D2C6 /* Build configuration list for PBXProject "wwWallet" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
