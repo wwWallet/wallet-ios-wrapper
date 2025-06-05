@@ -155,9 +155,15 @@ class CredentialProviderViewController: ASCredentialProviderViewController, UITa
                     label: nameTf.text ?? "Unnamed Key for \(relyingPartyId)",
                     keyId: credentialId.data)
 
+                var flags = try AuthenticatorDataFlags()
+
+                if forceUserVerification {
+                    flags.UV = true
+                }
+
                 credential = try Attestation.shared.createRegistrationCredential(
                     privateKey: privateKey,
-                    rpId: relyingPartyId, challenge: clientDataHash)
+                    rpId: relyingPartyId, challenge: clientDataHash, flags: flags)
 
             }
             catch {
