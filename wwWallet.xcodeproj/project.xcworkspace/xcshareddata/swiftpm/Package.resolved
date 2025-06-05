@@ -1,6 +1,15 @@
 {
-  "originHash" : "bbb50b0c21b9941c9e66ea947e0b6e9cecb412ff3ab973c6c15e86a87f8bee81",
+  "originHash" : "f38d3c9009e8e0731128e63595b5ca6968a6d54f92905d7e1dd51427c7071081",
   "pins" : [
+    {
+      "identity" : "swiftcbor",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/valpackett/SwiftCBOR",
+      "state" : {
+        "revision" : "04ccff117f6549121d5721ec84fdf0162122b90e",
+        "version" : "0.5.0"
+      }
+    },
     {
       "identity" : "yubikit-ios",
       "kind" : "remoteSourceControl",
