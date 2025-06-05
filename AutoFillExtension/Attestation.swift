@@ -47,27 +47,27 @@ class Attestation {
     static let shared = Attestation()
 
     func createRegistrationCredential(
+        credentialId: Data,
         privateKey: SecKey,
         rpId: String,
         authenticatorExtensions: CBOREncodable? = nil,
-        challenge: Data,
+        clientDataHash: Data,
         flags: AuthenticatorDataFlags? = nil)
     throws -> ASPasskeyRegistrationCredential
     {
-        let result = try createAuthenticatorData(
+        let authData = try createAuthenticatorData(
             rpId: rpId,
             flags: flags,
+            credentialId: credentialId,
             privateKey: privateKey,
             authenticatorExtensions: authenticatorExtensions)
 
-        let clientData = try createClientData(challenge: challenge, rpId: rpId)
-
-        let ao = try AttestationMakerNone().makeAttestationObject(result.authData, clientData)
+        let ao = try AttestationMakerNone().makeAttestationObject(authData, clientDataHash)
 
         return ASPasskeyRegistrationCredential(
             relyingParty: rpId,
-            clientDataHash: Self.sha256(clientData),
-            credentialID: result.credentialId,
+            clientDataHash: clientDataHash,
+            credentialID: credentialId,
             attestationObject: Data(ao),
             extensionOutput: nil)
     }
@@ -75,10 +75,11 @@ class Attestation {
     private func createAuthenticatorData(
         rpId: String,
         flags: AuthenticatorDataFlags? = nil,
+        credentialId: Data,
         privateKey: SecKey,
         aaguid: UUID = Attestation.aaguid,
         authenticatorExtensions: CBOREncodable? = nil)
-    throws -> (authData: Data, credentialId: Data)
+    throws -> Data
     {
         guard let publicKey = SecureEnclave.getPublicKey(from: privateKey) else {
             throw Errors.couldNotFindPublicKey
@@ -86,7 +87,7 @@ class Attestation {
 
         let keyData = try SecureEnclave.getKeyData(from: publicKey)
         let publicKeyCose = try Self.rawEcKeyToCose(keyData)
-        let result = makeAttestedCredentialData(aaguid, publicKeyCose)
+        let attestedCredential = makeAttestedCredentialData(aaguid, publicKeyCose, credentialId)
 
         var extensionsCborBytes: [UInt8]? = nil
         if let authenticatorExtensions {
@@ -96,16 +97,16 @@ class Attestation {
         let authData = try makeAuthData(
             rpId: rpId,
             flags: flags,
-            attestedCredentialData: result.attestedCredential,
+            attestedCredentialData: attestedCredential,
             extensionsCborBytes: extensionsCborBytes)
 
-        return (authData, result.credentialId)
+        return authData
     }
 
     private func makeAuthData(
         rpId: String,
         flags: AuthenticatorDataFlags? = nil,
-        signatureCount: Int = 1337,
+        signatureCount: Int = 0,
         attestedCredentialData: Data? = nil,
         extensionsCborBytes: [UInt8]? = nil)
     throws -> Data
@@ -140,13 +141,11 @@ class Attestation {
         return data
     }
 
-    private func makeAttestedCredentialData(_ aaguid: UUID = Attestation.aaguid, _ publicKeyCose: Data)
-    -> (attestedCredential: Data, credentialId: Data)
+    private func makeAttestedCredentialData(_ aaguid: UUID = Attestation.aaguid, _ publicKeyCose: Data, _ credentialId: Data)
+    -> Data
     {
         var data = Data()
         data.append(contentsOf: aaguid.bytes)
-
-        let credentialId = Self.sha256(publicKeyCose)
 
         var credentialIdCount = UInt16(credentialId.count).bigEndian
         let credentialIdCountData = Data(bytes: &credentialIdCount, count: MemoryLayout<UInt16>.size)
@@ -156,23 +155,8 @@ class Attestation {
 
         data.append(publicKeyCose)
 
-        return (data, credentialId)
+        return data
     }
-
-    private func createClientData(
-        challenge: Data,
-        rpId: String,
-        tokenBindingStatus: String = "supported",
-        tokenBindingId: String? = nil)
-    throws -> Data
-    {
-        return try JSONEncoder().encode(ClientData(
-            challenge: challenge.webSafeBase64EncodedString(),
-            origin: "https://\(rpId)",
-            type: "webauthn.create",
-            tokenBinding: .init(status: tokenBindingStatus, id: tokenBindingId)))
-    }
-
 
     private class func sha256(_ input: Data) -> Data {
         var digest = SHA256()
@@ -432,27 +416,13 @@ enum CoseAlgorithmIdentifier: Int32 {
     case RS1 = -65535
 }
 
-struct ClientData: Codable {
-
-    let challenge: String
-    let origin: String
-    let type: String
-    let tokenBinding: TokenBinding
-}
-
-struct TokenBinding: Codable {
-
-    let status: String
-    let id: String?
-}
-
 protocol AttestationMaker {
 
     var format: String { get }
 
     var certChain: [(x509Certificate: Data, privateKey: SecKey)] { get }
 
-    func makeAttestationStatement(_ authData: Data, _ clientDataJson: Data) -> [String: Any?]
+    func makeAttestationStatement(_ authData: Data, _ clientDataHash: Data) -> [String: Any?]
 }
 
 extension AttestationMaker {
@@ -461,11 +431,11 @@ extension AttestationMaker {
         return AttestationMakerNone()
     }
 
-    func makeAttestationObject(_ authData: Data, _ clientDataJson: Data) throws -> [UInt8] {
+    func makeAttestationObject(_ authData: Data, _ clientDataHash: Data) throws -> [UInt8] {
         let ao: [String: Any?] = [
             "authData": authData,
             "fmt": format,
-            "attStmt": makeAttestationStatement(authData, clientDataJson)
+            "attStmt": makeAttestationStatement(authData, clientDataHash)
         ]
 
         return try CBOR.encodeMap(ao)
@@ -478,7 +448,7 @@ class AttestationMakerNone: AttestationMaker {
 
     var certChain = [(x509Certificate: Data, privateKey: SecKey)]()
 
-    func makeAttestationStatement(_ authData: Data, _ clientDataJson: Data) -> [String: Any?] {
+    func makeAttestationStatement(_ authData: Data, _ clientDataHash: Data) -> [String: Any?] {
         return [:]
     }
 }

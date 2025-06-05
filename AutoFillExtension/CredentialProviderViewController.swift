@@ -137,10 +137,6 @@ class CredentialProviderViewController: ASCredentialProviderViewController, UITa
         }
 
         do {
-            // TODO: It seems, the credential ID needs to be a hash calculated from
-            // the COSE-formatted public key. But if that's so,
-            // we have a catch-22 here, as the key needs to be created in the Secure Enclave
-            // before we get the public key, and we cannot rename a key tag later. Hurgh!
             let credentialId = UUID()
 
             let privateKey = try SecureEnclave.createPrivateKey(
@@ -156,14 +152,16 @@ class CredentialProviderViewController: ASCredentialProviderViewController, UITa
                     keyId: credentialId.data)
 
                 var flags = try AuthenticatorDataFlags()
+                flags.BE = true
 
                 if forceUserVerification {
                     flags.UV = true
                 }
 
                 credential = try Attestation.shared.createRegistrationCredential(
+                    credentialId: credentialId.data,
                     privateKey: privateKey,
-                    rpId: relyingPartyId, challenge: clientDataHash, flags: flags)
+                    rpId: relyingPartyId, clientDataHash: clientDataHash, flags: flags)
 
             }
             catch {
@@ -173,6 +171,7 @@ class CredentialProviderViewController: ASCredentialProviderViewController, UITa
             }
 
             let fb2 = credential.attestationObject.base64EncodedString()
+            print("[\(String(describing: type(of: self)))] attestationObject=\(fb2)")
 
             extensionContext.completeRegistrationRequest(using: credential)
         }
