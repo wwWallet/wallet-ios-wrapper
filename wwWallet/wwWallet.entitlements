@@ -4,8 +4,8 @@
 <dict>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
-		<string>webcredentials:funke.wwwallet.org</string>
-		<string>applinks:funke.wwwallet.org</string>
+		<string>webcredentials:$(BASE_DOMAIN)</string>
+		<string>applinks:$(BASE_DOMAIN)</string>
 	</array>
 	<key>com.apple.developer.authentication-services.autofill-credential-provider</key>
 	<true/>

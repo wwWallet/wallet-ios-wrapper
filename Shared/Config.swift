@@ -16,4 +16,8 @@ extension Config {
     class var groupId: String {
         __groupId as String
     }
+
+    class var baseDomain: String {
+        __baseDomain as String
+    }
 }

@@ -21,4 +21,8 @@
     return MACRO_STRING(APP_GROUP);
 }
 
++ (NSString *) baseDomain {
+    return MACRO_STRING(BASE_DOMAIN);
+}
+
 @end

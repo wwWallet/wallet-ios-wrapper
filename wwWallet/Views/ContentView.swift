@@ -7,26 +7,55 @@
 
 import SwiftUI
 import AuthenticationServices
+import OSLog
 
 struct ContentView: View {
     
     @State var model = BridgeModel()
-    @State var passkeyType: PasskeyType?
+
+    @State var passkeyType = PasskeyType.builtin
+
     @Environment(\.scenePhase) var scenePhase
-    @AppStorage("bypassSelectKeyType") var bypassSelectKeyType: Bool = false
-    @AppStorage("useYubiKey") var useYubiKey: Bool = false
-    @State var presentSelectKeyType: Bool = false
+
+    @AppStorage("bypassSelectKeyType") var bypassSelectKeyType = false
+    @AppStorage("useYubiKey") var useYubiKey = false
+
+    @State var presentSelectKeyType = false
 
     var body: some View {
         ZStack {
             Color(red: 17/255, green: 25/255, blue: 40/255)
             VStack {
-                if let passkeyType {
-                    WebView(url: URL(string: "https://funke.wwwallet.org")!, model: model, passkeyType: passkeyType)
-                        .onOpenURL { url in
+                WebView(
+                    url: URL(string: "https://\(Config.baseDomain)")!,
+                    model: model, passkeyType: passkeyType)
+                    .onOpenURL { url in
+                        let log = Logger(with: self)
+
+                        if url.scheme == "haip",
+                           var urlc = URLComponents(url: url, resolvingAgainstBaseURL: false)
+                        {
+                            urlc.scheme = "https"
+                            urlc.host = Config.baseDomain
+
+                            if let url = urlc.url {
+                                log.info("Opening haip URL: \(url)")
+
+                                model.openUrl(url)
+                            }
+                            else {
+                                log.warning("Could not build URL in our own domain \"\(Config.baseDomain)\" from haip URL: \(url)")
+                            }
+                        }
+                        else if url.host == Config.baseDomain {
+                            log.info("Opening URL in our own domain \"\(Config.baseDomain)\": \(url)")
+
                             model.openUrl(url)
                         }
-                }
+                        else {
+                            log.warning("App called with URL which neither has the `haip` scheme nor is in our own domain: \(url)")
+                        }
+                    }
             }.padding(0)
         }
         .sheet(isPresented: $presentSelectKeyType) {
