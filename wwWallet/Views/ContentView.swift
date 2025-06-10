@@ -36,6 +36,21 @@ struct ContentView: View {
                            var urlc = URLComponents(url: url, resolvingAgainstBaseURL: false)
                         {
                             urlc.scheme = "https"
+
+                            // There might be a piece, which the URLComponents
+                            // parser wrongly identified as the domain, not the path.
+                            // Preserve that, before setting the host.
+                            if let host = urlc.host,
+                               !host.isEmpty && urlc.path.isEmpty
+                            {
+                                if host.hasPrefix("/") {
+                                    urlc.path = host
+                                }
+                                else {
+                                    urlc.path = "/\(host)"
+                                }
+                            }
+
                             urlc.host = Config.baseDomain
 
                             if let url = urlc.url {
@@ -44,7 +59,7 @@ struct ContentView: View {
                                 model.openUrl(url)
                             }
                             else {
-                                log.warning("Could not build URL in our own domain \"\(Config.baseDomain)\" from haip URL: \(url)")
+                                log.warning("Could not build URL in our own domain \"\(Config.baseDomain)\" from haip URL: \(url) -> \(urlc)")
                             }
                         }
                         else if url.host == Config.baseDomain {
