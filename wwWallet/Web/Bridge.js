@@ -147,15 +147,22 @@ var __webauthn_hooks__;
     console.log("Initializing webauthn hooks");
 
     function create(request) {
-        console.log("Executing create with request: " + request);
+        console.log("Executing create with request: ", request);
 
-        if (!("publicKey" in request)) {
+        if (
+            !("publicKey" in request)
+            || !("hints" in request.publicKey)
+            || !Array.isArray(request.publicKey.hints)
+            || !request.publicKey.hints.includes("security-key")
+        ) {
+            console.log("Forward to OS, because no security-key hint contained.")
+
             return __webauthn_hooks__.originalCreateFunction(request);
         }
 
         var json = stringify({ "type": "create", "request": request.publicKey });
 
-        console.log("Post message: " + json);
+        console.log("Post message: ", json);
 
         return window.webkit.messageHandlers.__webauthn_create_interface__.postMessage(json)
         .then(onReply)
@@ -174,9 +181,16 @@ var __webauthn_hooks__;
     __webauthn_hooks__.create = create;
 
     function get(request) {
-        console.log("Executing get with request" + request);
+        console.log("Executing get with request", request);
 
-        if (!("publicKey" in request)) {
+        if (
+            !("publicKey" in request)
+            || !("hints" in request.publicKey)
+            || !Array.isArray(request.publicKey.hints)
+            || !request.publicKey.hints.includes("security-key")
+        ) {
+            console.log("Forward to OS, because no security-key hint contained.")
+
             return __webauthn_hooks__.originalGetFunction(request);
         }
 

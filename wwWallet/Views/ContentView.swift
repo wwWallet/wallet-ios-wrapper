@@ -13,14 +13,7 @@ struct ContentView: View {
     
     @State var model = BridgeModel()
 
-    @State var passkeyType = PasskeyType.builtin
-
     @Environment(\.scenePhase) var scenePhase
-
-    @AppStorage("bypassSelectKeyType") var bypassSelectKeyType = false
-    @AppStorage("useYubiKey") var useYubiKey = false
-
-    @State var presentSelectKeyType = false
 
     var body: some View {
         ZStack {
@@ -28,7 +21,7 @@ struct ContentView: View {
             VStack {
                 WebView(
                     url: URL(string: "https://\(Config.baseDomain)")!,
-                    model: model, passkeyType: passkeyType)
+                    model: model)
                     .onOpenURL { url in
                         let log = Logger(with: self)
 
@@ -73,47 +66,7 @@ struct ContentView: View {
                     }
             }.padding(0)
         }
-        .sheet(isPresented: $presentSelectKeyType) {
-            VStack {
-                Image(.wallet).resizable().scaledToFit().frame(width: 110)
-                    .padding(.top, 20)
-                Text("Select the authorization method to use. You can change your remembered choice later in the iOS Settings app.")
-                    .font(.callout)
-                    .foregroundStyle(.secondary)
-                    .multilineTextAlignment(.center)
-                    .lineLimit(nil)
-                    .padding(15)
-                VStack {
-                    Button("Built-in passkey") {
-                        passkeyType = .builtin
-                        useYubiKey = false
-                        presentSelectKeyType = false
-                    }
-                        .buttonStyle(.basicButton)
-                    Button("YubiKey") {
-                        passkeyType = .yubikey
-                        useYubiKey = true
-                        presentSelectKeyType = false
-                    }
-                        .bold()
-                        .padding(.top, 15)
-                    Spacer()
-                    Toggle("Remember my choice", isOn: $bypassSelectKeyType)
-                        .padding(.horizontal, 30)
-                }
-            }
-            .padding()
-            .presentationDetents([.medium])
-                .interactiveDismissDisabled(true)
-        }
         .onAppear {
-            if bypassSelectKeyType {
-                passkeyType = useYubiKey ? .yubikey : .builtin
-                print("select key type from settings")
-            } else {
-                presentSelectKeyType = true
-            }
-
             Task {
                 // Point the user at the passkeys auto-fill feature.
                 await ASSettingsHelper.requestToTurnOnCredentialProviderExtension()

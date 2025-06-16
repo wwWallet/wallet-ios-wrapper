@@ -10,34 +10,27 @@ import SwiftUI
 import CoreBluetooth
 import OSLog
 
-enum PasskeyType {
-    case builtin, yubikey
-}
-
 struct WebView: UIViewRepresentable {
 
     let url: URL
     let model: BridgeModel
-    let passkeyType: PasskeyType
 
     func makeCoordinator() -> Coordinator {
-        Coordinator(url: url, model: model, passkeyType: passkeyType)
+        Coordinator(url: url, model: model)
     }
     
     class Coordinator: NSObject, WKNavigationDelegate, WKUIDelegate {
 
         let url: URL
         let model: BridgeModel
-        let passkeyType: PasskeyType
         let bleServer = BLEServer.shared
         let bleClient = BLEClient.shared
         
         private let log = Logger(with: Coordinator.self)
 
-        init(url: URL, model: BridgeModel, passkeyType: PasskeyType) {
+        init(url: URL, model: BridgeModel) {
             self.url = url
             self.model = model
-            self.passkeyType = passkeyType
         }
         
         lazy var wkWebView: WKWebView = {
@@ -45,18 +38,15 @@ struct WebView: UIViewRepresentable {
             
             ucc.addUserScript(.sharedScript!)
 
+            ucc.addUserScript(.bridgeScript!)
 
-            if passkeyType == .yubikey {
-                ucc.addUserScript(.bridgeScript!)
+            // Webauthn
+            ucc.addPageHandler(named: "__webauthn_create_interface__") { [weak self] message in
+                return try await self?.model.didReceiveCreate(message)
+            }
 
-                // Webauthn
-                ucc.addPageHandler(named: "__webauthn_create_interface__") { [weak self] message in
-                    return try await self?.model.didReceiveCreate(message)
-                }
-
-                ucc.addPageHandler(named: "__webauthn_get_interface__") { [weak self] message in
-                    return try await self?.model.didReceiveGet(message)
-                }
+            ucc.addPageHandler(named: "__webauthn_get_interface__") { [weak self] message in
+                return try await self?.model.didReceiveGet(message)
             }
 
             ucc.addUserScript(.nativeWrapperScript!)

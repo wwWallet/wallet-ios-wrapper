@@ -27,7 +27,6 @@
 		B40A362C2CFA01CA0044D2C6 /* wwWalletApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40A36212CFA01CA0044D2C6 /* wwWalletApp.swift */; };
 		B40A362D2CFA01CA0044D2C6 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40A36232CFA01CA0044D2C6 /* WebView.swift */; };
 		B40A362E2CFA01CA0044D2C6 /* YubiKeyConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40A36242CFA01CA0044D2C6 /* YubiKeyConnection.swift */; };
-		B40A36342CFA16D30044D2C6 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B40A36332CFA16D30044D2C6 /* Settings.bundle */; };
 		B40A36382D0088FF0044D2C6 /* BLEServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40A36372D0088F90044D2C6 /* BLEServer.swift */; };
 		B40A363A2D00890B0044D2C6 /* BLEClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40A36392D0089060044D2C6 /* BLEClient.swift */; };
 		B43CB36F2D030CD900634811 /* WKScriptMessage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B43CB36E2D030CC000634811 /* WKScriptMessage+Extensions.swift */; };
@@ -82,7 +81,6 @@
 		B40A36222CFA01CA0044D2C6 /* Bridge.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = Bridge.js; sourceTree = "<group>"; };
 		B40A36232CFA01CA0044D2C6 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		B40A36242CFA01CA0044D2C6 /* YubiKeyConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YubiKeyConnection.swift; sourceTree = "<group>"; };
-		B40A36332CFA16D30044D2C6 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		B40A36372D0088F90044D2C6 /* BLEServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEServer.swift; sourceTree = "<group>"; };
 		B40A36392D0089060044D2C6 /* BLEClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEClient.swift; sourceTree = "<group>"; };
 		B43CB36E2D030CC000634811 /* WKScriptMessage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WKScriptMessage+Extensions.swift"; sourceTree = "<group>"; };
@@ -254,7 +252,6 @@
 				B40A36212CFA01CA0044D2C6 /* wwWalletApp.swift */,
 				B40A36202CFA01CA0044D2C6 /* wwWallet.entitlements */,
 				B40A361C2CFA01CA0044D2C6 /* Assets.xcassets */,
-				B40A36332CFA16D30044D2C6 /* Settings.bundle */,
 			);
 			path = wwWallet;
 			sourceTree = "<group>";
@@ -359,7 +356,6 @@
 		B40A35F22CF9DB6A0044D2C6 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			files = (
-				B40A36342CFA16D30044D2C6 /* Settings.bundle in Resources */,
 				B4FB6A962D0C287600647AED /* NativeWrapper.js in Resources */,
 				B4FB6A982D0C404200647AED /* Shared.js in Resources */,
 				B40A36272CFA01CA0044D2C6 /* Assets.xcassets in Resources */,
