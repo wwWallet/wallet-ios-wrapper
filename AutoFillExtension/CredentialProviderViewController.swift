@@ -28,7 +28,7 @@ class CredentialProviderViewController: ASCredentialProviderViewController, UITa
 
     private var relyingPartyId = ""
     private var clientDataHash = Data()
-    private var forceUserVerification = false
+    private var wantsUserVerification = false
 
     private var identity: ASPasskeyCredentialIdentity?
 
@@ -41,16 +41,26 @@ class CredentialProviderViewController: ASCredentialProviderViewController, UITa
         overrideUserInterfaceStyle = .dark
     }
 
+    override func prepareCredentialList(for serviceIdentifiers: [ASCredentialServiceIdentifier], requestParameters: ASPasskeyCredentialRequestParameters) {
+        relyingPartyId = requestParameters.relyingPartyIdentifier
+        clientDataHash = requestParameters.clientDataHash
+        wantsUserVerification = requestParameters.userVerificationPreference != .discouraged
 
-    /*
-     Prepare your UI to list available credentials for the user to choose from. The items in
-     'serviceIdentifiers' describe the service the user is logging in to, so your extension can
-     prioritize the most relevant credentials in the list.
-     */
-    override func prepareCredentialList(for serviceIdentifiers: [ASCredentialServiceIdentifier]) {
         privateKeys = serviceIdentifiers.flatMap {
             Passkeys.shared.getPasskeys(for: $0.identifier)
         }
+
+        privateKeys.append(contentsOf: Passkeys.shared.getPasskeys(for: relyingPartyId))
+
+        privateKeys.removeAll { !requestParameters.allowedCredentials.contains($0.keyId) }
+
+
+        headlineLb.text = NSLocalizedString("Log In to", comment: "")
+        relyingPartyLb.text = relyingPartyId
+        attestationContainer.isHidden = false
+        registrationContainer.isHidden = true
+
+        tableView.reloadData()
     }
 
     override func prepareInterface(forPasskeyRegistration registrationRequest: any ASCredentialRequest) {
@@ -74,7 +84,7 @@ class CredentialProviderViewController: ASCredentialProviderViewController, UITa
 
             relyingPartyId = identity.relyingPartyIdentifier
             clientDataHash = request.clientDataHash
-            forceUserVerification = request.userVerificationPreference == .required
+            wantsUserVerification = request.userVerificationPreference != .discouraged
             self.identity = identity
 
             headlineLb.text = NSLocalizedString("Create Passkey for", comment: "")
@@ -83,41 +93,8 @@ class CredentialProviderViewController: ASCredentialProviderViewController, UITa
             nameTf.text = identity.userName
             textFieldDidChange(nameTf)
             attestationContainer.isHidden = true
-        }
-        catch {
-            extensionContext.cancelRequest(withError: getError(original: error))
-        }
-    }
 
-    override func prepareInterfaceToProvideCredential(for credentialRequest: any ASCredentialRequest) {
-        do {
-            guard credentialRequest.type == .passkeyAssertion,
-                  let request = credentialRequest as? ASPasskeyCredentialRequest,
-                  let identity = request.credentialIdentity as? ASPasskeyCredentialIdentity,
-                  request.supportedAlgorithms.contains(.ES256)
-            else {
-                throw getError()
-            }
-
-            relyingPartyId = identity.relyingPartyIdentifier
-            clientDataHash = request.clientDataHash
-            forceUserVerification = request.userVerificationPreference == .required
-            self.identity = identity
-
-            headlineLb.text = NSLocalizedString("Log In to", comment: "")
-            relyingPartyLb.text = relyingPartyId
-            registrationContainer.isHidden = true
-            attestationContainer.isHidden = false
-
-            if !privateKeys.contains(where: { $0.keyId == identity.credentialID }) {
-                privateKeys.append(contentsOf: Passkeys.shared.getPasskeys(for: relyingPartyId))
-            }
-
-            privateKeys.removeAll { it in
-                request.excludedCredentials?.contains(where: {
-                    $0.credentialID == it.keyId
-                }) ?? false
-            }
+//            try SecureEnclave.removeAllPrivateKeys()
         }
         catch {
             extensionContext.cancelRequest(withError: getError(original: error))
@@ -141,7 +118,7 @@ class CredentialProviderViewController: ASCredentialProviderViewController, UITa
 
             let privateKey = try SecureEnclave.createPrivateKey(
                 tag: credentialId,
-                userVerification: forceUserVerification)
+                userVerification: wantsUserVerification)
 
             let credential: ASPasskeyRegistrationCredential
 
@@ -149,16 +126,16 @@ class CredentialProviderViewController: ASCredentialProviderViewController, UITa
                 try Passkeys.shared.storePasskey(
                     relyingPartyId: relyingPartyId,
                     label: nameTf.text ?? "Unnamed Key for \(relyingPartyId)",
-                    keyId: credentialId.data)
+                    keyId: credentialId.data,
+                    userHandle: identity?.userHandle ?? .init(),
+                    userVerified: wantsUserVerification)
 
                 var flags = try AuthenticatorDataFlags()
-                flags.BE = true
+                flags.BE = true // Creation will fail if this flag is not set.
+                flags.BS = true // Creation will fail if this flag is not set.
+                flags.UV = wantsUserVerification
 
-                if forceUserVerification {
-                    flags.UV = true
-                }
-
-                credential = try Attestation.shared.createRegistrationCredential(
+                credential = try Attestation.createRegistrationCredential(
                     credentialId: credentialId.data,
                     privateKey: privateKey,
                     rpId: relyingPartyId, clientDataHash: clientDataHash, flags: flags)
@@ -206,17 +183,25 @@ class CredentialProviderViewController: ASCredentialProviderViewController, UITa
     // MARK: UITableViewDelegate
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let key = privateKeys[indexPath.row]
+        let passkey = privateKeys[indexPath.row]
 
-        let passkey = ASPasskeyAssertionCredential(
-            userHandle: identity?.userHandle ?? Data(),
-            relyingParty: relyingPartyId,
-            signature: .init(),
-            clientDataHash: clientDataHash,
-            authenticatorData: .init(),
-            credentialID: key.keyId)
+        do {
+            var flags = try AuthenticatorDataFlags()
+            flags.BE = true
+            flags.BS = true
+            flags.UV = passkey.userVerified
 
-        extensionContext.completeAssertionRequest(using: passkey)
+            let assertion = try Assertion.makeAssertionCredential(
+                rpId: relyingPartyId,
+                flags: flags,
+                passkey: passkey,
+                clientDataHash: clientDataHash)
+
+            extensionContext.completeAssertionRequest(using: assertion)
+        }
+        catch {
+            extensionContext.cancelRequest(withError: getError(original: error))
+        }
     }
 
 

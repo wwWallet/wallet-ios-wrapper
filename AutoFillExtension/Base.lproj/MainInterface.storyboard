@@ -40,7 +40,27 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="t30-a4-5Bj">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wEn-uD-nUv">
+                                <rect key="frame" x="0.0" y="135" width="375" height="532"/>
+                                <subviews>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="cXy-ev-kg8">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="532"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <connections>
+                                            <outlet property="dataSource" destination="Xki-Si-B7m" id="QGH-3N-i6B"/>
+                                            <outlet property="delegate" destination="Xki-Si-B7m" id="dQ4-x0-6hX"/>
+                                        </connections>
+                                    </tableView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="cXy-ev-kg8" secondAttribute="trailing" id="6kp-8Z-4S3"/>
+                                    <constraint firstAttribute="bottom" secondItem="cXy-ev-kg8" secondAttribute="bottom" id="NAr-co-Ei8"/>
+                                    <constraint firstItem="cXy-ev-kg8" firstAttribute="top" secondItem="wEn-uD-nUv" secondAttribute="top" id="UvL-r1-dcs"/>
+                                    <constraint firstItem="cXy-ev-kg8" firstAttribute="leading" secondItem="wEn-uD-nUv" secondAttribute="leading" id="cBb-dF-sJb"/>
+                                </constraints>
+                            </view>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="t30-a4-5Bj">
                                 <rect key="frame" x="0.0" y="135" width="375" height="532"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Name for Passkey" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="bnn-Nh-cA1">
@@ -67,26 +87,6 @@
                                     <constraint firstItem="DVl-Cd-Mu2" firstAttribute="centerX" secondItem="t30-a4-5Bj" secondAttribute="centerX" id="czb-Vu-9EN"/>
                                     <constraint firstItem="bnn-Nh-cA1" firstAttribute="leading" secondItem="t30-a4-5Bj" secondAttribute="leading" constant="16" id="eYO-UJ-ror"/>
                                     <constraint firstItem="DVl-Cd-Mu2" firstAttribute="top" secondItem="bnn-Nh-cA1" secondAttribute="bottom" constant="32" id="lzg-4y-fpE"/>
-                                </constraints>
-                            </view>
-                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wEn-uD-nUv">
-                                <rect key="frame" x="0.0" y="135" width="375" height="532"/>
-                                <subviews>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="cXy-ev-kg8">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="532"/>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                        <connections>
-                                            <outlet property="dataSource" destination="Xki-Si-B7m" id="QGH-3N-i6B"/>
-                                            <outlet property="delegate" destination="Xki-Si-B7m" id="dQ4-x0-6hX"/>
-                                        </connections>
-                                    </tableView>
-                                </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="cXy-ev-kg8" secondAttribute="trailing" id="6kp-8Z-4S3"/>
-                                    <constraint firstAttribute="bottom" secondItem="cXy-ev-kg8" secondAttribute="bottom" id="NAr-co-Ei8"/>
-                                    <constraint firstItem="cXy-ev-kg8" firstAttribute="top" secondItem="wEn-uD-nUv" secondAttribute="top" id="UvL-r1-dcs"/>
-                                    <constraint firstItem="cXy-ev-kg8" firstAttribute="leading" secondItem="wEn-uD-nUv" secondAttribute="leading" id="cBb-dF-sJb"/>
                                 </constraints>
                             </view>
                         </subviews>

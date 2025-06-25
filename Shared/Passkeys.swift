@@ -48,12 +48,12 @@ class Passkeys {
         passkeys[relyingPartyId] ?? []
     }
 
-    func storePasskey(relyingPartyId: String, label: String, keyId: Data) throws {
+    func storePasskey(relyingPartyId: String, label: String, keyId: Data, userHandle: Data, userVerified: Bool) throws {
         if passkeys[relyingPartyId] == nil {
             passkeys[relyingPartyId] = []
         }
 
-        passkeys[relyingPartyId]?.append(Passkey(label: label, keyId: keyId))
+        passkeys[relyingPartyId]?.append(Passkey(label: label, keyId: keyId, userHandle: userHandle, userVerified: userVerified))
 
         guard let url = Self.file else {
             throw NSError(domain: NSURLErrorDomain, code: NSURLErrorBadURL)
@@ -70,6 +70,10 @@ struct Passkey: Codable {
     let label: String
 
     let keyId: Data
+
+    let userHandle: Data
+
+    let userVerified: Bool
 
     var keyIdString: String? {
         UUID.from(data: keyId)?.uuidString

@@ -15,38 +15,13 @@ import AuthenticationServices
  */
 class Attestation {
 
-    enum Errors: LocalizedError {
-
-        case couldNotEncodeRpId
-        case couldNotFindPublicKey
-        case keyInvalidLength(length: Int, firstByte: UInt8)
-        case unknownCoseAlgo
-
-        var localizedDescription: String {
-            switch self {
-            case .couldNotEncodeRpId:
-                return "Could not encode Relying Party ID!"
-
-            case .couldNotFindPublicKey:
-                return "Could not find public key!"
-
-            case .keyInvalidLength(let length, let firstByte):
-                return "Raw key must be 64, 96 or 132 bytes long, or start with 0x04 and be 65, 97 or 133 bytes long; was \(length) bytes starting with \(firstByte)"
-
-            case .unknownCoseAlgo:
-                return "Failed to determine COSE EC algorithm. This should not be possible, please file a bug report."
-            }
-        }
-    }
-
     /**
      Autheticator Attestation GUID
      */
     static let aaguid = UUID(uuidString: "0a073192-1e1e-4d90-ade2-0fc6d19ceb03")!
 
-    static let shared = Attestation()
 
-    func createRegistrationCredential(
+    class func createRegistrationCredential(
         credentialId: Data,
         privateKey: SecKey,
         rpId: String,
@@ -62,17 +37,36 @@ class Attestation {
             privateKey: privateKey,
             authenticatorExtensions: authenticatorExtensions)
 
-        let ao = try AttestationMakerNone().makeAttestationObject(authData, clientDataHash)
+        let attestation = Attestation(authData: authData)
 
-        return ASPasskeyRegistrationCredential(
+        return .init(
             relyingParty: rpId,
             clientDataHash: clientDataHash,
             credentialID: credentialId,
-            attestationObject: Data(ao),
+            attestationObject: try attestation.raw,
             extensionOutput: nil)
     }
 
-    private func createAuthenticatorData(
+
+    let attestation: [String: Any?]
+
+    var raw: Data {
+        get throws {
+            Data(try CBOR.encodeMap(attestation))
+        }
+    }
+
+
+    init(authData: Data) {
+        attestation = [
+            "authData": authData,
+            "fmt": "none",
+            "attStmt": [:]
+        ]
+    }
+
+
+    private class func createAuthenticatorData(
         rpId: String,
         flags: AuthenticatorDataFlags? = nil,
         credentialId: Data,
@@ -81,11 +75,11 @@ class Attestation {
         authenticatorExtensions: CBOREncodable? = nil)
     throws -> Data
     {
-        guard let publicKey = SecureEnclave.getPublicKey(from: privateKey) else {
+        guard let publicKey = privateKey.publicKey else {
             throw Errors.couldNotFindPublicKey
         }
 
-        let keyData = try SecureEnclave.getKeyData(from: publicKey)
+        let keyData = try publicKey.keyData
         let publicKeyCose = try Self.rawEcKeyToCose(keyData)
         let attestedCredential = makeAttestedCredentialData(aaguid, publicKeyCose, credentialId)
 
@@ -103,7 +97,7 @@ class Attestation {
         return authData
     }
 
-    private func makeAuthData(
+    private class func makeAuthData(
         rpId: String,
         flags: AuthenticatorDataFlags? = nil,
         signatureCount: Int = 0,
@@ -141,7 +135,7 @@ class Attestation {
         return data
     }
 
-    private func makeAttestedCredentialData(_ aaguid: UUID = Attestation.aaguid, _ publicKeyCose: Data, _ credentialId: Data)
+    private class func makeAttestedCredentialData(_ aaguid: UUID = Attestation.aaguid, _ publicKeyCose: Data, _ credentialId: Data)
     -> Data
     {
         var data = Data()
@@ -159,10 +153,7 @@ class Attestation {
     }
 
     private class func sha256(_ input: Data) -> Data {
-        var digest = SHA256()
-        digest.update(data: input)
-
-        return Data(digest.finalize())
+        Data(SHA256.hash(data: input))
     }
 
     private class func rawEcKeyToCose(_ key: Data) throws -> Data {
@@ -211,132 +202,6 @@ class Attestation {
         coseKey[-3] = key[start + coordinateLength ..< start + 2 * coordinateLength] // y
 
         return Data(try CBOR.encodeMap(coseKey))
-    }
-}
-
-struct AuthenticatorDataFlags {
-
-    enum Errors: LocalizedError {
-
-        case invalidCombination(UInt8)
-
-        var localizedDescription: String {
-            switch self {
-            case .invalidCombination(let value):
-                return "Flag combination BE=0, BS=1 is invalid: \(value)"
-            }
-        }
-    }
-
-    private class Bitmasks {
-        static let UP: UInt8 = 0x01
-        static let UV: UInt8 = 0x04
-        static let BE: UInt8 = 0x08
-        static let BS: UInt8 = 0x10
-        static let AT: UInt8 = 0x40
-        static let ED : UInt8 = 0x80
-
-        // Reserved bits
-        static let RFU1 : UInt8 = 0x02
-        static let RFU2 : UInt8 = 0x20
-    }
-
-    private(set) var value: UInt8
-
-    /**
-     User Present
-     */
-    var UP: Bool {
-        get {
-            (value & Bitmasks.UP) != 0
-        }
-        set {
-            value = newValue ? (value | Bitmasks.UP) : (value & ~Bitmasks.UP)
-        }
-    }
-
-    /**
-     User Verified
-     */
-    var UV: Bool {
-        get {
-            (value & Bitmasks.UV) != 0
-        }
-        set {
-            value = newValue ? (value | Bitmasks.UV) : (value & ~Bitmasks.UV)
-        }
-    }
-
-    /**
-     Backup eligible: the credential can and is allowed to be backed up.
-
-     NOTE that this is only a hint and not a guarantee, unless backed by a trusted authenticator attestation.
-
-     <https://w3c.github.io/webauthn/#authdata-flags-be>
-
-     @DeprecationSummary {
-        EXPERIMENTAL: This feature is from a not yet mature standard; it could change as the standard matures.
-     }
-     */
-    var BE: Bool {
-        get {
-            (value & Bitmasks.BE) != 0
-        }
-        set {
-            value = newValue ? (value | Bitmasks.BE) : (value & ~Bitmasks.BE)
-        }
-    }
-
-    /**
-     Backup status: the credential is currently backed up.
-
-     NOTE that this is only a hint and not a guarantee, unless backed by a trusted authenticator attestation.
-
-     <https://w3c.github.io/webauthn/#authdata-flags-bs>
-
-     @DeprecationSummary {
-         EXPERIMENTAL: This feature is from a not yet mature standard; it could change as the standard matures.
-     }
-     */
-    var BS: Bool {
-        get {
-            (value & Bitmasks.BS) != 0
-        }
-        set {
-            value = newValue ? (value | Bitmasks.BS) : (value & ~Bitmasks.BS)
-        }
-    }
-
-    /**
-     Attested credential data present.
-     */
-    var AT: Bool {
-        get {
-            (value & Bitmasks.AT) != 0
-        }
-        set {
-            value = newValue ? (value | Bitmasks.AT) : (value & ~Bitmasks.AT)
-        }
-    }
-
-    /**
-     Extension data present.
-     */
-    var ED: Bool {
-        get {
-            (value & Bitmasks.ED) != 0
-        }
-        set {
-            value = newValue ? (value | Bitmasks.ED) : (value & ~Bitmasks.ED)
-        }
-    }
-
-    init(value: UInt8 = 0x00) throws {
-        self.value = value
-
-        if BS && !BE {
-            throw Errors.invalidCombination(value)
-        }
     }
 }
 
@@ -414,41 +279,4 @@ enum CoseAlgorithmIdentifier: Int32 {
      - see <https://www.iana.org/assignments/cose/cose.xhtml#algorithms>
      */
     case RS1 = -65535
-}
-
-protocol AttestationMaker {
-
-    var format: String { get }
-
-    var certChain: [(x509Certificate: Data, privateKey: SecKey)] { get }
-
-    func makeAttestationStatement(_ authData: Data, _ clientDataHash: Data) -> [String: Any?]
-}
-
-extension AttestationMaker {
-
-    static func none() -> AttestationMakerNone {
-        return AttestationMakerNone()
-    }
-
-    func makeAttestationObject(_ authData: Data, _ clientDataHash: Data) throws -> [UInt8] {
-        let ao: [String: Any?] = [
-            "authData": authData,
-            "fmt": format,
-            "attStmt": makeAttestationStatement(authData, clientDataHash)
-        ]
-
-        return try CBOR.encodeMap(ao)
-    }
-}
-
-class AttestationMakerNone: AttestationMaker {
-
-    var format = "none"
-
-    var certChain = [(x509Certificate: Data, privateKey: SecKey)]()
-
-    func makeAttestationStatement(_ authData: Data, _ clientDataHash: Data) -> [String: Any?] {
-        return [:]
-    }
 }

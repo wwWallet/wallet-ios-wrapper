@@ -152,4 +152,19 @@ extension SecKey {
     var tagId: String? {
         UUID.from(data: tag ?? Data())?.uuidString
     }
+
+    var publicKey: SecKey? {
+        SecureEnclave.getPublicKey(from: self)
+    }
+
+    var keyData: Data {
+        get throws {
+            try SecureEnclave.getKeyData(from: self)
+        }
+    }
+
+
+    func sign(_ data: Data) throws -> Data {
+        try SecureEnclave.sign(data, with: self)
+    }
 }
