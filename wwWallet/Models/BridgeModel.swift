@@ -161,6 +161,15 @@ import WebKit
         }
     }
 
+    func loginStatusChanged(_ message: WKScriptMessage) async throws {
+        if await message.stringBody == "unlocked" {
+            try Lock.unlock()
+        }
+        else {
+            try Lock.lock()
+        }
+    }
+
     private func acquirePin(_ message: WKScriptMessage) async {
         do {
             let value = try await message.webView?.callAsyncJavaScript(

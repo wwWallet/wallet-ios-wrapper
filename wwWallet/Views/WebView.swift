@@ -38,7 +38,7 @@ struct WebView: UIViewRepresentable {
             
             ucc.addUserScript(.sharedScript!)
 
-            ucc.addUserScript(.bridgeScript!)
+            ucc.addUserScript(.bundledScript(named: "Bridge", ["isLocked": "\(Lock.isLocked)"])!)
 
             // Webauthn
             ucc.addPageHandler(named: "__webauthn_create_interface__") { [weak self] message in
@@ -47,6 +47,10 @@ struct WebView: UIViewRepresentable {
 
             ucc.addPageHandler(named: "__webauthn_get_interface__") { [weak self] message in
                 return try await self?.model.didReceiveGet(message)
+            }
+
+            ucc.addPageHandler(named: "__login_status_changed__") { [weak self] message in
+                return try await self?.model.loginStatusChanged(message)
             }
 
             ucc.addUserScript(.nativeWrapperScript!)

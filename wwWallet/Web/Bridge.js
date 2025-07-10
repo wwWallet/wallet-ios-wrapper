@@ -225,6 +225,40 @@ var __webauthn_hooks__;
         return cred;
     }
 
+    let isLocked = {{ isLocked }};
+
+    let intervalId = window.setInterval(function() {
+        let key;
+        let jwe;
+
+        if (sessionStorage.hasOwnProperty("mainKey")) {
+            let keys = JSON.parse(sessionStorage.mainKey);
+
+            if (typeof keys === "object" && keys !== null) {
+                key = Object.values(keys)[0];
+            }
+        }
+
+        if (localStorage.hasOwnProperty("privateData")) {
+            let data = JSON.parse(localStorage.privateData);
+
+            if (typeof data === "object" && data !== null && data.hasOwnProperty("jwe")) {
+                jwe = data.jwe;
+            }
+        }
+
+        // TODO: Check, if private key can actually decrypt the JWE string.
+        //  wwWallet uses the jose NPM lib for this. How can we import that from
+        //  the wwWallet source code?
+
+        let newLocked = typeof key !== "string" || key.length < 1 || typeof jwe !== "string" || jwe.length < 1;
+
+        if (newLocked != isLocked) {
+            isLocked = newLocked;
+            window.webkit.messageHandlers.__login_status_changed__.postMessage(isLocked ? "locked" : "unlocked");
+        }
+    }, 1000);
+
 })(__webauthn_hooks__ || (__webauthn_hooks__ = {}));
 
 navigator.credentials.create = __webauthn_hooks__.create;

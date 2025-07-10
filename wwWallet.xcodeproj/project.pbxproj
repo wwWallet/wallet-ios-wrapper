@@ -95,10 +95,12 @@
 			membershipExceptions = (
 				Config.m,
 				Config.swift,
-				"Data+Extensions.swift",
+				"Extensions/Data+Extensions.swift",
+				"Extensions/URL+Extensions.swift",
+				"Extensions/UUID+Extensions.swift",
+				Lock.swift,
 				Passkeys.swift,
 				SecureEnclave.swift,
-				"UUID+Extensions.swift",
 			);
 			target = B40A35F32CF9DB6A0044D2C6 /* wwWallet */;
 		};

@@ -13,8 +13,7 @@ class Passkeys {
     static let shared = Passkeys()
 
 
-    private static let file = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: Config.groupId)?
-        .appendingPathComponent("passkeys.plist")
+    private static let file = URL.groupFolder?.appendingPathComponent("passkeys.plist")
 
 
     private var passkeys: [String: [Passkey]]

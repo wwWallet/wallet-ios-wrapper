@@ -89,6 +89,23 @@
                                     <constraint firstItem="DVl-Cd-Mu2" firstAttribute="top" secondItem="bnn-Nh-cA1" secondAttribute="bottom" constant="32" id="lzg-4y-fpE"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bbM-J3-PJk">
+                                <rect key="frame" x="0.0" y="135" width="375" height="532"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please unlock wallet first!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rEZ-W2-HcR">
+                                        <rect key="frame" x="20" y="225" width="335" height="82"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle0"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="rEZ-W2-HcR" secondAttribute="trailing" constant="20" symbolic="YES" id="IGJ-UK-cYv"/>
+                                    <constraint firstItem="rEZ-W2-HcR" firstAttribute="centerY" secondItem="bbM-J3-PJk" secondAttribute="centerY" id="YPg-os-rUa"/>
+                                    <constraint firstItem="rEZ-W2-HcR" firstAttribute="leading" secondItem="bbM-J3-PJk" secondAttribute="leading" constant="20" symbolic="YES" id="zXD-Vz-Tny"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Ky8-vK-JVj"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -97,10 +114,14 @@
                             <constraint firstItem="Ky8-vK-JVj" firstAttribute="bottom" secondItem="t30-a4-5Bj" secondAttribute="bottom" id="5fx-C5-41l"/>
                             <constraint firstItem="Ky8-vK-JVj" firstAttribute="top" secondItem="3wq-kG-lGu" secondAttribute="top" id="BIN-jb-uNd"/>
                             <constraint firstItem="Ky8-vK-JVj" firstAttribute="trailing" secondItem="8Yt-WX-G8E" secondAttribute="trailing" constant="16" id="CVZ-wB-0gb"/>
+                            <constraint firstItem="Ky8-vK-JVj" firstAttribute="bottom" secondItem="bbM-J3-PJk" secondAttribute="bottom" id="FXJ-uP-Zw2"/>
+                            <constraint firstItem="bbM-J3-PJk" firstAttribute="top" secondItem="8Yt-WX-G8E" secondAttribute="bottom" constant="8" symbolic="YES" id="FnL-vG-djV"/>
                             <constraint firstItem="Ky8-vK-JVj" firstAttribute="trailing" secondItem="t30-a4-5Bj" secondAttribute="trailing" id="Ozw-Rq-89g"/>
                             <constraint firstItem="3wq-kG-lGu" firstAttribute="width" secondItem="BuU-Ak-iZz" secondAttribute="width" id="UkD-v4-BcH"/>
                             <constraint firstItem="Ky8-vK-JVj" firstAttribute="bottom" secondItem="wEn-uD-nUv" secondAttribute="bottom" id="VxN-dJ-oW7"/>
+                            <constraint firstItem="Ky8-vK-JVj" firstAttribute="trailing" secondItem="bbM-J3-PJk" secondAttribute="trailing" id="WuA-JI-dAC"/>
                             <constraint firstItem="bKH-fc-M6o" firstAttribute="top" secondItem="3wq-kG-lGu" secondAttribute="bottom" constant="16" id="c7f-ym-E86"/>
+                            <constraint firstItem="bbM-J3-PJk" firstAttribute="leading" secondItem="Ky8-vK-JVj" secondAttribute="leading" id="fVl-vm-B75"/>
                             <constraint firstItem="t30-a4-5Bj" firstAttribute="leading" secondItem="Ky8-vK-JVj" secondAttribute="leading" id="gmb-4A-cn7"/>
                             <constraint firstItem="t30-a4-5Bj" firstAttribute="top" secondItem="8Yt-WX-G8E" secondAttribute="bottom" constant="8" symbolic="YES" id="hdH-XT-PId"/>
                             <constraint firstItem="8Yt-WX-G8E" firstAttribute="top" secondItem="bKH-fc-M6o" secondAttribute="bottom" constant="8" symbolic="YES" id="heg-Rk-0tv"/>
@@ -116,6 +137,8 @@
                         <outlet property="attestationContainer" destination="wEn-uD-nUv" id="oJ7-qq-kwP"/>
                         <outlet property="createBt" destination="DVl-Cd-Mu2" id="UMQ-Xu-bL9"/>
                         <outlet property="headlineLb" destination="bKH-fc-M6o" id="gAz-Ae-Zwh"/>
+                        <outlet property="lockedContainer" destination="bbM-J3-PJk" id="0cf-KH-b6K"/>
+                        <outlet property="lockedMessage" destination="rEZ-W2-HcR" id="DND-nm-4WG"/>
                         <outlet property="nameTf" destination="bnn-Nh-cA1" id="IEc-Tb-DYk"/>
                         <outlet property="registrationContainer" destination="t30-a4-5Bj" id="K0f-Nu-elJ"/>
                         <outlet property="relyingPartyLb" destination="8Yt-WX-G8E" id="EZp-zq-eRB"/>

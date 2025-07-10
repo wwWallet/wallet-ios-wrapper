@@ -11,20 +11,22 @@ extension WKUserScript {
 
     static let bluetoothScript = bundledScript(named: "WebBluetooth")
 
-    static let bridgeScript = bundledScript(named: "Bridge")
-
     static let nativeWrapperScript = bundledScript(named: "NativeWrapper")
 
     static let sharedScript = bundledScript(named: "Shared")
 
 
-    private class func bundledScript(named name: String) -> WKUserScript? {
+    class func bundledScript(named name: String, _ data: [String: String] = [:]) -> WKUserScript? {
         guard let url = Bundle.main.url(forResource: name, withExtension: "js"),
-              let content = try? String(contentsOf: url, encoding: .utf8)
+              var content = try? String(contentsOf: url, encoding: .utf8)
         else {
             return nil
         }
-        
+
+        for key in data.keys {
+            content = content.replacingOccurrences(of: "{{ \(key) }}", with: data[key] ?? "")
+        }
+
         return .init(source: content, injectionTime: .atDocumentStart, forMainFrameOnly: false)
     }
 }

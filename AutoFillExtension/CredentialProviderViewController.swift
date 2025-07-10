@@ -21,6 +21,13 @@ class CredentialProviderViewController: ASCredentialProviderViewController, UITa
     @IBOutlet weak var attestationContainer: UIView!
     @IBOutlet weak var tableView: UITableView!
 
+    @IBOutlet weak var lockedContainer: UIView!
+    @IBOutlet weak var lockedMessage: UILabel! {
+        didSet {
+            lockedMessage.text = NSLocalizedString("Please unlock wallet first!", comment: "")
+        }
+    }
+
 
     // MARK: Private Properties
 
@@ -42,6 +49,17 @@ class CredentialProviderViewController: ASCredentialProviderViewController, UITa
     }
 
     override func prepareCredentialList(for serviceIdentifiers: [ASCredentialServiceIdentifier], requestParameters: ASPasskeyCredentialRequestParameters) {
+        headlineLb.text = NSLocalizedString("Log In to", comment: "")
+        relyingPartyLb.text = relyingPartyId
+
+        if Lock.isLocked {
+            attestationContainer.isHidden = true
+            registrationContainer.isHidden = true
+            lockedContainer.isHidden = false
+
+            return
+        }
+
         relyingPartyId = requestParameters.relyingPartyIdentifier
         clientDataHash = requestParameters.clientDataHash
         wantsUserVerification = requestParameters.userVerificationPreference != .discouraged
@@ -54,17 +72,26 @@ class CredentialProviderViewController: ASCredentialProviderViewController, UITa
 
         privateKeys.removeAll { !requestParameters.allowedCredentials.contains($0.keyId) }
 
-
-        headlineLb.text = NSLocalizedString("Log In to", comment: "")
-        relyingPartyLb.text = relyingPartyId
         attestationContainer.isHidden = false
         registrationContainer.isHidden = true
+        lockedContainer.isHidden = true
 
         tableView.reloadData()
     }
 
     override func prepareInterface(forPasskeyRegistration registrationRequest: any ASCredentialRequest) {
         do {
+            headlineLb.text = NSLocalizedString("Create Passkey for", comment: "")
+            relyingPartyLb.text = relyingPartyId
+
+            if Lock.isLocked {
+                attestationContainer.isHidden = true
+                registrationContainer.isHidden = true
+                lockedContainer.isHidden = false
+
+                return
+            }
+
             guard registrationRequest.type == .passkeyRegistration,
                   let request = registrationRequest as? ASPasskeyCredentialRequest,
                   let identity = request.credentialIdentity as? ASPasskeyCredentialIdentity,
@@ -87,12 +114,11 @@ class CredentialProviderViewController: ASCredentialProviderViewController, UITa
             wantsUserVerification = request.userVerificationPreference != .discouraged
             self.identity = identity
 
-            headlineLb.text = NSLocalizedString("Create Passkey for", comment: "")
-            relyingPartyLb.text = relyingPartyId
             registrationContainer.isHidden = false
             nameTf.text = identity.userName
             textFieldDidChange(nameTf)
             attestationContainer.isHidden = true
+            lockedContainer.isHidden = true
 
 //            try SecureEnclave.removeAllPrivateKeys()
         }
