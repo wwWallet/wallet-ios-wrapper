@@ -13,16 +13,20 @@
 
 @implementation Config
 
-+ (NSString *) extBundleId {
-    return MACRO_STRING(EXT_BUNDLE_ID);
-}
-
 + (NSString *) groupId {
     return MACRO_STRING(APP_GROUP);
 }
 
-+ (NSString *) baseDomain {
-    return MACRO_STRING(BASE_DOMAIN);
++ (NSString *) baseDomain1 {
+    return MACRO_STRING(BASE_DOMAIN1);
+}
+
++ (NSString *) baseDomain2 {
+    return MACRO_STRING(BASE_DOMAIN2);
+}
+
++ (NSString *) baseDomain3 {
+    return MACRO_STRING(BASE_DOMAIN3);
 }
 
 @end

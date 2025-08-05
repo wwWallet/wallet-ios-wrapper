@@ -9,15 +9,38 @@ import Foundation
 
 extension Config {
 
-    class var extBundleId: String {
-        __extBundleId as String
-    }
-
     class var groupId: String {
         __groupId as String
     }
 
-    class var baseDomain: String {
-        __baseDomain as String
+    class var baseDomain1: String {
+        __baseDomain1 as String
     }
+
+    class var baseDomain2: String {
+        __baseDomain2 as String
+    }
+
+    class var baseDomain3: String {
+        __baseDomain3 as String
+    }
+
+    class var baseDomains: [String] {
+        [baseDomain1, baseDomain2, baseDomain3]
+    }
+
+    class var baseDomain: String {
+        if !registered {
+            UserDefaults.standard.register(defaults: ["environment": "0"])
+            registered = true
+        }
+
+        if let baseDomain = UserDefaults.standard.string(forKey: "environment"), !baseDomain.isEmpty, let idx = Int(baseDomain) {
+            return baseDomains[idx]
+        }
+
+        return baseDomain1
+    }
+
+    private static var registered = false
 }

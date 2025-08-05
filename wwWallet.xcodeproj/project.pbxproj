@@ -18,6 +18,7 @@
 		A099D37C2DB69A71007F6983 /* MessageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A099D37B2DB69A71007F6983 /* MessageHandler.swift */; };
 		A099D37E2DB6A1F7007F6983 /* WKUserContentController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A099D37D2DB6A1F7007F6983 /* WKUserContentController+Extensions.swift */; };
 		A0A611002DE9C7B800BF10CE /* SwiftCBOR in Frameworks */ = {isa = PBXBuildFile; productRef = A0A610FF2DE9C7B800BF10CE /* SwiftCBOR */; };
+		A0E498052E42194300AA9C23 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A0E498042E42194300AA9C23 /* Settings.bundle */; };
 		A0F7A1792DB68B5A009F3178 /* Logger+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F7A1782DB68B5A009F3178 /* Logger+Extensions.swift */; };
 		B40A360A2CF9DDCF0044D2C6 /* YubiKit in Frameworks */ = {isa = PBXBuildFile; productRef = B40A36092CF9DDCF0044D2C6 /* YubiKit */; };
 		B40A36272CFA01CA0044D2C6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B40A361C2CFA01CA0044D2C6 /* Assets.xcassets */; };
@@ -71,6 +72,7 @@
 		A099D3792DB69750007F6983 /* WKUserScript+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WKUserScript+Extensions.swift"; sourceTree = "<group>"; };
 		A099D37B2DB69A71007F6983 /* MessageHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageHandler.swift; sourceTree = "<group>"; };
 		A099D37D2DB6A1F7007F6983 /* WKUserContentController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WKUserContentController+Extensions.swift"; sourceTree = "<group>"; };
+		A0E498042E42194300AA9C23 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		A0F7A1782DB68B5A009F3178 /* Logger+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Logger+Extensions.swift"; sourceTree = "<group>"; };
 		B40A35F42CF9DB6A0044D2C6 /* wwWallet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = wwWallet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B40A361C2CFA01CA0044D2C6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -254,6 +256,7 @@
 				B40A36212CFA01CA0044D2C6 /* wwWalletApp.swift */,
 				B40A36202CFA01CA0044D2C6 /* wwWallet.entitlements */,
 				B40A361C2CFA01CA0044D2C6 /* Assets.xcassets */,
+				A0E498042E42194300AA9C23 /* Settings.bundle */,
 			);
 			path = wwWallet;
 			sourceTree = "<group>";
@@ -287,6 +290,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B40A36022CF9DB6B0044D2C6 /* Build configuration list for PBXNativeTarget "wwWallet" */;
 			buildPhases = (
+				A0E498062E4220E400AA9C23 /* Prepare Settings.bundle */,
 				B40A35F02CF9DB6A0044D2C6 /* Sources */,
 				B40A35F12CF9DB6A0044D2C6 /* Frameworks */,
 				B40A35F22CF9DB6A0044D2C6 /* Resources */,
@@ -362,10 +366,31 @@
 				B4FB6A982D0C404200647AED /* Shared.js in Resources */,
 				B40A36272CFA01CA0044D2C6 /* Assets.xcassets in Resources */,
 				B40A36282CFA01CA0044D2C6 /* Bridge.js in Resources */,
+				A0E498052E42194300AA9C23 /* Settings.bundle in Resources */,
 				A05D7AC82DBFB8FB001940B3 /* WebBluetooth.js in Resources */,
 			);
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		A0E498062E4220E400AA9C23 /* Prepare Settings.bundle */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			name = "Prepare Settings.bundle";
+			shellPath = /bin/sh;
+			shellScript = (
+				"TEMPLATE=\"$SRCROOT/wwWallet/Settings.bundle/Root.plist.template\"",
+				"DEST=\"$SRCROOT/wwWallet/Settings.bundle/Root.plist\"",
+				"",
+				"sed \\",
+				"  -e \"s/{{BASE_DOMAIN1}}/$BASE_DOMAIN1/g\" \\",
+				"  -e \"s/{{BASE_DOMAIN2}}/$BASE_DOMAIN2/g\" \\",
+				"  -e \"s/{{BASE_DOMAIN3}}/$BASE_DOMAIN3/g\" \\",
+				"  \"$TEMPLATE\" > \"$DEST\"",
+				"",
+			);
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		A04B09E82DD2021000A1BFF7 /* Sources */ = {
@@ -592,6 +617,7 @@
 				CODE_SIGN_ENTITLEMENTS = wwWallet/wwWallet.entitlements;
 				CODE_SIGN_STYLE = Manual;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "wwWallet-Info.plist";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
@@ -628,6 +654,7 @@
 				CODE_SIGN_ENTITLEMENTS = wwWallet/wwWallet.entitlements;
 				CODE_SIGN_STYLE = Manual;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "wwWallet-Info.plist";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;

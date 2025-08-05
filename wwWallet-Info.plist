@@ -22,7 +22,9 @@
 	</dict>
 	<key>WKAppBoundDomains</key>
 	<array>
-		<string>$(BASE_DOMAIN)</string>
+		<string>$(BASE_DOMAIN1)</string>
+		<string>$(BASE_DOMAIN2)</string>
+		<string>$(BASE_DOMAIN3)</string>
 	</array>
 	<key>com.apple.developer.nfc.readersession.iso7816.select-identifiers</key>
 	<array>
