@@ -28,23 +28,12 @@ struct ContentView: View {
                         if url.scheme == "haip",
                            var urlc = URLComponents(url: url, resolvingAgainstBaseURL: false)
                         {
+                            // haip URLs should basically consist of URL querie components.
+                            // Rewrite scheme, host and path to what is needed for our web frontend.
+
                             urlc.scheme = "https"
-
-                            // There might be a piece, which the URLComponents
-                            // parser wrongly identified as the domain, not the path.
-                            // Preserve that, before setting the host.
-                            if let host = urlc.host,
-                               !host.isEmpty && urlc.path.isEmpty
-                            {
-                                if host.hasPrefix("/") {
-                                    urlc.path = host
-                                }
-                                else {
-                                    urlc.path = "/\(host)"
-                                }
-                            }
-
                             urlc.host = Config.baseDomain
+                            urlc.path = "/cb"
 
                             if let url = urlc.url {
                                 log.info("Opening haip URL: \(url)")
