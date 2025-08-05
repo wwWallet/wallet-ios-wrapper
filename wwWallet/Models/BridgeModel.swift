@@ -84,6 +84,11 @@ import WebKit
                 {
                     await acquirePin(message)
 
+                    // User cancelled.
+                    if pin?.isEmpty ?? true {
+                        return [:]
+                    }
+
                     return try await didReceiveCreate(message)
                 }
             }
@@ -103,17 +108,24 @@ import WebKit
 
             let request: GetRequestWrapper = try await message.decode()
 
+            // If wwWallet wants user verification, we *do need to use a PIN*.
+            // For subsequent calls, we then have the PIN available.
+            // See https://developers.yubico.com/WebAuthn/WebAuthn_Developer_Guide/User_Presence_vs_User_Verification.html
+            let needsPin = request.request.userVerification?.lowercased() == "required"
+
+            // At the first time, this PIN will be empty, so we throw right away
+            // in order to trigger the PIN entry UI.
+            if needsPin && (pin?.isEmpty ?? true) {
+                // Error message unneeded, because it will not be shown when we throw before session initialization.
+                throw NSError(domain: "com.yubico", code: 49)
+            }
+
             let conn = await connection.connect()
 
             let session = try await conn.fido2Session()
 
-            // If wwWallet wants user verification, we *do need to use a PIN*.
-            // At the first time, this PIN will be empty, but we'll do it anyway,
-            // in order to have it throw and then ask the user for the PIN in the
-            // catch.
-            // For subsequent calls, we then have the PIN available.
-            // See https://developers.yubico.com/WebAuthn/WebAuthn_Developer_Guide/User_Presence_vs_User_Verification.html
-            if request.request.userVerification?.lowercased() == "required" {
+            // For subsequent calls, we have the PIN available and try to verify it.
+            if needsPin {
                 try await session.verifyPin(pin ?? "")
             }
 
@@ -153,6 +165,11 @@ import WebKit
                 {
                     await acquirePin(message)
 
+                    // User cancelled.
+                    if pin?.isEmpty ?? true {
+                        return [:]
+                    }
+
                     return try await didReceiveGet(message)
                 }
             }
@@ -173,7 +190,7 @@ import WebKit
     private func acquirePin(_ message: WKScriptMessage) async {
         do {
             let value = try await message.webView?.callAsyncJavaScript(
-                "return prompt(\"\(NSLocalizedString("Please enter your FIDO2/WebAuthn PIN.", comment: ""))\")",
+                "return prompt(\"\(NSLocalizedString("Please enter your FIDO2/WebAuthn PIN.", comment: ""))\", \"\(WebView.isSecureTextEntry)\")",
                 contentWorld: message.world)
 
             pin = value as? String

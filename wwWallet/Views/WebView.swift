@@ -12,6 +12,8 @@ import OSLog
 
 struct WebView: UIViewRepresentable {
 
+    static let isSecureTextEntry = "__isSecureTextEntry__"
+
     let url: URL
     let model: BridgeModel
 
@@ -176,7 +178,7 @@ struct WebView: UIViewRepresentable {
                     continuation.resume()
                 })
 
-                UIApplication.shared.keyWindow?.rootViewController?.top.present(alert, animated: true)
+                webView.window?.rootViewController?.top.present(alert, animated: true)
             }
         }
 
@@ -198,10 +200,15 @@ struct WebView: UIViewRepresentable {
                 })
 
                 alert.addTextField { tf in
-                    tf.placeholder = defaultText
+                    if defaultText == WebView.isSecureTextEntry {
+                        tf.isSecureTextEntry = true
+                    }
+                    else {
+                        tf.placeholder = defaultText
+                    }
                 }
 
-                UIApplication.shared.keyWindow?.rootViewController?.top.present(alert, animated: true)
+                webView.window?.rootViewController?.top.present(alert, animated: true)
             }
         }
 
@@ -221,7 +228,7 @@ struct WebView: UIViewRepresentable {
                     continuation.resume(returning: false)
                 })
 
-                UIApplication.shared.keyWindow?.rootViewController?.top.present(alert, animated: true)
+                webView.window?.rootViewController?.top.present(alert, animated: true)
             }
         }
     }
