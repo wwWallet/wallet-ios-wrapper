@@ -20,12 +20,14 @@
 				<string>{{BASE_DOMAIN1}}</string>
 				<string>{{BASE_DOMAIN2}}</string>
 				<string>{{BASE_DOMAIN3}}</string>
+				<string>{{BASE_DOMAIN4}}</string>
 			</array>
 			<key>Values</key>
 			<array>
 				<string>0</string>
 				<string>1</string>
 				<string>2</string>
+				<string>3</string>
 			</array>
 		</dict>
 	</array>

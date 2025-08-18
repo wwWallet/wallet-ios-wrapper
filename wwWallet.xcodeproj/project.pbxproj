@@ -386,6 +386,7 @@
 				"  -e \"s/{{BASE_DOMAIN1}}/$BASE_DOMAIN1/g\" \\",
 				"  -e \"s/{{BASE_DOMAIN2}}/$BASE_DOMAIN2/g\" \\",
 				"  -e \"s/{{BASE_DOMAIN3}}/$BASE_DOMAIN3/g\" \\",
+				"  -e \"s/{{BASE_DOMAIN4}}/$BASE_DOMAIN4/g\" \\",
 				"  \"$TEMPLATE\" > \"$DEST\"",
 				"",
 			);
