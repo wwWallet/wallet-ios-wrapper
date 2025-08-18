@@ -29,4 +29,8 @@
     return MACRO_STRING(BASE_DOMAIN3);
 }
 
++ (NSString *) baseDomain4 {
+    return MACRO_STRING(BASE_DOMAIN4);
+}
+
 @end
