@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import OSLog
 
 @main
 struct wwWalletApp: App {
@@ -14,9 +13,6 @@ struct wwWalletApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .onAppear {
-                    Logger(with: self).info("Environment: \(Config.baseDomain)")
-                }
         }
     }
 }

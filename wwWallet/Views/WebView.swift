@@ -151,6 +151,8 @@ struct WebView: UIViewRepresentable {
         {
             if let url = navigationAction.request.url {
 
+                log.info("Decide Policy for URL: \(url)")
+
                 // Open all foreign web pages and app schemes like "eid" for the AusweisApp
                 // externally. Only wwWallet code is allowed inside the app.
                 if url.scheme != self.url.scheme || url.host != self.url.host {
