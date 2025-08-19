@@ -19,6 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (class, nonatomic, assign, readonly, nonnull) NSString *baseDomain3 NS_REFINED_FOR_SWIFT;
 
+@property (class, nonatomic, assign, readonly, nonnull) NSString *baseDomain4 NS_REFINED_FOR_SWIFT;
+
 @end
 
 NS_ASSUME_NONNULL_END

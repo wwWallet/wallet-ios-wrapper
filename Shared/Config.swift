@@ -25,8 +25,12 @@ extension Config {
         __baseDomain3 as String
     }
 
+    class var baseDomain4: String {
+        __baseDomain4 as String
+    }
+
     class var baseDomains: [String] {
-        [baseDomain1, baseDomain2, baseDomain3]
+        [baseDomain1, baseDomain2, baseDomain3, baseDomain4]
     }
 
     class var baseDomain: String {
@@ -35,7 +39,11 @@ extension Config {
             registered = true
         }
 
-        if let baseDomain = UserDefaults.standard.string(forKey: "environment"), !baseDomain.isEmpty, let idx = Int(baseDomain) {
+        if let baseDomain = UserDefaults.standard.string(forKey: "environment"),
+           !baseDomain.isEmpty,
+           let idx = Int(baseDomain),
+           idx >= 0 && idx < baseDomains.count
+        {
             return baseDomains[idx]
         }
 
