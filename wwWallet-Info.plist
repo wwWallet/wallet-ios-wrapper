@@ -12,6 +12,7 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>haip</string>
+				<string>openid4vp</string>
 			</array>
 		</dict>
 	</array>

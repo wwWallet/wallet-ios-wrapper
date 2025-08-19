@@ -25,7 +25,7 @@ struct ContentView: View {
                     .onOpenURL { url in
                         let log = Logger(with: self)
 
-                        if url.scheme == "haip",
+                        if url.scheme == "haip" || url.scheme == "openid4vp",
                            var urlc = URLComponents(url: url, resolvingAgainstBaseURL: false)
                         {
                             // haip URLs should basically consist of URL querie components.
