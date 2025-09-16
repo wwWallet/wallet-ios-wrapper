@@ -29,8 +29,12 @@ extension Config {
         __baseDomain4 as String
     }
 
+    class var baseDomain5: String {
+        __baseDomain5 as String
+    }
+
     class var baseDomains: [String] {
-        [baseDomain1, baseDomain2, baseDomain3, baseDomain4]
+        [baseDomain1, baseDomain2, baseDomain3, baseDomain4, baseDomain5]
     }
 
     class var baseDomain: String {
