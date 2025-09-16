@@ -27,6 +27,7 @@
 		<string>$(BASE_DOMAIN2)</string>
 		<string>$(BASE_DOMAIN3)</string>
 		<string>$(BASE_DOMAIN4)</string>
+		<string>$(BASE_DOMAIN5)</string>
 	</array>
 	<key>com.apple.developer.nfc.readersession.iso7816.select-identifiers</key>
 	<array>
