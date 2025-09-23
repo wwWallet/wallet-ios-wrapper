@@ -229,7 +229,6 @@ var __webauthn_hooks__;
 
     let intervalId = window.setInterval(function() {
         let key;
-        let jwe;
 
         if (sessionStorage.hasOwnProperty("mainKey")) {
             let keys = JSON.parse(sessionStorage.mainKey);
@@ -239,19 +238,11 @@ var __webauthn_hooks__;
             }
         }
 
-        if (localStorage.hasOwnProperty("privateData")) {
-            let data = JSON.parse(localStorage.privateData);
-
-            if (typeof data === "object" && data !== null && data.hasOwnProperty("jwe")) {
-                jwe = data.jwe;
-            }
-        }
-
         // TODO: Check, if private key can actually decrypt the JWE string.
         //  wwWallet uses the jose NPM lib for this. How can we import that from
         //  the wwWallet source code?
 
-        let newLocked = typeof key !== "string" || key.length < 1 || typeof jwe !== "string" || jwe.length < 1;
+        let newLocked = typeof key !== "string" || key.length < 1;
 
         if (newLocked != isLocked) {
             isLocked = newLocked;
