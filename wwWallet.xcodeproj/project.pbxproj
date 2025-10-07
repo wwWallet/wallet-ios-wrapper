@@ -379,7 +379,7 @@
 			name = "Prepare Settings.bundle";
 			shellPath = /bin/sh;
 			shellScript = (
-				"TEMPLATE=\"$SRCROOT/wwWallet/Settings.bundle/Root.plist.template\"",
+				"TEMPLATE=\"$SRCROOT/wwWallet/Settings.bundle/Root.tpl.plist\"",
 				"DEST=\"$SRCROOT/wwWallet/Settings.bundle/Root.plist\"",
 				"",
 				"sed_expressions=()",

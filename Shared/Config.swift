@@ -39,7 +39,7 @@ extension Config {
 
     class var baseDomain: String {
         if !registered {
-            UserDefaults.standard.register(defaults: ["environment": "0"])
+            UserDefaults.standard.register(defaults: ["environment": "1"])
             registered = true
         }
 
@@ -51,7 +51,7 @@ extension Config {
             return baseDomains[idx]
         }
 
-        return baseDomain1
+        return baseDomain2
     }
 
     private static var registered = false

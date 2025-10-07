@@ -14,7 +14,7 @@
 			<key>Key</key>
 			<string>environment</string>
 			<key>DefaultValue</key>
-			<string>0</string>
+			<string>1</string>
 			<key>Titles</key>
 			<array>
 				<string>{{BASE_DOMAIN1}}</string>
