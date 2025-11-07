@@ -1,31 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "funke-icon 1.png",
-      "idiom" : "universal",
-      "platform" : "ios",
-      "size" : "1024x1024"
-    },
-    {
-      "appearances" : [
-        {
-          "appearance" : "luminosity",
-          "value" : "dark"
-        }
-      ],
-      "filename" : "funke-icon.png",
-      "idiom" : "universal",
-      "platform" : "ios",
-      "size" : "1024x1024"
-    },
-    {
-      "appearances" : [
-        {
-          "appearance" : "luminosity",
-          "value" : "tinted"
-        }
-      ],
-      "filename" : "funke-icon 2.png",
+      "filename" : "Logo square larger border.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
