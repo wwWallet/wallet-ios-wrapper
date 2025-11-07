@@ -1,6 +1,15 @@
 {
-  "originHash" : "f38d3c9009e8e0731128e63595b5ca6968a6d54f92905d7e1dd51427c7071081",
+  "originHash" : "0b33fe1e2a67eedddab0ede1e2f215af98d7682b7e67389b112ac4634a5be742",
   "pins" : [
+    {
+      "identity" : "swift-css-parser",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/stackotter/swift-css-parser",
+      "state" : {
+        "branch" : "main",
+        "revision" : "2fab1e835b78ff82de4a8f6f9119be3b52231b08"
+      }
+    },
     {
       "identity" : "swiftcbor",
       "kind" : "remoteSourceControl",

@@ -250,6 +250,13 @@ var __webauthn_hooks__;
         }
     }, 1000);
 
+    // Hide the header bar, because we have our own.
+    addEventListener("DOMContentLoaded", (event) => {
+        let style = document.createElement("style");
+        style.textContent = "header { display: none !important; }";
+        document.head.append(style);
+    });
+
 })(__webauthn_hooks__ || (__webauthn_hooks__ = {}));
 
 navigator.credentials.create = __webauthn_hooks__.create;
