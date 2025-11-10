@@ -123,6 +123,12 @@ struct ContentView: View {
         }
         .onAppear {
             Task {
+                // Point the user at the passkeys auto-fill feature.
+                await ASSettingsHelper.requestToTurnOnCredentialProviderExtension()
+            }
+        }
+        .onChange(of: baseDomainIdx, initial: true) {
+            Task {
                 do {
                     let colors = try await ColorFinder.go()
 
@@ -138,10 +144,6 @@ struct ContentView: View {
                     let log = Logger(with: self)
                     log.error("\(error)")
                 }
-            }
-            Task {
-                // Point the user at the passkeys auto-fill feature.
-                await ASSettingsHelper.requestToTurnOnCredentialProviderExtension()
             }
         }
         .preferredColorScheme(.dark)
