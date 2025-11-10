@@ -21,6 +21,12 @@ struct ContentView: View {
     @State
     private var bottomBgColor = Color(red: 17 / 255, green: 24 / 255, blue: 39 / 255)
 
+    /**
+     We need this here, so view gets updated when it changes.
+     */
+    @AppStorage("environment")
+    private var baseDomainIdx = 1
+
 
     var body: some View {
         VStack(spacing: 0) {
@@ -34,20 +40,28 @@ struct ContentView: View {
                     .scaledToFit()
                     .frame(width: 32, height: 32)
                     .padding(.leading, 16)
+                    .padding(.bottom, 8)
 
                 VStack {
                     Text("Current wallet")
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .font(.caption)
 
-                    Text(Config.baseDomain)
+                    // At least once, we need `baseDomainIdx` referenced, so view gets updated when it changes.
+                    Text(Config.baseDomains[baseDomainIdx])
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
                 .padding(.bottom, 8)
 
                 Spacer()
 
-                Button(action: {}) {
+                Menu {
+                    ForEach(Array(Config.baseDomains.enumerated()), id: \.offset) { idx, name in
+                        Button(name) {
+                            baseDomainIdx = idx
+                        }
+                    }
+                } label: {
                     Label("Switch wallet", systemImage: "arrow.trianglehead.2.clockwise.rotate.90")
                 }
                 .buttonStyle(.basicButton)

@@ -23,7 +23,7 @@ struct WebView: UIViewRepresentable {
     
     class Coordinator: NSObject, WKNavigationDelegate, WKUIDelegate {
 
-        let url: URL
+        var url: URL
         let model: BridgeModel
         let bleServer = BLEServer.shared
         let bleClient = BLEClient.shared
@@ -241,5 +241,14 @@ struct WebView: UIViewRepresentable {
 
     func updateUIView(_ webView: WKWebView, context: Context) {
         webView.uiDelegate = context.coordinator
+
+        // When the host changes, update the coordinator and reload the web page.
+        if url.host != context.coordinator.url.host {
+            context.coordinator.url = url
+
+            if webView.url?.host != url.host {
+                webView.load(URLRequest(url: url))
+            }
+        }
     }
 }
