@@ -19,6 +19,9 @@ struct ContentView: View {
     private var topBgColor = Color(red: 0, green: 65 / 255, blue: 149 / 255)
 
     @State
+    private var buttonBgColor = Color(red: 0, green: 52 / 255, blue: 118 / 255)
+
+    @State
     private var bottomBgColor = Color(red: 17 / 255, green: 24 / 255, blue: 39 / 255)
 
     /**
@@ -64,6 +67,8 @@ struct ContentView: View {
                 } label: {
                     Label("Switch wallet", systemImage: "arrow.trianglehead.2.clockwise.rotate.90")
                 }
+                .background(buttonBgColor)
+                .clipShape(.rect(cornerRadius: 8))
                 .buttonStyle(.basicButton)
                 .padding(.trailing, 8)
                 .padding(.bottom, 8)
@@ -134,6 +139,10 @@ struct ContentView: View {
 
                     if let top = colors.top {
                         topBgColor = top
+                    }
+
+                    if let button = colors.button {
+                        buttonBgColor = button
                     }
 
                     if let bottom = colors.bottom {

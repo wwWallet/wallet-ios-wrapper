@@ -19,7 +19,7 @@ class ColorFinder {
         case stylesheetNotFound
     }
 
-    class func go() async throws -> (top: Color?, bottom: Color?) {
+    class func go() async throws -> (top: Color?, button: Color?, bottom: Color?) {
         guard let url = URL(string: "https://\(Config.baseDomain)") else {
             throw Errors.invalidUrl
         }
@@ -40,22 +40,28 @@ class ColorFinder {
         let log = Logger(with: self)
 
         var top: Color? = nil
+        var button: Color? = nil
+        var bottom: Color? = nil
 
-        if let color1 = find(".dark\\:bg-primary-hover:is(.dark *)", "background-color", in: statements) {
-            log.info("Top color: \(color1)")
+        if let color = find(".dark\\:bg-primary-hover:is(.dark *)", "background-color", in: statements) {
+            top = try getColor(from: color)
 
-            top = try getColor(from: color1)
+            log.info("Top color: \(color) -> \(top?.description ?? "nil")")
         }
 
-        guard let color2 = find(".dark\\:bg-gray-900:is(.dark *)", "background-color", in: statements) else {
-            return (top, nil)
+        if let color = find(".dark\\:bg-primary-dark:is(.dark *)", "background-color", in: statements) {
+            button = try getColor(from: color)
+
+            log.info("Button color: \(color) -> \(button?.description ?? "nil")")
         }
 
-        log.info("Bottom color: \(color2)")
+        if let color = find(".dark\\:bg-gray-900:is(.dark *)", "background-color", in: statements) {
+            bottom = try getColor(from: color)
 
-        let bottom = try getColor(from: color2) 
+            log.info("Bottom color: \(color) -> \(bottom?.description ?? "nil")")
+        }
 
-        return (top, bottom)
+        return (top, button, bottom)
     }
 
     private class func load(_ url: URL) async throws -> String {
