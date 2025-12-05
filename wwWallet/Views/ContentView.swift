@@ -51,7 +51,7 @@ struct ContentView: View {
                         .font(.caption)
 
                     // At least once, we need `baseDomainIdx` referenced, so view gets updated when it changes.
-                    Text(Config.baseDomains[baseDomainIdx])
+                    Text(baseDomainIdx < Config.baseDomains.count ? Config.baseDomains[baseDomainIdx] : Config.baseDomain)
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
                 .padding(.bottom, 8)
