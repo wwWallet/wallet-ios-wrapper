@@ -1,5 +1,5 @@
 {
-  "originHash" : "ebe27e702849c3b085c54bcb5957e2a4cf64b67d1fe192aecb27ac841c943896",
+  "originHash" : "f6e01854a10340cb76513b4e30ba02b3cc16d867d42fde0657afb02df7025d5d",
   "pins" : [
     {
       "identity" : "swift-css-parser",
@@ -17,15 +17,6 @@
       "state" : {
         "revision" : "04ccff117f6549121d5721ec84fdf0162122b90e",
         "version" : "0.5.0"
-      }
-    },
-    {
-      "identity" : "yubikit-ios",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/Yubico/yubikit-ios",
-      "state" : {
-        "branch" : "jens/extensions",
-        "revision" : "c7fe63989deb9258c4a41fb0ebf4900c716fb5ad"
       }
     }
   ],

@@ -36,24 +36,39 @@ struct CreateRequest: Decodable {
     let attestation: String?
     let extensions: [String: Any]?
 
-    var clientData: YKFWebAuthnClientData? {
-        guard let data = challenge.webSafeBase64DecodedData() else {
-            return nil
-        }
-
-        return YKFWebAuthnClientData(type: .create, challenge: data, origin: "https://\(rp.id)")
+    var clientData: WebAuthnClientData? {
+        WebAuthnClientData(type: .create, challenge: challenge, origin: "https://\(rp.id)")
     }
 
-    var options: [String: Bool]? {
+    var options: CTAP2.MakeCredential.Parameters.Options? {
         if authenticatorSelection?.residentKey == "preferred"
             || authenticatorSelection?.residentKey == "required"
             || authenticatorSelection?.requireResidentKey == true
         {
-            return ["rk": true]
+            return CTAP2.MakeCredential.Parameters.Options(rk: true)
         }
 
         return nil
     }
+
+    var extensionsInput: CTAP2.Extension.MakeCredential.Input? {
+        guard let extensions else {
+            return nil
+        }
+
+        var encoded = [CTAP2.Extension.Identifier: CBOR.Value]()
+
+        for (key, value) in extensions {
+            encoded[CTAP2.Extension.Identifier(key)] = Self.cborValue(from: value)
+        }
+
+        guard !encoded.isEmpty else {
+            return nil
+        }
+
+        return CTAP2.Extension.MakeCredential.Input(encoded: encoded)
+    }
+
 
     init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -67,19 +82,96 @@ struct CreateRequest: Decodable {
         attestation = try container.decodeIfPresent(String.self, forKey: .attestation)
         extensions = try container.decodeIfPresent([String: Any].self, forKey: .extensions)
     }
+
+
+    static func cborValue(from any: Any?) -> CBOR.Value? {
+        switch any {
+        case let value as Bool:
+            return CBOR.Value(value)
+
+        case let value as Int:
+            return CBOR.Value(Int64(value))
+
+        case let value as Int8:
+            return CBOR.Value(Int64(value))
+
+        case let value as Int16:
+            return CBOR.Value(Int64(value))
+
+        case let value as Int32:
+            return CBOR.Value(Int64(value))
+
+        case let value as Int64:
+            return CBOR.Value(Int64(value))
+
+        case let value as UInt:
+            return CBOR.Value(UInt64(value))
+
+        case let value as UInt8:
+            return CBOR.Value(UInt64(value))
+
+        case let value as UInt16:
+            return CBOR.Value(UInt64(value))
+
+        case let value as UInt32:
+            return CBOR.Value(UInt64(value))
+
+        case let value as UInt64:
+            return CBOR.Value(UInt64(value))
+
+        case let value as Double:
+            return CBOR.Value(UInt64(value))
+
+        case let value as Float:
+            return CBOR.Value(UInt64(value))
+
+        case let value as Float16:
+            return CBOR.Value(UInt64(value))
+
+        case let value as Float32:
+            return CBOR.Value(UInt64(value))
+
+        case let value as Float64:
+            return CBOR.Value(UInt64(value))
+
+        case let value as String:
+            return CBOR.Value(value)
+
+        case let value as Data:
+            return CBOR.Value(value)
+
+        case let value as [Any]:
+            return CBOR.Value(value.compactMap({ cborValue(from: $0) }))
+
+        case let value as [String: Any]:
+            var cborMap = [CBOR.Value: CBOR.Value]()
+
+            for (key, value) in value {
+                cborMap[CBOR.Value(key)] = cborValue(from: value)
+            }
+
+            return CBOR.Value(cborMap)
+
+        case Optional<Any>.none:
+            return .null
+
+        case is NSNull:
+            return .null
+
+        default:
+            return nil
+        }
+    }
 }
+
 
 struct RelyingParty: Codable {
 
     let id: String
     let name: String?
 
-    var entity: YKFFIDO2PublicKeyCredentialRpEntity {
-        let entity = YKFFIDO2PublicKeyCredentialRpEntity()
-        entity.rpId = id
-        entity.rpName = name
-
-        return entity
+    var entity: WebAuthn.PublicKeyCredential.RPEntity {
+        WebAuthn.PublicKeyCredential.RPEntity(id: id, name: name)
     }
 }
 
@@ -89,17 +181,12 @@ struct User: Codable {
     let name: String?
     let displayName: String?
 
-    var entity: YKFFIDO2PublicKeyCredentialUserEntity? {
+    var entity: WebAuthn.PublicKeyCredential.UserEntity? {
         guard let data = id.webSafeBase64DecodedData() else {
             return nil
         }
 
-        let entity = YKFFIDO2PublicKeyCredentialUserEntity()
-        entity.userId = data
-        entity.userName = name
-        entity.userDisplayName = displayName
-
-        return entity
+        return WebAuthn.PublicKeyCredential.UserEntity(id: data, name: name, displayName: displayName)
     }
 }
 
@@ -108,11 +195,8 @@ struct PubKeyCredParams: Codable {
     let type: String?
     let alg: Int
 
-    var param: YKFFIDO2PublicKeyCredentialParam {
-        let param = YKFFIDO2PublicKeyCredentialParam()
-        param.alg = alg
-
-        return param
+    var algorithm: COSE.Algorithm {
+        COSE.Algorithm(rawValue: alg)
     }
 }
 
@@ -145,13 +229,28 @@ struct GetRequest: Decodable {
     let userVerification: String?
     let extensions: [String: Any]?
 
-    var clientData: YKFWebAuthnClientData? {
-        guard let data = challenge.webSafeBase64DecodedData() else {
+    var clientData: WebAuthnClientData? {
+        WebAuthnClientData(type: .get, challenge: challenge, origin: "https://\(rpId)")
+    }
+
+    var extensionsInput: CTAP2.Extension.GetAssertion.Input? {
+        guard let extensions else {
             return nil
         }
 
-        return YKFWebAuthnClientData(type: .get, challenge: data, origin: "https://\(rpId)")
+        var encoded = [CTAP2.Extension.Identifier: CBOR.Value]()
+
+        for (key, value) in extensions {
+            encoded[CTAP2.Extension.Identifier(key)] = CreateRequest.cborValue(from: value)
+        }
+
+        guard !encoded.isEmpty else {
+            return nil
+        }
+
+        return CTAP2.Extension.GetAssertion.Input(encoded: encoded)
     }
+
 
     init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -185,38 +284,33 @@ struct Credentials: Codable {
     let clientExtensionResults: Extensions?
     let authenticatorAttachment: String?
 
-    var descriptor: YKFFIDO2PublicKeyCredentialDescriptor? {
+    var descriptor: WebAuthn.PublicKeyCredential.Descriptor? {
         guard let data = id?.webSafeBase64DecodedData() else {
             return nil
         }
 
-        let d = YKFFIDO2PublicKeyCredentialDescriptor()
-        d.credentialId = data
-        d.credentialType = .init()
-        d.credentialType.name = type
-
-        return d
+        return WebAuthn.PublicKeyCredential.Descriptor(type: type, id: data, transports: transports)
     }
 
-    init(_ clientData: YKFWebAuthnClientData, _ response: YKFFIDO2GetAssertionResponse) {
+    init(_ clientData: WebAuthnClientData, _ response: CTAP2.GetAssertion.Response) {
         type = "public-key"
-        id = response.credential?.credentialId.webSafeBase64EncodedString()
+        id = response.credential?.id.webSafeBase64EncodedString()
         transports = nil
 
         self.response = Response(clientData, response)
         rawId = id
-        clientExtensionResults = Extensions(response.extensionsOutput)
+        clientExtensionResults = Extensions(response.authenticatorData.extensions)
         authenticatorAttachment = "cross-platform"
     }
 
-    init(_ clientData: YKFWebAuthnClientData, _ response: YKFFIDO2MakeCredentialResponse, _ extensionResult: [AnyHashable: Any]) {
+    init(_ clientData: WebAuthnClientData, _ response: CTAP2.MakeCredential.Response) {
         type = "public-key"
-        id = response.authenticatorData?.credentialId?.webSafeBase64EncodedString()
+        id = response.authenticatorData.attestedCredentialData?.credentialId.webSafeBase64EncodedString()
         transports = nil
 
         self.response = Response(clientData, response)
         rawId = id
-        clientExtensionResults = Extensions(extensionResult)
+        clientExtensionResults = Extensions(response.authenticatorData.extensions)
         authenticatorAttachment = "cross-platform"
 
     }
@@ -246,35 +340,55 @@ struct Response: Codable {
     let attestationObject: String?
     let publicKeyAlgorithm: Int?
 
-    init(_ clientData: YKFWebAuthnClientData, _ response: YKFFIDO2GetAssertionResponse) {
-        clientDataJson = clientData.jsonData?.webSafeBase64EncodedString()
+    init(_ clientData: WebAuthnClientData, _ response: CTAP2.GetAssertion.Response) {
+        clientDataJson = try? clientData.jsonData.webSafeBase64EncodedString()
 
-        authenticatorData = response.authData.webSafeBase64EncodedString()
+        authenticatorData = response.authenticatorData.rawData.webSafeBase64EncodedString()
         signature = response.signature.webSafeBase64EncodedString()
-        userHandle = response.user?.userId.webSafeBase64EncodedString()
+        userHandle = response.user?.id.webSafeBase64EncodedString()
 
         transports = nil
         attestationObject = nil
         publicKeyAlgorithm = nil
     }
 
-    init(_ clientData: YKFWebAuthnClientData, _ response: YKFFIDO2MakeCredentialResponse) {
-        clientDataJson = clientData.jsonData?.webSafeBase64EncodedString()
+    init(_ clientData: WebAuthnClientData, _ response: CTAP2.MakeCredential.Response) {
+        clientDataJson = try? clientData.jsonData.webSafeBase64EncodedString()
 
-        authenticatorData = response.authData.webSafeBase64EncodedString()
+        authenticatorData = response.authenticatorData.rawData.webSafeBase64EncodedString()
         signature = nil
         userHandle = nil
 
         transports = ["nfc", "usb"]
-        attestationObject = response.webauthnAttestationObject.webSafeBase64EncodedString()
 
-        if let publicKey = response.authenticatorData?.coseEncodedCredentialPublicKey,
-           let cborMap = YKFCBORDecoder.decodeDataObject(from: publicKey) as? YKFCBORMap,
-           let map = YKFCBORDecoder.convertCBORObject(toFoundationType: cborMap) as? [Int: Any]
-        {
-            publicKeyAlgorithm = map[3] as? Int
+        switch response.attestationStatement {
+        case .packed(let packed):
+            attestationObject = packed.rawData.webSafeBase64EncodedString()
+
+        case .fidoU2F(let fidoU2f):
+            attestationObject = fidoU2f.rawData.webSafeBase64EncodedString()
+
+        case .none:
+            attestationObject = nil
+
+        case .apple(let apple):
+            attestationObject = apple.rawData.webSafeBase64EncodedString()
+
+        case .unknown(format: _):
+            attestationObject = nil
         }
-        else {
+
+        switch response.authenticatorData.attestedCredentialData!.credentialPublicKey {
+        case .ec2(let alg, kid: _, crv: _, x: _, y: _):
+            publicKeyAlgorithm = alg.rawValue
+
+        case .okp(let alg, kid: _, crv: _, x: _):
+            publicKeyAlgorithm = alg.rawValue
+
+        case .rsa(let alg, kid: _, n: _, e: _):
+            publicKeyAlgorithm = alg.rawValue
+
+        case .other(_):
             publicKeyAlgorithm = nil
         }
     }
@@ -303,12 +417,15 @@ struct Extensions: Codable {
 
     let prf: Prf?
 
-    init?(_ data: [AnyHashable: Any]?) {
-        guard let data = data else {
+    init?(_ data: [WebAuthn.Extension.Identifier: CBOR.Value]?) {
+        guard let data = data,
+              let value = data[.other("prf")],
+              case .map(let map) = value
+        else {
             return nil
         }
 
-        prf = Prf(data["prf"] as? [AnyHashable: Any])
+        prf = Prf(map)
     }
 }
 
@@ -318,14 +435,31 @@ struct Prf: Codable {
     let results: PrfKeys?
     let enabled: Bool?
 
-    init?(_ data: [AnyHashable: Any]?) {
+    init?(_ data: [CBOR.Value: CBOR.Value]?) {
         guard let data = data else {
             return nil
         }
 
-        eval = PrfKeys(data["eval"] as? [AnyHashable: Any])
-        results = PrfKeys(data["results"] as? [AnyHashable: Any])
-        enabled = data["enabled"] as? Bool
+        if case .map(let map) = data[.textString("eval")] {
+            eval = PrfKeys(map)
+        }
+        else {
+            eval = nil
+        }
+
+        if case .map(let map) = data[.textString("results")] {
+            results = PrfKeys(map)
+        }
+        else {
+            results = nil
+        }
+
+        if case .boolean(let bool) = data[.textString("enabled")] {
+            enabled = bool
+        }
+        else {
+            enabled = nil
+        }
     }
 }
 
@@ -333,12 +467,17 @@ struct PrfKeys: Codable {
 
     let first: String?
 
-    init?(_ data: [AnyHashable: Any]?) {
+    init?(_ data: [CBOR.Value: CBOR.Value]?) {
         guard let data = data else {
             return nil
         }
 
-        first = data["first"] as? String
+        if case .textString(let value) = data[.textString("first")] {
+            first = value
+        }
+        else {
+            first = nil
+        }
     }
 }
 

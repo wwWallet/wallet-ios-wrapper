@@ -14,7 +14,6 @@ import WebKit
 
     var receivedMessage: String?
     var sentMessage: String?
-    let connection = YubiKeyConnection()
 
     @MainActor
     var loadURLCallback: ((URL) -> Void)?
@@ -30,20 +29,23 @@ import WebKit
     }
 
     func didReceiveCreate(_ message: WKScriptMessage) async throws -> [String: String?] {
+        var conn: NFCSmartCardConnection? = nil
+
         do {
             let request: CreateRequestWrapper = try await message.decode()
 
-            let conn = await connection.connect()
+            conn = try await NFCSmartCardConnection.makeConnection()
 
-            let session = try await conn.fido2Session()
-
-            if let pin = pin, !pin.isEmpty {
-                try await session.verifyPin(pin)
-            }
+            let session = try await CTAP2.Session.makeSession(connection: conn!)
 
             let r = request.request
+            var token: CTAP2.ClientPin.Token? = nil
 
-            guard let clientDataHash = r.clientData?.clientDataHash else {
+            if let pin = pin, !pin.isEmpty {
+                token = try await session.getPinUVToken(using: .pin(pin), permissions: .makeCredential, rpId: r.rp.id)
+            }
+
+            guard let clientDataHash = try r.clientData?.clientDataHash else {
                 throw Errors.cannotCreateClientDataHash
             }
 
@@ -51,37 +53,58 @@ import WebKit
                 throw Errors.cannotCreateUserEntity
             }
 
-            // TODO: This thing throws NSExceptions like crazy all over the place in
-            //      threads, which are uncatchable and hence crash the app.
-            //      This needs to change.
-            let (response, extensionResult) = try await session.makeCredential(
-                with: clientDataHash,
-                rp: r.rp.entity,
-                user: user,
-                pubKeyCredParams: r.pubKeyCredParams.map({ $0.param }),
-                excludeList: r.excludeCredentials?.compactMap({ $0.descriptor }),
-                options: r.options,
-                extensions: r.extensions)
+            var extensions = [CTAP2.Extension.MakeCredential.Input]()
 
-            let credentials = Credentials(r.clientData!, response, extensionResult)
+            if let input = r.extensionsInput {
+                extensions.append(input)
+            }
+
+            let statusStream = await session.makeCredential(
+                parameters: .init(
+                    clientDataHash: clientDataHash,
+                    rp: r.rp.entity,
+                    user: user,
+                    pubKeyCredParams: r.pubKeyCredParams.map({ $0.algorithm }),
+                    excludeList: r.excludeCredentials?.compactMap({ $0.descriptor }),
+                    extensions: extensions,
+                    options: r.options
+                ),
+                pinToken: token)
+
+            var response: CTAP2.MakeCredential.Response? = nil
+
+            for try await status in statusStream {
+                switch status {
+                case .processing:
+                    continue
+
+                case .waitingForUser(_):
+                    continue
+
+                case .finished(let r):
+                    response = r
+                }
+            }
+
+            guard let response else {
+                throw Errors.didntReceiveResponse
+            }
+
+            let credentials = Credentials(r.clientData!, response)
 
             let json = String(data: try JSONEncoder().encode(ResponseWrapper(credentials, "create")), encoding: .utf8)
 
-            YubiKitManager.shared.stopNFCConnection()
+            await conn?.close()
 
             return ["data": json]
         }
         catch {
-            YubiKitManager.shared.stopNFCConnection(withErrorMessage: error.localizedDescription)
+            switch error {
+            case CTAP2.SessionError.ctapError(let error, source: _):
+                await conn?.close(error: error)
 
-            let error = error as NSError
-
-            if error.domain == "com.yubico" {
-                if [
-                    49 /* "PIN is invalid." */,
-                    54 /* "PIN is required for the selected operation." */
-                ].contains(error.code)
-                {
+                switch error {
+                case CTAP2.Error.pinInvalid, CTAP2.Error.puatRequired:
                     await acquirePin(message)
 
                     // User cancelled.
@@ -90,19 +113,26 @@ import WebKit
                     }
 
                     return try await didReceiveCreate(message)
+
+                case CTAP2.Error.credentialExcluded:
+                    // Special treatment for unclear reasons.
+                    throw Errors.error0x19
+
+                default:
+                    throw error
                 }
-            }
 
-            if error.code == 0x19 {
-                // Special treatment for unclear reasons.
-                throw Errors.error0x19
-            }
+            default:
+                await conn?.close(error: error)
 
-            throw error
+                throw error
+            }
         }
     }
 
     func didReceiveGet(_ message: WKScriptMessage) async throws -> [String: String?] {
+        var conn: NFCSmartCardConnection? = nil
+
         do {
             print("\(await message.stringBody ?? "(nil)")")
 
@@ -117,52 +147,74 @@ import WebKit
             // in order to trigger the PIN entry UI.
             if needsPin && (pin?.isEmpty ?? true) {
                 // Error message unneeded, because it will not be shown when we throw before session initialization.
-                throw NSError(domain: "com.yubico", code: 49)
+                throw CTAP2.SessionError.ctapError(CTAP2.Error.puatRequired, source: .here())
             }
 
-            let conn = await connection.connect()
+            conn = try await NFCSmartCardConnection.makeConnection()
 
-            let session = try await conn.fido2Session()
+            let session = try await CTAP2.Session.makeSession(connection: conn!)
+
+            let r = request.request
+            var token: CTAP2.ClientPin.Token? = nil
 
             // For subsequent calls, we have the PIN available and try to verify it.
             if needsPin {
-                try await session.verifyPin(pin ?? "")
+                token = try await session.getPinUVToken(using: .pin(pin ?? ""), permissions: .getAssertion, rpId: r.rpId)
             }
 
-            let r = request.request
-
-            guard let clientDataHash = r.clientData?.clientDataHash else {
+            guard let clientDataHash = try r.clientData?.clientDataHash else {
                 throw Errors.cannotCreateClientDataHash
             }
 
-            // TODO: This thing throws NSExceptions like crazy all over the place in
-            //      threads, which are uncatchable and hence crash the app.
-            //      This needs to change.
-            let response = try await session.getAssertion(
-                with: clientDataHash,
-                rpId: r.rpId,
-                allowList: r.allowCredentials?.compactMap { $0.descriptor },
-                extensions: r.extensions)
+            var extensions = [CTAP2.Extension.GetAssertion.Input]()
+
+            if let input = r.extensionsInput {
+                extensions.append(input)
+            }
+
+            let statusStream = await session.getAssertion(
+                parameters: .init(
+                    rpId: r.rpId,
+                    clientDataHash: clientDataHash,
+                    allowList: r.allowCredentials?.compactMap({ $0.descriptor }),
+                    extensions: extensions
+                ),
+                pinToken: token)
+
+            var response: CTAP2.GetAssertion.Response? = nil
+
+            for try await status in statusStream {
+                switch status {
+                case .processing:
+                    continue
+
+                case .waitingForUser(_):
+                    continue
+
+                case .finished(let r):
+                    response = r
+                }
+            }
+
+            guard let response else {
+                throw Errors.didntReceiveResponse
+            }
 
             let credentials = Credentials(r.clientData!, response)
 
             let json = String(data: try JSONEncoder().encode(ResponseWrapper(credentials, "get")), encoding: .utf8)
 
-            YubiKitManager.shared.stopNFCConnection()
+            await conn?.close()
 
             return ["data": json]
         }
         catch {
-            YubiKitManager.shared.stopNFCConnection(withErrorMessage: error.localizedDescription)
+            switch error {
+            case CTAP2.SessionError.ctapError(let error, source: _):
+                await conn?.close(error: error)
 
-            let error = error as NSError
-
-            if error.domain == "com.yubico" {
-                if [
-                    49 /* "PIN is invalid." */,
-                    54 /* "PIN is required for the selected operation." */
-                ].contains(error.code)
-                {
+                switch error {
+                case CTAP2.Error.pinInvalid, CTAP2.Error.puatRequired:
                     await acquirePin(message)
 
                     // User cancelled.
@@ -171,10 +223,16 @@ import WebKit
                     }
 
                     return try await didReceiveGet(message)
-                }
-            }
 
-            throw error
+                default:
+                    throw error
+                }
+
+            default:
+                await conn?.close(error: error)
+
+                throw error
+            }
         }
     }
 
