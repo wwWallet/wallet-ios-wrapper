@@ -7,6 +7,7 @@
 
 import Foundation
 import YubiKit
+import OSLog
 
 struct CreateRequestWrapper: Decodable {
 
@@ -51,24 +52,6 @@ struct CreateRequest: Decodable {
         return nil
     }
 
-    var extensionsInput: CTAP2.Extension.MakeCredential.Input? {
-        guard let extensions else {
-            return nil
-        }
-
-        var encoded = [CTAP2.Extension.Identifier: CBOR.Value]()
-
-        for (key, value) in extensions {
-            encoded[CTAP2.Extension.Identifier(key)] = Self.cborValue(from: value)
-        }
-
-        guard !encoded.isEmpty else {
-            return nil
-        }
-
-        return CTAP2.Extension.MakeCredential.Input(encoded: encoded)
-    }
-
 
     init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -84,83 +67,55 @@ struct CreateRequest: Decodable {
     }
 
 
-    static func cborValue(from any: Any?) -> CBOR.Value? {
-        switch any {
-        case let value as Bool:
-            return CBOR.Value(value)
+    func getPrfExtensions(using session: CTAP2.Session) async -> [String: (prf: WebAuthn.Extension.PRF, input: CTAP2.Extension.MakeCredential.Input)] {
+        var result = [String: (WebAuthn.Extension.PRF, CTAP2.Extension.MakeCredential.Input)]()
 
-        case let value as Int:
-            return CBOR.Value(Int64(value))
+        let log = Logger(subsystem: "JsonModels", category: "MakeCredential")
 
-        case let value as Int8:
-            return CBOR.Value(Int64(value))
+        guard let secrets = CreateRequest.getPrf(from: extensions, for: "") else {
+            return result
+        }
 
-        case let value as Int16:
-            return CBOR.Value(Int64(value))
+        do {
+            let prf = try await WebAuthn.Extension.PRF(session: session)
+            let input = try prf.makeCredential.input(first: secrets.first, second: secrets.second)
 
-        case let value as Int32:
-            return CBOR.Value(Int64(value))
+            result[""] = (prf, input)
+        }
+        catch {
+            log.error("\(error)")
+        }
 
-        case let value as Int64:
-            return CBOR.Value(Int64(value))
+        return result
+    }
 
-        case let value as UInt:
-            return CBOR.Value(UInt64(value))
 
-        case let value as UInt8:
-            return CBOR.Value(UInt64(value))
-
-        case let value as UInt16:
-            return CBOR.Value(UInt64(value))
-
-        case let value as UInt32:
-            return CBOR.Value(UInt64(value))
-
-        case let value as UInt64:
-            return CBOR.Value(UInt64(value))
-
-        case let value as Double:
-            return CBOR.Value(UInt64(value))
-
-        case let value as Float:
-            return CBOR.Value(UInt64(value))
-
-        case let value as Float16:
-            return CBOR.Value(UInt64(value))
-
-        case let value as Float32:
-            return CBOR.Value(UInt64(value))
-
-        case let value as Float64:
-            return CBOR.Value(UInt64(value))
-
-        case let value as String:
-            return CBOR.Value(value)
-
-        case let value as Data:
-            return CBOR.Value(value)
-
-        case let value as [Any]:
-            return CBOR.Value(value.compactMap({ cborValue(from: $0) }))
-
-        case let value as [String: Any]:
-            var cborMap = [CBOR.Value: CBOR.Value]()
-
-            for (key, value) in value {
-                cborMap[CBOR.Value(key)] = cborValue(from: value)
-            }
-
-            return CBOR.Value(cborMap)
-
-        case Optional<Any>.none:
-            return .null
-
-        case is NSNull:
-            return .null
-
-        default:
+    static func getPrf(from extensions: [String: Any]?, for cid: String) -> (first: Data, second: Data?)? {
+        guard let prf = extensions?["prf"] as? [String: Any]
+        else {
             return nil
         }
+
+        var secrets: [String: String]? = nil
+
+        if !cid.isEmpty {
+            guard let evalByCred = prf["evalByCredential"] as? [String: [String: String]] else {
+                return nil
+            }
+
+            secrets = evalByCred[cid]
+        }
+        else {
+            secrets = prf["eval"] as? [String: String]
+        }
+
+        guard let first = secrets?["first"]?.webSafeBase64DecodedData() else {
+            return nil
+        }
+
+        let second = secrets?["second"]?.webSafeBase64DecodedData()
+
+        return (first: first, second: second)
     }
 }
 
@@ -233,24 +188,6 @@ struct GetRequest: Decodable {
         WebAuthnClientData(type: .get, challenge: challenge, origin: "https://\(rpId)")
     }
 
-    var extensionsInput: CTAP2.Extension.GetAssertion.Input? {
-        guard let extensions else {
-            return nil
-        }
-
-        var encoded = [CTAP2.Extension.Identifier: CBOR.Value]()
-
-        for (key, value) in extensions {
-            encoded[CTAP2.Extension.Identifier(key)] = CreateRequest.cborValue(from: value)
-        }
-
-        guard !encoded.isEmpty else {
-            return nil
-        }
-
-        return CTAP2.Extension.GetAssertion.Input(encoded: encoded)
-    }
-
 
     init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -261,7 +198,33 @@ struct GetRequest: Decodable {
         userVerification = try container.decodeIfPresent(String.self, forKey: .userVerification)
         extensions = try container.decodeIfPresent([String: Any].self, forKey: .extensions)
     }
+
+
+    func getPrfExtensions(using session: CTAP2.Session) async -> [String: (prf: WebAuthn.Extension.PRF, input: CTAP2.Extension.GetAssertion.Input)] {
+        var result = [String: (WebAuthn.Extension.PRF, CTAP2.Extension.GetAssertion.Input)]()
+
+        let log = Logger(subsystem: "JsonModels", category: "GetRequest")
+
+        for cid in (allowCredentials?.compactMap({ $0.id }) ?? []) + [""] {
+            guard let secrets = CreateRequest.getPrf(from: extensions, for: cid) else {
+                continue
+            }
+
+            do {
+                let prf = try await WebAuthn.Extension.PRF(session: session)
+                let input = try prf.getAssertion.input(first: secrets.first, second: secrets.second)
+
+                result[cid] = (prf, input)
+            }
+            catch {
+                log.error("\(error)")
+            }
+        }
+
+        return result
+    }
 }
+
 
 struct Credentials: Codable {
 
@@ -292,27 +255,54 @@ struct Credentials: Codable {
         return WebAuthn.PublicKeyCredential.Descriptor(type: type, id: data, transports: transports)
     }
 
-    init(_ clientData: WebAuthnClientData, _ response: CTAP2.GetAssertion.Response) {
+    init(
+        _ clientData: WebAuthnClientData,
+        _ response: CTAP2.GetAssertion.Response,
+        _ prfs: [String: (prf: WebAuthn.Extension.PRF, input: CTAP2.Extension.GetAssertion.Input)])
+    {
         type = "public-key"
         id = response.credential?.id.webSafeBase64EncodedString()
         transports = nil
 
         self.response = Response(clientData, response)
         rawId = id
-        clientExtensionResults = Extensions(response.authenticatorData.extensions)
+
+        do {
+            clientExtensionResults = Extensions(try prfs[id ?? ""]?.prf.getAssertion.output(from: response))
+        }
+        catch {
+            let log = Logger(subsystem: "JsonModels", category: "Credentials")
+            log.error("\(error)")
+
+            clientExtensionResults = nil
+        }
+
         authenticatorAttachment = "cross-platform"
     }
 
-    init(_ clientData: WebAuthnClientData, _ response: CTAP2.MakeCredential.Response) {
+    init(
+        _ clientData: WebAuthnClientData,
+        _ response: CTAP2.MakeCredential.Response,
+        _ prfs: [String: (prf: WebAuthn.Extension.PRF, input: CTAP2.Extension.MakeCredential.Input)])
+    {
         type = "public-key"
         id = response.authenticatorData.attestedCredentialData?.credentialId.webSafeBase64EncodedString()
         transports = nil
 
         self.response = Response(clientData, response)
         rawId = id
-        clientExtensionResults = Extensions(response.authenticatorData.extensions)
-        authenticatorAttachment = "cross-platform"
 
+        do {
+            clientExtensionResults = Extensions(try prfs[id ?? ""]?.prf.makeCredential.output(from: response))
+        }
+        catch {
+            let log = Logger(subsystem: "JsonModels", category: "Credentials")
+            log.error("\(error)")
+
+            clientExtensionResults = nil
+        }
+
+        authenticatorAttachment = "cross-platform"
     }
 }
 
@@ -402,67 +392,66 @@ struct Extensions: Codable {
 
     let prf: Prf?
 
-    init?(_ data: [WebAuthn.Extension.Identifier: CBOR.Value]?) {
-        guard let data = data,
-              let value = data[.other("prf")],
-              case .map(let map) = value
-        else {
+    init?(_ secrets: CTAP2.Extension.HmacSecret.Secrets?) {
+        guard let secrets else {
             return nil
         }
 
-        prf = Prf(map)
+        prf = Prf(secrets)
+    }
+
+    init?(_ result: WebAuthn.Extension.PRF.MakeCredentialOperations.Result?) {
+        guard let result else {
+            return nil
+        }
+
+        prf = Prf(result)
     }
 }
 
 struct Prf: Codable {
 
-    let eval: PrfKeys?
-    let results: PrfKeys?
+    let results: PrfSecrets?
     let enabled: Bool?
 
-    init?(_ data: [CBOR.Value: CBOR.Value]?) {
-        guard let data = data else {
+    init?(_ secrets: CTAP2.Extension.HmacSecret.Secrets?) {
+        guard let secrets else {
             return nil
         }
 
-        if case .map(let map) = data[.textString("eval")] {
-            eval = PrfKeys(map)
-        }
-        else {
-            eval = nil
+        results = PrfSecrets(secrets)
+        enabled = nil
+    }
+
+    init?(_ result: WebAuthn.Extension.PRF.MakeCredentialOperations.Result?) {
+        guard let result else {
+            return nil
         }
 
-        if case .map(let map) = data[.textString("results")] {
-            results = PrfKeys(map)
-        }
-        else {
+        switch result {
+        case .enabled:
             results = nil
-        }
+            enabled = true
 
-        if case .boolean(let bool) = data[.textString("enabled")] {
-            enabled = bool
-        }
-        else {
+        case .secrets(let secrets):
+            results = PrfSecrets(secrets)
             enabled = nil
         }
     }
 }
 
-struct PrfKeys: Codable {
+struct PrfSecrets: Codable {
 
     let first: String?
+    let second: String?
 
-    init?(_ data: [CBOR.Value: CBOR.Value]?) {
-        guard let data = data else {
+    init?(_ secrets: CTAP2.Extension.HmacSecret.Secrets?) {
+        guard let secrets else {
             return nil
         }
 
-        if case .textString(let value) = data[.textString("first")] {
-            first = value
-        }
-        else {
-            first = nil
-        }
+        first = secrets.first.webSafeBase64EncodedString()
+        second = secrets.second?.webSafeBase64EncodedString()
     }
 }
 

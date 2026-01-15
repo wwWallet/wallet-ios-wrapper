@@ -55,11 +55,11 @@ import WebKit
 
             var extensions = [CTAP2.Extension.MakeCredential.Input]()
 
-            if let input = r.extensionsInput {
-                extensions.append(input)
-            }
+            let prfs = await r.getPrfExtensions(using: session)
 
-            let statusStream = await session.makeCredential(
+            extensions += prfs.map({ $0.value.input })
+
+            let response = try await session.makeCredential(
                 parameters: .init(
                     clientDataHash: clientDataHash,
                     rp: r.rp.entity,
@@ -69,28 +69,9 @@ import WebKit
                     extensions: extensions,
                     options: r.options
                 ),
-                pinToken: token)
+                pinToken: token).value
 
-            var response: CTAP2.MakeCredential.Response? = nil
-
-            for try await status in statusStream {
-                switch status {
-                case .processing:
-                    continue
-
-                case .waitingForUser(_):
-                    continue
-
-                case .finished(let r):
-                    response = r
-                }
-            }
-
-            guard let response else {
-                throw Errors.didntReceiveResponse
-            }
-
-            let credentials = Credentials(r.clientData!, response)
+            let credentials = Credentials(r.clientData!, response, prfs)
 
             let json = String(data: try JSONEncoder().encode(ResponseWrapper(credentials, "create")), encoding: .utf8)
 
@@ -168,41 +149,24 @@ import WebKit
 
             var extensions = [CTAP2.Extension.GetAssertion.Input]()
 
-            if let input = r.extensionsInput {
-                extensions.append(input)
-            }
+            let prfs = await r.getPrfExtensions(using: session)
 
-            let statusStream = await session.getAssertion(
+            extensions += prfs.map({ $0.value.input })
+
+            let response = try await session.getAssertion(
                 parameters: .init(
                     rpId: r.rpId,
                     clientDataHash: clientDataHash,
                     allowList: r.allowCredentials?.compactMap({ $0.descriptor }),
                     extensions: extensions
                 ),
-                pinToken: token)
+                pinToken: token).value
 
-            var response: CTAP2.GetAssertion.Response? = nil
-
-            for try await status in statusStream {
-                switch status {
-                case .processing:
-                    continue
-
-                case .waitingForUser(_):
-                    continue
-
-                case .finished(let r):
-                    response = r
-                }
-            }
-
-            guard let response else {
-                throw Errors.didntReceiveResponse
-            }
-
-            let credentials = Credentials(r.clientData!, response)
+            let credentials = Credentials(r.clientData!, response, prfs)
 
             let json = String(data: try JSONEncoder().encode(ResponseWrapper(credentials, "get")), encoding: .utf8)
+
+            print(json ?? "(nil)")
 
             await conn?.close()
 
