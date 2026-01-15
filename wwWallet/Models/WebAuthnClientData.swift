@@ -52,7 +52,13 @@ class WebAuthnClientData: Codable {
     }
 
 
-    init(type: `Type`, challenge: String, origin: String) {
+    init?(type: `Type`, challenge: String, origin: String) {
+        // For an unknown reason, we cannot just pass the string through, but need to reencode,
+        // to make sure, e.g. there are no "=" at the end. Otherwise, authentication will fail.
+        guard let challenge = challenge.webSafeBase64DecodedData()?.webSafeBase64EncodedString() else {
+            return nil
+        }
+
         self.type = type
         self.challenge = challenge
         self.origin = origin
