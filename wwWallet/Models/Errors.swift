@@ -13,7 +13,6 @@ enum Errors: LocalizedError {
     case cannotCreateClientDataHash
     case cannotCreateUserEntity
     case error0x19
-    case didntReceiveResponse
 
     var localizedDescription: String {
         switch self {
@@ -25,9 +24,6 @@ enum Errors: LocalizedError {
 
         case .cannotCreateUserEntity:
             return NSLocalizedString("Cannot create user entity", comment: "")
-
-        case .didntReceiveResponse:
-            return NSLocalizedString("Didn't receive response", comment: "")
 
         case .error0x19:
             return "0x19"
