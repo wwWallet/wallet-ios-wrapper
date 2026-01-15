@@ -361,22 +361,7 @@ struct Response: Codable {
 
         transports = ["nfc", "usb"]
 
-        switch response.attestationStatement {
-        case .packed(let packed):
-            attestationObject = packed.rawData.webSafeBase64EncodedString()
-
-        case .fidoU2F(let fidoU2f):
-            attestationObject = fidoU2f.rawData.webSafeBase64EncodedString()
-
-        case .none:
-            attestationObject = nil
-
-        case .apple(let apple):
-            attestationObject = apple.rawData.webSafeBase64EncodedString()
-
-        case .unknown(format: _):
-            attestationObject = nil
-        }
+        attestationObject = response.attestationObject.rawData.webSafeBase64EncodedString()
 
         switch response.authenticatorData.attestedCredentialData!.credentialPublicKey {
         case .ec2(let alg, kid: _, crv: _, x: _, y: _):
