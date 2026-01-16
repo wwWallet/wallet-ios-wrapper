@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A003932D2F1A69050072EDF5 /* PrfExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A003932C2F1A69010072EDF5 /* PrfExtensions.swift */; };
+		A00393302F1A6C400072EDF5 /* YubiKit in Frameworks */ = {isa = PBXBuildFile; productRef = A003932F2F1A6C400072EDF5 /* YubiKit */; };
 		A00436AA2DA7F42C00002721 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00436A92DA7F41D00002721 /* UIViewController+Extensions.swift */; };
 		A02CF3992F11675C009D2603 /* YubiKit in Frameworks */ = {isa = PBXBuildFile; productRef = A02CF3982F11675C009D2603 /* YubiKit */; };
 		A02CF39B2F11676F009D2603 /* WebAuthnClientData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A02CF39A2F11676F009D2603 /* WebAuthnClientData.swift */; };
@@ -150,6 +151,7 @@
 		B40A35F12CF9DB6A0044D2C6 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			files = (
+				A00393302F1A6C400072EDF5 /* YubiKit in Frameworks */,
 				A02CF3992F11675C009D2603 /* YubiKit in Frameworks */,
 				A06638E42EBE4C2B00D6799D /* SwiftCSSParser in Frameworks */,
 			);
@@ -313,6 +315,7 @@
 			packageProductDependencies = (
 				A06638E32EBE4C2B00D6799D /* SwiftCSSParser */,
 				A02CF3982F11675C009D2603 /* YubiKit */,
+				A003932F2F1A6C400072EDF5 /* YubiKit */,
 			);
 			productName = wwWallet;
 			productReference = B40A35F42CF9DB6A0044D2C6 /* wwWallet.app */;
@@ -350,7 +353,7 @@
 			packageReferences = (
 				A0A610FE2DE9C7B800BF10CE /* XCRemoteSwiftPackageReference "SwiftCBOR" */,
 				A06638E22EBE4C2B00D6799D /* XCRemoteSwiftPackageReference "swift-css-parser" */,
-				A02CF3972F11675C009D2603 /* XCLocalSwiftPackageReference "../yubikit-swift" */,
+				A003932E2F1A6C400072EDF5 /* XCRemoteSwiftPackageReference "yubikit-swift" */,
 			);
 			preferredProjectObjectVersion = 90;
 			productRefGroup = B40A35F52CF9DB6A0044D2C6 /* Products */;
@@ -729,14 +732,15 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCLocalSwiftPackageReference section */
-		A02CF3972F11675C009D2603 /* XCLocalSwiftPackageReference "../yubikit-swift" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = "../yubikit-swift";
-		};
-/* End XCLocalSwiftPackageReference section */
-
 /* Begin XCRemoteSwiftPackageReference section */
+		A003932E2F1A6C400072EDF5 /* XCRemoteSwiftPackageReference "yubikit-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Yubico/yubikit-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.1;
+			};
+		};
 		A06638E22EBE4C2B00D6799D /* XCRemoteSwiftPackageReference "swift-css-parser" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/stackotter/swift-css-parser";
@@ -756,6 +760,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		A003932F2F1A6C400072EDF5 /* YubiKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A003932E2F1A6C400072EDF5 /* XCRemoteSwiftPackageReference "yubikit-swift" */;
+			productName = YubiKit;
+		};
 		A02CF3982F11675C009D2603 /* YubiKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = YubiKit;
