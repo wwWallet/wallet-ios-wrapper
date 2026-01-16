@@ -9,6 +9,7 @@
 import SwiftUI
 import YubiKit
 import WebKit
+import OSLog
 
 @Observable class BridgeModel {
 
@@ -19,6 +20,10 @@ import WebKit
     var loadURLCallback: ((URL) -> Void)?
 
     private(set) var pin: String?
+
+
+    private let log: Logger = Logger(for: BridgeModel.self)
+
 
     func openUrl(_ url: URL) {
         Task {
@@ -32,6 +37,9 @@ import WebKit
         var conn: NFCSmartCardConnection? = nil
 
         do {
+            let sb = await message.stringBody
+            log.debug("\(sb ?? "(nil)")")
+
             let request: CreateRequestWrapper = try await message.decode()
 
             conn = try await NFCSmartCardConnection.makeConnection()
@@ -53,11 +61,8 @@ import WebKit
                 throw Errors.cannotCreateUserEntity
             }
 
-            var extensions = [CTAP2.Extension.MakeCredential.Input]()
-
-            let prfs = await r.getPrfExtensions(using: session)
-
-            extensions += prfs.map({ $0.value.input })
+            let prfs = try await PrfExtensions(session, r.extensions)
+            let extensions = try prfs.makeCredentialInput()
 
             let response = try await session.makeCredential(
                 parameters: .init(
@@ -71,11 +76,13 @@ import WebKit
                 ),
                 pinToken: token).value
 
-            let credentials = Credentials(r.clientData!, response, prfs)
+            let credentials = try Credentials(r.clientData!, response, prfs)
 
             let json = String(data: try JSONEncoder().encode(ResponseWrapper(credentials, "create")), encoding: .utf8)
 
             await conn?.close()
+
+            log.debug("\(json ?? "(nil)")")
 
             return ["data": json]
         }
@@ -115,7 +122,8 @@ import WebKit
         var conn: NFCSmartCardConnection? = nil
 
         do {
-            print("\(await message.stringBody ?? "(nil)")")
+            let sb = await message.stringBody
+            log.debug("\(sb ?? "(nil)")")
 
             let request: GetRequestWrapper = try await message.decode()
 
@@ -147,11 +155,8 @@ import WebKit
                 throw Errors.cannotCreateClientDataHash
             }
 
-            var extensions = [CTAP2.Extension.GetAssertion.Input]()
-
-            let prfs = await r.getPrfExtensions(using: session)
-
-            extensions += prfs.map({ $0.value.input })
+            let prfs = try await PrfExtensions(session, r.extensions, r.allowCredentials)
+            let extensions = try prfs.getAssertionInput()
 
             let response = try await session.getAssertion(
                 parameters: .init(
@@ -162,11 +167,11 @@ import WebKit
                 ),
                 pinToken: token).value
 
-            let credentials = Credentials(r.clientData!, response, prfs)
+            let credentials = try Credentials(r.clientData!, response, prfs)
 
             let json = String(data: try JSONEncoder().encode(ResponseWrapper(credentials, "get")), encoding: .utf8)
 
-            print(json ?? "(nil)")
+            log.debug("\(json ?? "(nil)")")
 
             await conn?.close()
 
@@ -176,6 +181,8 @@ import WebKit
             switch error {
             case CTAP2.SessionError.ctapError(let error, source: _):
                 await conn?.close(error: error)
+
+                log.error("\(error)")
 
                 switch error {
                 case CTAP2.Error.pinInvalid, CTAP2.Error.puatRequired:
@@ -194,6 +201,8 @@ import WebKit
 
             default:
                 await conn?.close(error: error)
+
+                log.error("\(error)")
 
                 throw error
             }

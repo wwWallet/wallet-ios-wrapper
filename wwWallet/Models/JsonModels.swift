@@ -7,7 +7,6 @@
 
 import Foundation
 import YubiKit
-import OSLog
 
 struct CreateRequestWrapper: Decodable {
 
@@ -65,60 +64,7 @@ struct CreateRequest: Decodable {
         attestation = try container.decodeIfPresent(String.self, forKey: .attestation)
         extensions = try container.decodeIfPresent([String: Any].self, forKey: .extensions)
     }
-
-
-    func getPrfExtensions(using session: CTAP2.Session) async -> [String: (prf: WebAuthn.Extension.PRF, input: CTAP2.Extension.MakeCredential.Input)] {
-        var result = [String: (WebAuthn.Extension.PRF, CTAP2.Extension.MakeCredential.Input)]()
-
-        let log = Logger(subsystem: "JsonModels", category: "MakeCredential")
-
-        guard let secrets = CreateRequest.getPrf(from: extensions, for: "") else {
-            return result
-        }
-
-        do {
-            let prf = try await WebAuthn.Extension.PRF(session: session)
-            let input = try prf.makeCredential.input(first: secrets.first, second: secrets.second)
-
-            result[""] = (prf, input)
-        }
-        catch {
-            log.error("\(error)")
-        }
-
-        return result
-    }
-
-
-    static func getPrf(from extensions: [String: Any]?, for cid: String) -> (first: Data, second: Data?)? {
-        guard let prf = extensions?["prf"] as? [String: Any]
-        else {
-            return nil
-        }
-
-        var secrets: [String: String]? = nil
-
-        if !cid.isEmpty {
-            guard let evalByCred = prf["evalByCredential"] as? [String: [String: String]] else {
-                return nil
-            }
-
-            secrets = evalByCred[cid]
-        }
-        else {
-            secrets = prf["eval"] as? [String: String]
-        }
-
-        guard let first = secrets?["first"]?.webSafeBase64DecodedData() else {
-            return nil
-        }
-
-        let second = secrets?["second"]?.webSafeBase64DecodedData()
-
-        return (first: first, second: second)
-    }
 }
-
 
 struct RelyingParty: Codable {
 
@@ -198,33 +144,7 @@ struct GetRequest: Decodable {
         userVerification = try container.decodeIfPresent(String.self, forKey: .userVerification)
         extensions = try container.decodeIfPresent([String: Any].self, forKey: .extensions)
     }
-
-
-    func getPrfExtensions(using session: CTAP2.Session) async -> [String: (prf: WebAuthn.Extension.PRF, input: CTAP2.Extension.GetAssertion.Input)] {
-        var result = [String: (WebAuthn.Extension.PRF, CTAP2.Extension.GetAssertion.Input)]()
-
-        let log = Logger(subsystem: "JsonModels", category: "GetRequest")
-
-        for cid in (allowCredentials?.compactMap({ $0.id }) ?? []) + [""] {
-            guard let secrets = CreateRequest.getPrf(from: extensions, for: cid) else {
-                continue
-            }
-
-            do {
-                let prf = try await WebAuthn.Extension.PRF(session: session)
-                let input = try prf.getAssertion.input(first: secrets.first, second: secrets.second)
-
-                result[cid] = (prf, input)
-            }
-            catch {
-                log.error("\(error)")
-            }
-        }
-
-        return result
-    }
 }
-
 
 struct Credentials: Codable {
 
@@ -258,8 +178,8 @@ struct Credentials: Codable {
     init(
         _ clientData: WebAuthnClientData,
         _ response: CTAP2.GetAssertion.Response,
-        _ prfs: [String: (prf: WebAuthn.Extension.PRF, input: CTAP2.Extension.GetAssertion.Input)])
-    {
+        _ prfs: PrfExtensions
+    ) throws {
         type = "public-key"
         id = response.credential?.id.webSafeBase64EncodedString()
         transports = nil
@@ -267,15 +187,7 @@ struct Credentials: Codable {
         self.response = Response(clientData, response)
         rawId = id
 
-        do {
-            clientExtensionResults = Extensions(try prfs[id ?? ""]?.prf.getAssertion.output(from: response))
-        }
-        catch {
-            let log = Logger(subsystem: "JsonModels", category: "Credentials")
-            log.error("\(error)")
-
-            clientExtensionResults = nil
-        }
+        clientExtensionResults = Extensions(try prfs.getAssertionOutput(from: response))
 
         authenticatorAttachment = "cross-platform"
     }
@@ -283,8 +195,8 @@ struct Credentials: Codable {
     init(
         _ clientData: WebAuthnClientData,
         _ response: CTAP2.MakeCredential.Response,
-        _ prfs: [String: (prf: WebAuthn.Extension.PRF, input: CTAP2.Extension.MakeCredential.Input)])
-    {
+        _ prfs: PrfExtensions
+    ) throws {
         type = "public-key"
         id = response.authenticatorData.attestedCredentialData?.credentialId.webSafeBase64EncodedString()
         transports = nil
@@ -292,15 +204,7 @@ struct Credentials: Codable {
         self.response = Response(clientData, response)
         rawId = id
 
-        do {
-            clientExtensionResults = Extensions(try prfs[id ?? ""]?.prf.makeCredential.output(from: response))
-        }
-        catch {
-            let log = Logger(subsystem: "JsonModels", category: "Credentials")
-            log.error("\(error)")
-
-            clientExtensionResults = nil
-        }
+        clientExtensionResults = Extensions(try prfs.makeCredentialOutput(from: response))
 
         authenticatorAttachment = "cross-platform"
     }
