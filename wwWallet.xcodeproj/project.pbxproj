@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A003932D2F1A69050072EDF5 /* PrfExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A003932C2F1A69010072EDF5 /* PrfExtensions.swift */; };
 		A00436AA2DA7F42C00002721 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00436A92DA7F41D00002721 /* UIViewController+Extensions.swift */; };
 		A02CF3992F11675C009D2603 /* YubiKit in Frameworks */ = {isa = PBXBuildFile; productRef = A02CF3982F11675C009D2603 /* YubiKit */; };
 		A02CF39B2F11676F009D2603 /* WebAuthnClientData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A02CF39A2F11676F009D2603 /* WebAuthnClientData.swift */; };
@@ -61,6 +62,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		A003932C2F1A69010072EDF5 /* PrfExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrfExtensions.swift; sourceTree = "<group>"; };
 		A00436A92DA7F41D00002721 /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 		A02CF39A2F11676F009D2603 /* WebAuthnClientData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebAuthnClientData.swift; sourceTree = "<group>"; };
 		A04B09E72DD1FEB900A1BFF7 /* wwWallet-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "wwWallet-Info.plist"; sourceTree = SOURCE_ROOT; };
@@ -179,11 +181,12 @@
 		A08D827D2DA91A2D009373AB /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				A02CF39A2F11676F009D2603 /* WebAuthnClientData.swift */,
 				B40A361D2CFA01CA0044D2C6 /* BridgeModel.swift */,
 				A08D82802DA91AE6009373AB /* Errors.swift */,
-				A08D827E2DA91A5D009373AB /* JsonModels.swift */,
 				A06638E52EBE4D0900D6799D /* ColorFinder.swift */,
+				A08D827E2DA91A5D009373AB /* JsonModels.swift */,
+				A003932C2F1A69010072EDF5 /* PrfExtensions.swift */,
+				A02CF39A2F11676F009D2603 /* WebAuthnClientData.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -414,6 +417,7 @@
 		B40A35F02CF9DB6A0044D2C6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			files = (
+				A003932D2F1A69050072EDF5 /* PrfExtensions.swift in Sources */,
 				B40A36382D0088FF0044D2C6 /* BLEServer.swift in Sources */,
 				A06638E82EBE657D00D6799D /* Color+Extensions.swift in Sources */,
 				A06638E62EBE4D0900D6799D /* ColorFinder.swift in Sources */,
