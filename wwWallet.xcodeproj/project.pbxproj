@@ -15,8 +15,6 @@
 		A04B09EF2DD2021000A1BFF7 /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A04B09EE2DD2021000A1BFF7 /* AuthenticationServices.framework */; };
 		A04B09FA2DD2021000A1BFF7 /* AutoFillExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A04B09EC2DD2021000A1BFF7 /* AutoFillExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		A05D7AC82DBFB8FB001940B3 /* WebBluetooth.js in Resources */ = {isa = PBXBuildFile; fileRef = A05D7AC72DBFB8F7001940B3 /* WebBluetooth.js */; };
-		A06638E42EBE4C2B00D6799D /* SwiftCSSParser in Frameworks */ = {isa = PBXBuildFile; productRef = A06638E32EBE4C2B00D6799D /* SwiftCSSParser */; };
-		A06638E62EBE4D0900D6799D /* ColorFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06638E52EBE4D0900D6799D /* ColorFinder.swift */; };
 		A06638E82EBE657D00D6799D /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06638E72EBE657D00D6799D /* Color+Extensions.swift */; };
 		A08D827F2DA91A5D009373AB /* JsonModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08D827E2DA91A5D009373AB /* JsonModels.swift */; };
 		A08D82812DA91AE6009373AB /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08D82802DA91AE6009373AB /* Errors.swift */; };
@@ -71,7 +69,6 @@
 		A04B09EE2DD2021000A1BFF7 /* AuthenticationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AuthenticationServices.framework; path = System/Library/Frameworks/AuthenticationServices.framework; sourceTree = SDKROOT; };
 		A04B0A002DD2035C00A1BFF7 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = SOURCE_ROOT; };
 		A05D7AC72DBFB8F7001940B3 /* WebBluetooth.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = WebBluetooth.js; sourceTree = "<group>"; };
-		A06638E52EBE4D0900D6799D /* ColorFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorFinder.swift; sourceTree = "<group>"; };
 		A06638E72EBE657D00D6799D /* Color+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extensions.swift"; sourceTree = "<group>"; };
 		A08D827E2DA91A5D009373AB /* JsonModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonModels.swift; sourceTree = "<group>"; };
 		A08D82802DA91AE6009373AB /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
@@ -153,7 +150,6 @@
 			files = (
 				A00393302F1A6C400072EDF5 /* YubiKit in Frameworks */,
 				A02CF3992F11675C009D2603 /* YubiKit in Frameworks */,
-				A06638E42EBE4C2B00D6799D /* SwiftCSSParser in Frameworks */,
 			);
 		};
 /* End PBXFrameworksBuildPhase section */
@@ -185,7 +181,6 @@
 			children = (
 				B40A361D2CFA01CA0044D2C6 /* BridgeModel.swift */,
 				A08D82802DA91AE6009373AB /* Errors.swift */,
-				A06638E52EBE4D0900D6799D /* ColorFinder.swift */,
 				A08D827E2DA91A5D009373AB /* JsonModels.swift */,
 				A003932C2F1A69010072EDF5 /* PrfExtensions.swift */,
 				A02CF39A2F11676F009D2603 /* WebAuthnClientData.swift */,
@@ -313,7 +308,6 @@
 			);
 			name = wwWallet;
 			packageProductDependencies = (
-				A06638E32EBE4C2B00D6799D /* SwiftCSSParser */,
 				A02CF3982F11675C009D2603 /* YubiKit */,
 				A003932F2F1A6C400072EDF5 /* YubiKit */,
 			);
@@ -352,7 +346,6 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				A0A610FE2DE9C7B800BF10CE /* XCRemoteSwiftPackageReference "SwiftCBOR" */,
-				A06638E22EBE4C2B00D6799D /* XCRemoteSwiftPackageReference "swift-css-parser" */,
 				A003932E2F1A6C400072EDF5 /* XCRemoteSwiftPackageReference "yubikit-swift" */,
 			);
 			preferredProjectObjectVersion = 90;
@@ -423,7 +416,6 @@
 				A003932D2F1A69050072EDF5 /* PrfExtensions.swift in Sources */,
 				B40A36382D0088FF0044D2C6 /* BLEServer.swift in Sources */,
 				A06638E82EBE657D00D6799D /* Color+Extensions.swift in Sources */,
-				A06638E62EBE4D0900D6799D /* ColorFinder.swift in Sources */,
 				A08D82812DA91AE6009373AB /* Errors.swift in Sources */,
 				A099D37E2DB6A1F7007F6983 /* WKUserContentController+Extensions.swift in Sources */,
 				B40A36292CFA01CA0044D2C6 /* BridgeModel.swift in Sources */,
@@ -741,14 +733,6 @@
 				minimumVersion = 1.1.1;
 			};
 		};
-		A06638E22EBE4C2B00D6799D /* XCRemoteSwiftPackageReference "swift-css-parser" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/stackotter/swift-css-parser";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
 		A0A610FE2DE9C7B800BF10CE /* XCRemoteSwiftPackageReference "SwiftCBOR" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/valpackett/SwiftCBOR";
@@ -768,11 +752,6 @@
 		A02CF3982F11675C009D2603 /* YubiKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = YubiKit;
-		};
-		A06638E32EBE4C2B00D6799D /* SwiftCSSParser */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = A06638E22EBE4C2B00D6799D /* XCRemoteSwiftPackageReference "swift-css-parser" */;
-			productName = SwiftCSSParser;
 		};
 		A0A610FF2DE9C7B800BF10CE /* SwiftCBOR */ = {
 			isa = XCSwiftPackageProductDependency;

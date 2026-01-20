@@ -215,7 +215,7 @@ var __webauthn_hooks__;
         console.log("Called onReply with " + msg);
 
         if (reply[0] != 'success') {
-          throw new DOMException(reply[1], "NotAllowedError");
+            throw new DOMException(reply[1], "NotAllowedError");
         }
 
         var cred = decodeReply(reply[1]);
@@ -249,13 +249,6 @@ var __webauthn_hooks__;
             window.webkit.messageHandlers.__login_status_changed__.postMessage(isLocked ? "locked" : "unlocked");
         }
     }, 1000);
-
-    // Hide the header bar, because we have our own.
-    addEventListener("DOMContentLoaded", (event) => {
-        let style = document.createElement("style");
-        style.textContent = "header { display: none !important; }";
-        document.head.append(style);
-    });
 
 })(__webauthn_hooks__ || (__webauthn_hooks__ = {}));
 
