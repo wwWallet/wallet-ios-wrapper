@@ -130,7 +130,10 @@ import OSLog
             // If wwWallet wants user verification, we *do need to use a PIN*.
             // For subsequent calls, we then have the PIN available.
             // See https://developers.yubico.com/WebAuthn/WebAuthn_Developer_Guide/User_Presence_vs_User_Verification.html
-            let needsPin = request.request.userVerification?.lowercased() == "required"
+            //
+            // Also, the PRF extension *always requires* user verification, so force it,
+            // even when the frontend didn't explicitly ask for it.
+            let needsPin = request.request.userVerification?.lowercased() == "required" || request.request.extensions?["prf"] != nil
 
             // At the first time, this PIN will be empty, so we throw right away
             // in order to trigger the PIN entry UI.
