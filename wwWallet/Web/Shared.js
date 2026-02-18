@@ -5,6 +5,10 @@
 //  Created by Jens Utbult on 2024-12-13.
 //
 
+// Inject CSS class as early as possible to indicate to the web app, it's
+// running inside the wrapper.
+document.getElementsByTagName("html")[0].classList.add("is-wrapper-app");
+
 const stringifyBinary = (key, value) => {
     if (value instanceof Uint8Array) {
         return CM_base64url_encode(value);
