@@ -34,7 +34,9 @@ struct WebView: UIViewRepresentable {
             self.url = url
             self.model = model
         }
-        
+
+        var btBridge: BluetoothBridge?
+
         lazy var wkWebView: WKWebView = {
             let ucc = WKUserContentController()
             
@@ -59,66 +61,68 @@ struct WebView: UIViewRepresentable {
 
 
             // BLE hooks
-            ucc.addPageHandler(named: "__bluetoothStatus__") { [weak self] message in
-                self?.log.debug("Status message: \(message)")
+//            ucc.addPageHandler(named: "__bluetoothStatus__") { [weak self] message in
+//                self?.log.debug("Status message: \(message)")
+//
+//                return nil
+//            }
+//
+//            ucc.addPageHandler(named: "__bluetoothTerminate__") {[weak self] message in
+//                self?.log.debug("⚙️ Terminate message: \(message.stringBody ?? "(unknown encoding)")")
+//
+//                self?.bleClient.disconnect()
+//                self?.bleServer.disconnect()
+//
+//                return true
+//            }
+//
+//            ucc.addPageHandler(named: "__bluetoothCreateServer__") { [weak self] message in
+//                self?.log.debug("⚙️ Create server message: \(message.stringBody ?? "(unknown encoding)")")
+//
+//                return nil
+//            }
+//
+//            ucc.addPageHandler(named: "__bluetoothCreateClient__") { [weak self] message in
+//                self?.log.debug("⚙️ Create client message: \(message.stringBody ?? "(unknown encoding)")")
+//
+//                let uuidString: String = try message.decode()
+//
+//                return await self?.bleClient.startScanning(for: CBUUID(string: uuidString))
+//            }
+//
+//            ucc.addPageHandler(named: "__bluetoothSendToServer__") { [weak self] message in
+//                self?.log.debug("⚙️ Send to server message: \(message.stringBody ?? "(unknown encoding)")")
+//
+//                guard let data = message.stringBody?.dropFirst().dropLast().data(using: .utf8) else {
+//                    throw Errors.cannotDecodeMessage
+//                }
+//
+//                let result = try WKScriptMessage.decoder.decode([UInt8].self, from: data)
+//
+//                return await self?.bleClient.sendToServer(data: Data(result))
+//            }
+//
+//            ucc.addPageHandler(named: "__bluetoothSendToClient__") { [weak self] message in
+//                self?.log.debug("⚙️ Send to client message: \(message.stringBody ?? "(unknown encoding)")")
+//
+//                return nil
+//            }
+//
+//            ucc.addPageHandler(named: "__bluetoothReceiveFromClient__") { [weak self] message in
+//                self?.log.debug("⚙️ Receive from client message: \(message.stringBody ?? "(unknown encoding)")")
+//
+//                return nil
+//            }
+//
+//            ucc.addPageHandler(named: "__bluetoothReceiveFromServer__") { [weak self] _ in
+//                self?.log.debug("⚙️ Receive from server")
+//
+//                return await self?.bleClient.receiveFromServer()
+//            }
 
-                return nil
-            }
+            btBridge = BluetoothBridge(ucc)
 
-            ucc.addPageHandler(named: "__bluetoothTerminate__") {[weak self] message in
-                self?.log.debug("⚙️ Terminate message: \(message.stringBody ?? "(unknown encoding)")")
-
-                self?.bleClient.disconnect()
-                self?.bleServer.disconnect()
-
-                return true
-            }
-
-            ucc.addPageHandler(named: "__bluetoothCreateServer__") { [weak self] message in
-                self?.log.debug("⚙️ Create server message: \(message.stringBody ?? "(unknown encoding)")")
-
-                return nil
-            }
-
-            ucc.addPageHandler(named: "__bluetoothCreateClient__") { [weak self] message in
-                self?.log.debug("⚙️ Create client message: \(message.stringBody ?? "(unknown encoding)")")
-
-                let uuidString: String = try message.decode()
-
-                return await self?.bleClient.startScanning(for: CBUUID(string: uuidString))
-            }
-
-            ucc.addPageHandler(named: "__bluetoothSendToServer__") { [weak self] message in
-                self?.log.debug("⚙️ Send to server message: \(message.stringBody ?? "(unknown encoding)")")
-
-                guard let data = message.stringBody?.dropFirst().dropLast().data(using: .utf8) else {
-                    throw Errors.cannotDecodeMessage
-                }
-
-                let result = try WKScriptMessage.decoder.decode([UInt8].self, from: data)
-
-                return await self?.bleClient.sendToServer(data: Data(result))
-            }
-
-            ucc.addPageHandler(named: "__bluetoothSendToClient__") { [weak self] message in
-                self?.log.debug("⚙️ Send to client message: \(message.stringBody ?? "(unknown encoding)")")
-
-                return nil
-            }
-
-            ucc.addPageHandler(named: "__bluetoothReceiveFromClient__") { [weak self] message in
-                self?.log.debug("⚙️ Receive from client message: \(message.stringBody ?? "(unknown encoding)")")
-
-                return nil
-            }
-
-            ucc.addPageHandler(named: "__bluetoothReceiveFromServer__") { [weak self] _ in
-                self?.log.debug("⚙️ Receive from server")
-
-                return await self?.bleClient.receiveFromServer()
-            }
-
-//            ucc.addUserScript(.bluetoothScript!)
+            ucc.addUserScript(.bluetoothScript!)
 
 
             let configuration = WKWebViewConfiguration()

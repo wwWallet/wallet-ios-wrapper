@@ -263,7 +263,7 @@
     class Bluetooth extends EventTarget {
 
         async getAvailability() {
-            return true
+            return await window.webkit.messageHandlers.__bt_availability.postMessage('')
         }
 
         async getDevices() {
@@ -271,6 +271,8 @@
         }
 
         async requestDevice(options) {
+            await window.webkit.messageHandlers.__bt_request_device.postMessage(stringify(options))
+
             return new BluetoothDevice()
         }
     }

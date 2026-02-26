@@ -22,6 +22,7 @@
 		A099D37C2DB69A71007F6983 /* MessageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A099D37B2DB69A71007F6983 /* MessageHandler.swift */; };
 		A099D37E2DB6A1F7007F6983 /* WKUserContentController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A099D37D2DB6A1F7007F6983 /* WKUserContentController+Extensions.swift */; };
 		A0A611002DE9C7B800BF10CE /* SwiftCBOR in Frameworks */ = {isa = PBXBuildFile; productRef = A0A610FF2DE9C7B800BF10CE /* SwiftCBOR */; };
+		A0B4B77D2F34C04E0011B9F9 /* BluetoothBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B4B77C2F34C04E0011B9F9 /* BluetoothBridge.swift */; };
 		A0E498052E42194300AA9C23 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A0E498042E42194300AA9C23 /* Settings.bundle */; };
 		A0F7A1792DB68B5A009F3178 /* Logger+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F7A1782DB68B5A009F3178 /* Logger+Extensions.swift */; };
 		B40A36272CFA01CA0044D2C6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B40A361C2CFA01CA0044D2C6 /* Assets.xcassets */; };
@@ -76,6 +77,7 @@
 		A099D3792DB69750007F6983 /* WKUserScript+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WKUserScript+Extensions.swift"; sourceTree = "<group>"; };
 		A099D37B2DB69A71007F6983 /* MessageHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageHandler.swift; sourceTree = "<group>"; };
 		A099D37D2DB6A1F7007F6983 /* WKUserContentController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WKUserContentController+Extensions.swift"; sourceTree = "<group>"; };
+		A0B4B77C2F34C04E0011B9F9 /* BluetoothBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothBridge.swift; sourceTree = "<group>"; };
 		A0E498042E42194300AA9C23 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		A0F7A1782DB68B5A009F3178 /* Logger+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Logger+Extensions.swift"; sourceTree = "<group>"; };
 		B40A35F42CF9DB6A0044D2C6 /* wwWallet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = wwWallet.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -225,6 +227,7 @@
 			children = (
 				B40A36392D0089060044D2C6 /* BLEClient.swift */,
 				B40A36372D0088F90044D2C6 /* BLEServer.swift */,
+				A0B4B77C2F34C04E0011B9F9 /* BluetoothBridge.swift */,
 			);
 			path = Bluetooth;
 			sourceTree = "<group>";
@@ -418,6 +421,7 @@
 				A06638E82EBE657D00D6799D /* Color+Extensions.swift in Sources */,
 				A08D82812DA91AE6009373AB /* Errors.swift in Sources */,
 				A099D37E2DB6A1F7007F6983 /* WKUserContentController+Extensions.swift in Sources */,
+				A0B4B77D2F34C04E0011B9F9 /* BluetoothBridge.swift in Sources */,
 				B40A36292CFA01CA0044D2C6 /* BridgeModel.swift in Sources */,
 				B43CB36F2D030CD900634811 /* WKScriptMessage+Extensions.swift in Sources */,
 				A02CF39B2F11676F009D2603 /* WebAuthnClientData.swift in Sources */,
@@ -638,7 +642,7 @@
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_NFCReaderUsageDescription = "The application needs access to NFC reading to communicate with your YubiKey.";
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Always use bluetooth";
-				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "The app need to communicate with BLE";
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "The app needs to communicate with BLE devices for credential presentation.";
 				INFOPLIST_KEY_NSCameraUsageDescription = "The app needs the camera to read QR codes.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -675,7 +679,7 @@
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_NFCReaderUsageDescription = "The application needs access to NFC reading to communicate with your YubiKey.";
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Always use bluetooth";
-				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "The app need to communicate with BLE";
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "The app needs to communicate with BLE devices for credential presentation.";
 				INFOPLIST_KEY_NSCameraUsageDescription = "The app needs the camera to read QR codes.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
