@@ -15,11 +15,13 @@ struct wwWalletTests {
     @Test("Test base domains configuration")
     func testBaseDomains() {
         let domains = Config.baseDomains
-        #expect(domains.count == 4)
+        #expect(domains.count > 0)
         
         for domain in domains {
             #expect(!domain.isEmpty)
         }
+
+        #expect(!Config.baseDomain.isEmpty)
     }
 
     @Test("Test default base domain selection")

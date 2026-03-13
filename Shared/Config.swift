@@ -30,7 +30,7 @@ extension Config {
     }
 
     class var baseDomains: [String] {
-        [baseDomain1, baseDomain2, baseDomain3, baseDomain4]
+        [baseDomain1, baseDomain2, baseDomain3, baseDomain4].filter { !$0.isEmpty }
     }
 
     class var baseDomain: String {
@@ -47,7 +47,7 @@ extension Config {
             return baseDomains[idx]
         }
 
-        return baseDomain2
+        return baseDomain2.isEmpty ? baseDomain1 : baseDomain2
     }
 
     private static var registered = false
