@@ -12,14 +12,14 @@
 // git update-index --skip-worktree Config.xcconfig
 // git update-index --no-skip-worktree Config.xcconfig
 
-APP_BUNDLE_ID[config=Debug] =
-EAF_BUNDLE_ID[config=Debug] =
-APP_GROUP[config=Debug] =
+APP_BUNDLE_ID[config=Debug] = org.wwwallet.wwwallet
+EAF_BUNDLE_ID[config=Debug] = org.wwwallet.wwwallet.autofill
+APP_GROUP[config=Debug] = group.org.wwwallet.wwwallet
 DEVELOPMENT_TEAM[config=Debug] =
 CODE_SIGN_IDENTITY[config=Debug] = iPhone Developer
 APP_PROVISIONING_PROFILE_SPECIFIER[config=Debug] =
 EAF_PROVISIONING_PROFILE_SPECIFIER[config=Debug] =
-BASE_DOMAIN1[config=Debug] =
+BASE_DOMAIN1[config=Debug] = demo.wwwallet.org
 BASE_DOMAIN2[config=Debug] =
 BASE_DOMAIN3[config=Debug] =
 BASE_DOMAIN4[config=Debug] =
@@ -37,7 +37,7 @@ BASE_DOMAIN3[config=Release] =
 BASE_DOMAIN4[config=Release] =
 
 MARKETING_VERSION = 0.1.0
-CURRENT_PROJECT_VERSION = 20
+CURRENT_PROJECT_VERSION = 23
 
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) APP_GROUP="$(APP_GROUP)" BASE_DOMAIN1="$(BASE_DOMAIN1)" BASE_DOMAIN2="$(BASE_DOMAIN2)" BASE_DOMAIN3="$(BASE_DOMAIN3)" BASE_DOMAIN4="$(BASE_DOMAIN4)"
 
