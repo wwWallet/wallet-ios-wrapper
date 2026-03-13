@@ -46,6 +46,13 @@
 			remoteGlobalIDString = A04B09EB2DD2021000A1BFF7;
 			remoteInfo = AutoFillExtension;
 		};
+		A090AC272F642E4F00ADE0B2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B40A35EC2CF9DB6A0044D2C6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B40A35F32CF9DB6A0044D2C6;
+			remoteInfo = wwWallet;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -73,6 +80,7 @@
 		A08D827E2DA91A5D009373AB /* JsonModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonModels.swift; sourceTree = "<group>"; };
 		A08D82802DA91AE6009373AB /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		A08D82832DA93BE4009373AB /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = SOURCE_ROOT; };
+		A090AC232F642E4F00ADE0B2 /* wwWalletTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = wwWalletTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A099D3792DB69750007F6983 /* WKUserScript+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WKUserScript+Extensions.swift"; sourceTree = "<group>"; };
 		A099D37B2DB69A71007F6983 /* MessageHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageHandler.swift; sourceTree = "<group>"; };
 		A099D37D2DB6A1F7007F6983 /* WKUserContentController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WKUserContentController+Extensions.swift"; sourceTree = "<group>"; };
@@ -135,6 +143,11 @@
 			path = Shared;
 			sourceTree = "<group>";
 		};
+		A090AC242F642E4F00ADE0B2 /* wwWalletTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = wwWalletTests;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,6 +156,11 @@
 			files = (
 				A0A611002DE9C7B800BF10CE /* SwiftCBOR in Frameworks */,
 				A04B09EF2DD2021000A1BFF7 /* AuthenticationServices.framework in Frameworks */,
+			);
+		};
+		A090AC202F642E4F00ADE0B2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			files = (
 			);
 		};
 		B40A35F12CF9DB6A0044D2C6 /* Frameworks */ = {
@@ -235,6 +253,7 @@
 				B40A36252CFA01CA0044D2C6 /* wwWallet */,
 				A062D3432DE892C300B45142 /* Shared */,
 				A04B09F02DD2021000A1BFF7 /* AutoFillExtension */,
+				A090AC242F642E4F00ADE0B2 /* wwWalletTests */,
 				A04B09ED2DD2021000A1BFF7 /* Frameworks */,
 				B40A35F52CF9DB6A0044D2C6 /* Products */,
 			);
@@ -245,6 +264,7 @@
 			children = (
 				B40A35F42CF9DB6A0044D2C6 /* wwWallet.app */,
 				A04B09EC2DD2021000A1BFF7 /* AutoFillExtension.appex */,
+				A090AC232F642E4F00ADE0B2 /* wwWalletTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -291,6 +311,27 @@
 			productReference = A04B09EC2DD2021000A1BFF7 /* AutoFillExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
+		A090AC222F642E4F00ADE0B2 /* wwWalletTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A090AC292F642E4F00ADE0B2 /* Build configuration list for PBXNativeTarget "wwWalletTests" */;
+			buildPhases = (
+				A090AC1F2F642E4F00ADE0B2 /* Sources */,
+				A090AC202F642E4F00ADE0B2 /* Frameworks */,
+				A090AC212F642E4F00ADE0B2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A090AC282F642E4F00ADE0B2 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				A090AC242F642E4F00ADE0B2 /* wwWalletTests */,
+			);
+			name = wwWalletTests;
+			productName = wwWalletTests;
+			productReference = A090AC232F642E4F00ADE0B2 /* wwWalletTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		B40A35F32CF9DB6A0044D2C6 /* wwWallet */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = B40A36022CF9DB6B0044D2C6 /* Build configuration list for PBXNativeTarget "wwWallet" */;
@@ -322,12 +363,16 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1630;
+				LastSwiftUpdateCheck = 2630;
 				LastUpgradeCheck = 2600;
 				TargetAttributes = {
 					A04B09EB2DD2021000A1BFF7 = {
 						CreatedOnToolsVersion = 16.3;
 						LastSwiftMigration = 1630;
+					};
+					A090AC222F642E4F00ADE0B2 = {
+						CreatedOnToolsVersion = 26.3;
+						TestTargetID = B40A35F32CF9DB6A0044D2C6;
 					};
 					B40A35F32CF9DB6A0044D2C6 = {
 						CreatedOnToolsVersion = 16.1;
@@ -355,12 +400,18 @@
 			targets = (
 				B40A35F32CF9DB6A0044D2C6 /* wwWallet */,
 				A04B09EB2DD2021000A1BFF7 /* AutoFillExtension */,
+				A090AC222F642E4F00ADE0B2 /* wwWalletTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		A04B09EA2DD2021000A1BFF7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			files = (
+			);
+		};
+		A090AC212F642E4F00ADE0B2 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			files = (
 			);
@@ -410,6 +461,11 @@
 			files = (
 			);
 		};
+		A090AC1F2F642E4F00ADE0B2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			files = (
+			);
+		};
 		B40A35F02CF9DB6A0044D2C6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			files = (
@@ -440,6 +496,11 @@
 			isa = PBXTargetDependency;
 			target = A04B09EB2DD2021000A1BFF7 /* AutoFillExtension */;
 			targetProxy = A04B09F82DD2021000A1BFF7 /* PBXContainerItemProxy */;
+		};
+		A090AC282F642E4F00ADE0B2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B40A35F32CF9DB6A0044D2C6 /* wwWallet */;
+			targetProxy = A090AC272F642E4F00ADE0B2 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -498,6 +559,60 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "Shared/wwWallet-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		A090AC2A2F642E4F00ADE0B2 /* Debug configuration for PBXNativeTarget "wwWalletTests" */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A04B0A002DD2035C00A1BFF7 /* Config.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Manual;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
+				MACOSX_DEPLOYMENT_TARGET = 18.1;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_BUNDLE_ID).tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/wwWallet.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/wwWallet";
+				XROS_DEPLOYMENT_TARGET = 26.2;
+			};
+			name = Debug;
+		};
+		A090AC2B2F642E4F00ADE0B2 /* Release configuration for PBXNativeTarget "wwWalletTests" */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A04B0A002DD2035C00A1BFF7 /* Config.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Manual;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
+				MACOSX_DEPLOYMENT_TARGET = 18.1;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_BUNDLE_ID).tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/wwWallet.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/wwWallet";
+				XROS_DEPLOYMENT_TARGET = 26.2;
 			};
 			name = Release;
 		};
@@ -703,6 +818,14 @@
 			buildConfigurations = (
 				A04B09FD2DD2021000A1BFF7 /* Debug configuration for PBXNativeTarget "AutoFillExtension" */,
 				A04B09FE2DD2021000A1BFF7 /* Release configuration for PBXNativeTarget "AutoFillExtension" */,
+			);
+			defaultConfigurationName = Release;
+		};
+		A090AC292F642E4F00ADE0B2 /* Build configuration list for PBXNativeTarget "wwWalletTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A090AC2A2F642E4F00ADE0B2 /* Debug configuration for PBXNativeTarget "wwWalletTests" */,
+				A090AC2B2F642E4F00ADE0B2 /* Release configuration for PBXNativeTarget "wwWalletTests" */,
 			);
 			defaultConfigurationName = Release;
 		};
