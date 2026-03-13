@@ -148,6 +148,11 @@
 			path = wwWalletTests;
 			sourceTree = "<group>";
 		};
+		A090AC2F2F6448EF00ADE0B2 /* .github */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = .github;
+			sourceTree = SOURCE_ROOT;
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -212,6 +217,7 @@
 				A04B0A002DD2035C00A1BFF7 /* Config.xcconfig */,
 				A08D82832DA93BE4009373AB /* .gitignore */,
 				A04B09E72DD1FEB900A1BFF7 /* wwWallet-Info.plist */,
+				A090AC2F2F6448EF00ADE0B2 /* .github */,
 			);
 			path = Build;
 			sourceTree = "<group>";

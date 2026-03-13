@@ -1,0 +1,36 @@
+name: iOS Build on Push
+
+on:
+  push:
+    branches:
+      - '**'
+
+jobs:
+  test:
+    name: Run iOS Tests
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode_26.3.app/Contents/Developer
+
+    - name: Build Project
+      run: |
+        xcodebuild build-for-testing \
+          -project wwWallet.xcodeproj \
+          -scheme wwWallet \
+          -sdk iphonesimulator \
+          -configuration Debug
+
+    - name: Run Tests
+      run: |
+        xcodebuild test-without-building \
+          -project wwWallet.xcodeproj \
+          -scheme wwWallet \
+          -sdk iphonesimulator \
+          -configuration Debug \
+          -destination 'platform=iOS Simulator,name=iPhone 17,OS=26.2' \
+          -quiet
