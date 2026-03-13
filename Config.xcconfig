@@ -20,7 +20,7 @@ CODE_SIGN_IDENTITY[config=Debug] = iPhone Developer
 APP_PROVISIONING_PROFILE_SPECIFIER[config=Debug] =
 EAF_PROVISIONING_PROFILE_SPECIFIER[config=Debug] =
 BASE_DOMAIN1[config=Debug] = demo.wwwallet.org
-BASE_DOMAIN2[config=Debug] =
+BASE_DOMAIN2[config=Debug] = demo.wwwallet.org
 BASE_DOMAIN3[config=Debug] =
 BASE_DOMAIN4[config=Debug] =
 

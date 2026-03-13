@@ -10,6 +10,9 @@ jobs:
     name: Run iOS Tests
     runs-on: macos-latest
 
+    env:
+      Destination: 'platform=iOS Simulator,arch=arm64,name=iPhone 17,OS=26.2'
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -23,7 +26,8 @@ jobs:
             -project wwWallet.xcodeproj \
             -scheme wwWallet \
             -sdk iphonesimulator \
-            -configuration Debug
+            -configuration Debug \
+            -destination '$Destination'
 
       - name: Run Tests
         run: |
@@ -32,5 +36,5 @@ jobs:
             -scheme wwWallet \
             -sdk iphonesimulator \
             -configuration Debug \
-            -destination 'platform=iOS Simulator,arch=arm64,name=iPhone 17,OS=26.2' \
+            -destination '$Destination' \
             -quiet
