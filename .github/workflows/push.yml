@@ -32,5 +32,5 @@ jobs:
             -scheme wwWallet \
             -sdk iphonesimulator \
             -configuration Debug \
-            -destination 'platform=iOS Simulator,name=iPhone 17,OS=26.2' \
+            -destination 'platform=iOS Simulator,arch=arm64,name=iPhone 17,OS=26.2' \
             -quiet
