@@ -17,7 +17,7 @@ extension String {
         var padding = ""
         let rest = base64EncodedString.count % 4
 
-        if rest != 0 {
+        if rest > 0 {
             padding = String(repeating: "=", count: 4 - rest)
         }
 
