@@ -27,7 +27,7 @@ jobs:
             -scheme wwWallet \
             -sdk iphonesimulator \
             -configuration Debug \
-            -destination '$Destination'
+            -destination "$Destination"
 
       - name: Run Tests
         run: |
@@ -36,5 +36,5 @@ jobs:
             -scheme wwWallet \
             -sdk iphonesimulator \
             -configuration Debug \
-            -destination '$Destination' \
+            -destination "$Destination" \
             -quiet
