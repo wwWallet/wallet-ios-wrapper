@@ -29,13 +29,17 @@ extension Config {
         __baseDomain4 as String
     }
 
+    class var baseDomain5: String {
+        __baseDomain5 as String
+    }
+
     class var baseDomains: [String] {
-        [baseDomain1, baseDomain2, baseDomain3, baseDomain4].filter { !$0.isEmpty }
+        [baseDomain1, baseDomain2, baseDomain3, baseDomain4, baseDomain5].filter { !$0.isEmpty }
     }
 
     class var baseDomain: String {
         if !registered {
-            UserDefaults.standard.register(defaults: ["environment": "1"])
+            UserDefaults.standard.register(defaults: ["environment": "0"])
             registered = true
         }
 
@@ -47,7 +51,7 @@ extension Config {
             return baseDomains[idx]
         }
 
-        return baseDomain2.isEmpty ? baseDomain1 : baseDomain2
+        return baseDomain1
     }
 
     private static var registered = false
