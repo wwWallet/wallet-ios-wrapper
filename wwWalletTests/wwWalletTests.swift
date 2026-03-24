@@ -8,6 +8,7 @@
 import Testing
 import SwiftUI
 @testable import wwWallet
+internal import YubiKit
 
 @Suite("wwWallet Test Suite")
 struct wwWalletTests {
@@ -67,28 +68,22 @@ struct wwWalletTests {
         #expect(color == nil)
     }
 
-    @Test("Test example functionality")
-    func testExample() async throws {
-        // Write your test here and use APIs like `#expect(...)` to check expected conditions.
-        #expect(true)
-    }
-    
     @Test("Test WebAuthnClientData initialization")
     func testWebAuthnClientDataInit() {
-        let challenge = "test_challenge"
+        let challenge = "test_challenge".data(using: .utf8)!.base64EncodedString().replacingOccurrences(of: "=", with: "")
         let origin = "https://example.com"
         
         // Test successful initialization
         let clientData = WebAuthnClientData(type: .create, challenge: challenge, origin: origin)
         #expect(clientData != nil)
         #expect(clientData?.type == .create)
-        #expect(clientData?.challenge == challenge.webSafeBase64DecodedData()?.webSafeBase64EncodedString())
+        #expect(clientData?.challenge == challenge)
         #expect(clientData?.origin == origin)
     }
-
+    
     @Test("Test WebAuthnClientData jsonData property")
     func testWebAuthnClientDataJsonData() {
-        let challenge = "test_challenge"
+        let challenge = "test_challenge".data(using: .utf8)!.base64EncodedString().replacingOccurrences(of: "=", with: "")
         let origin = "https://example.com"
         
         let clientData = WebAuthnClientData(type: .create, challenge: challenge, origin: origin)
@@ -101,7 +96,7 @@ struct wwWalletTests {
             // Verify it's valid JSON by attempting to decode it back
             let decoded = try JSONDecoder().decode(WebAuthnClientData.self, from: jsonData)
             #expect(decoded.type == .create)
-            #expect(decoded.challenge == challenge.webSafeBase64DecodedData()?.webSafeBase64EncodedString())
+            #expect(decoded.challenge == challenge)
             #expect(decoded.origin == origin)
         } catch {
             #expect(Bool(false), "Failed to encode/decode jsonData: \(error)")
@@ -123,7 +118,7 @@ struct wwWalletTests {
             // SHA-256 hash should be 32 bytes long
             #expect(hash.count == 32)
         } catch {
-            #expect(Bool(false), "Failed to calculate clientDataHash: \(error)")
+            #expect(Bool(false), "Failed to encode/decode jsonData: \(error)")
         }
     }
     
@@ -149,7 +144,7 @@ struct wwWalletTests {
         #expect(decoded != nil)
         #expect(decoded == originalData)
     }
-    
+
     @Test("Test String webSafeBase64DecodedData extension with valid input")
     func testStringWebSafeBase64DecodingValidInput() {
         // Test with a known valid base64 string
@@ -166,11 +161,65 @@ struct wwWalletTests {
         #expect(decoded != nil)
         #expect(decoded == originalData)
     }
-
+    
     @Test("Test Data hexString property")
     func testDataHexString() {
         let testData = Data([0x12, 0x34, 0x56, 0x78])
         let hexString = testData.hexString
         #expect(hexString == "12345678")
+    }
+    
+    @Test("Test CreateRequest clientData property")
+    func testCreateRequestClientData() {
+        let challenge = "test_challenge".data(using: .utf8)!.base64EncodedString().replacingOccurrences(of: "=", with: "")
+
+        let createRequest = CreateRequest(
+            rp: RelyingParty(id: "example.com", name: "Example"),
+            user: User(id: "user123", name: "User Name", displayName: "User"),
+            challenge: challenge,
+            pubKeyCredParams: [PubKeyCredParams(type: "public-key", alg: -7)],
+            attestation: "direct")
+        
+        let clientData = createRequest.clientData
+        #expect(clientData != nil)
+        #expect(clientData?.type == .create)
+        #expect(clientData?.challenge == challenge)
+        #expect(clientData?.origin == "https://example.com")
+    }
+    
+    @Test("Test GetRequest clientData property")
+    func testGetRequestClientData() {
+        let challenge = "test_challenge".data(using: .utf8)!.base64EncodedString().replacingOccurrences(of: "=", with: "")
+
+        // Based on typical webauthn structure and the error, we modify to match expected parameters
+        let getRequest = GetRequest(
+            rpId: "example.com",
+            challenge: challenge,
+            userVerification: "required",
+            extensions: nil
+        )
+        
+        let clientData = getRequest.clientData
+        #expect(clientData != nil)
+        #expect(clientData?.type == .get)
+        #expect(clientData?.challenge == challenge)
+        #expect(clientData?.origin == "https://example.com")
+    }
+    
+    @Test("Test User entity property")
+    func testUserEntity() {
+        let user = User(id: "dXNlcjEyMw==", name: "User Name", displayName: "User")
+        let entity = user.entity
+        #expect(entity != nil)
+        #expect(entity?.id == Data([0x75, 0x73, 0x65, 0x72, 0x31, 0x32, 0x33]))
+        #expect(entity?.name == "User Name")
+        #expect(entity?.displayName == "User")
+    }
+    
+    @Test("Test PubKeyCredParams algorithm property")
+    func testPubKeyCredParamsAlgorithm() {
+        let params = PubKeyCredParams(type: "public-key", alg: -7)
+        let algorithm = params.algorithm
+        #expect(algorithm.rawValue == -7)
     }
 }

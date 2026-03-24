@@ -64,6 +64,20 @@ struct CreateRequest: Decodable {
         attestation = try container.decodeIfPresent(String.self, forKey: .attestation)
         extensions = try container.decodeIfPresent([String: Any].self, forKey: .extensions)
     }
+
+    init(rp: RelyingParty, user: User, challenge: String, pubKeyCredParams: [PubKeyCredParams],
+         excludeCredentials: [Credentials]? = nil, authenticatorSelection: AuthenticatorSelection? = nil,
+         attestation: String? = nil, extensions: [String: Any]? = nil)
+    {
+        self.rp = rp
+        self.user = user
+        self.challenge = challenge
+        self.pubKeyCredParams = pubKeyCredParams
+        self.excludeCredentials = excludeCredentials
+        self.authenticatorSelection = authenticatorSelection
+        self.attestation = attestation
+        self.extensions = extensions
+    }
 }
 
 struct RelyingParty: Codable {
@@ -143,6 +157,16 @@ struct GetRequest: Decodable {
         allowCredentials = try container.decodeIfPresent([Credentials].self, forKey: .allowCredentials)
         userVerification = try container.decodeIfPresent(String.self, forKey: .userVerification)
         extensions = try container.decodeIfPresent([String: Any].self, forKey: .extensions)
+    }
+
+    init(rpId: String, challenge: String, allowCredentials: [Credentials]? = nil,
+         userVerification: String? = nil, extensions: [String: Any]? = nil)
+    {
+        self.rpId = rpId
+        self.challenge = challenge
+        self.allowCredentials = allowCredentials
+        self.userVerification = userVerification
+        self.extensions = extensions
     }
 }
 
